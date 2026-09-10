@@ -1,4 +1,5 @@
-# web
+# web học mấy cái lệnh đã
+Chưa có cc gì
 PTEWS PTIT NEWSPAPER
 Các file liệt kê trong .gitignore sẽ không xuất hiện khi bạn gõ git status, không bị đưa vào git add, và sẽ không bao giờ bị push lên máy chủ (như GitHub).
 
