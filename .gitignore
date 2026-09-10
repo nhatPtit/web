@@ -1,0 +1,20 @@
+# Bỏ qua một file cụ thể
+secret_key.txt
+.env
+
+# Bỏ qua toàn bộ một thư mục (dấu / ở cuối)
+node_modules/
+dist/
+.vscode/
+
+# Bỏ qua tất cả các file có đuôi mở rộng nhất định
+*.log
+*.zip
+*.exe
+
+# Bỏ qua file log trong bất kỳ thư mục con nào
+/**/*.log
+
+# Ngoại lệ: Bỏ qua tất cả file .log nhưng giữ lại file important.log
+*.log
+!important.log
