@@ -1,5 +1,10 @@
 # web học mấy cái lệnh đã
-Chưa có cc gì
+##Thông tin đăng nhập cho Local
+-git config --global user.email "email-cua-ban@gmail.com"
+-git config --global user.name "Ten Cua Ban"
+-git config --global user.email    : Kiểm tra email
+
+
 
 PTEWS PTIT NEWSPAPER
 
