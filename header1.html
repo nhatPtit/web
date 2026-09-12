@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi" style="font-family: Arial, Helvetica, sans-serif;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTEWS</title>
+    <link rel="icon" type="image/svg" href="img/logo-PTEWS.svg">
+    <link rel="stylesheet" href="header1.css">
+
+</head>
+
+<body>
+    <header>
+        <div class="headLeft">
+            <span>
+                <a href="home.html">
+                    <img src="img/ptit-news-transparent.svg" alt="PTEWS" style="height: 2.5vw;">
+                </a>
+            </span>
+
+            <span>
+                <a href="#ThoiTiet">#ThoiTiet</a>
+            </span>
+            <span>
+                <a href="#Date">
+                    <p>DL:dd/mm/yyyy <br> AL:dd/mm/yyyy</p>
+                </a>
+            </span>
+            <span class="search-box">
+
+                <img src="img/54481.png" alt=" search" class="search-icon">
+
+                <input type="text" class="search-input" placeholder="Tìm kiếm...">
+            </span>
+        </div>
+        <div class="headRight">
+            <span><a href="intro.html" target="_blank">
+                    Giới thiệu
+                </a>
+            </span>
+
+            <span><a href="https://www.youtube.com/@PChannels/featured" target="_blank">
+                    Youtube
+                </a>
+            </span>
+
+            <span><a href="https://www.facebook.com/HocvienPTIT/" target="_blank">
+                    Link FB
+                </a>
+            </span>
+
+
+            <span><a href="connect-to-ad.html" target="_blank">
+                    Link advertisement
+                </a>
+            </span>
+        </div>
+    </header>
+    <nav class="sub-header1">
+        <a href="#" class="home-icon">🏠</a>
+
+        <div class="menu-list" id="menuList">
+            <a href="https://www.youtube.com">Thời sự</a>
+            <a href="#">Thế giới</a>
+        </div>
+    </nav>
+    <div id="content-placeholder"></div>
+
+
+
+
+    <script>
+        fetch('content.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('content-placeholder').innerHTML = data;
+            });
+    </script>
+</body>
+
+</html>

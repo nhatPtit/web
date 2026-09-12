@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    width: 100vw;
+    background-color: white;
+    display: flex;
+    gap: 20vw;
+    padding: 5px 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.headLeft,
+.headRight {
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+}
+
+
+
+@media screen and (max-width: 720px) {
+    header {
+        flex-direction: column;
+        /* 2div là 2 cột */
+        gap: 3px;
+    }
+
+    .headLeft,
+    .headRight {
+        justify-content: center;
+        flex-wrap: wrap;
+        /* dồn các phần tử trong div */
+        width: 100%;
+        gap: 3px;
+    }
+}
+
+/* Thẻ link kế thừa trực tiếp font và cỡ chữ từ header */
+header div span a {
+    color: #333;
+    text-decoration: none;
+}
+
+header div span a:hover {
+    color: red;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    width: 1.5vw;
+    left: 0.5vw;
+    opacity: 0.6;
+    pointer-events: none;
+    /* Cho phép click xuyên qua kính lúp */
+    z-index: 2;
+}
+
+.search-input {
+    position: absolute;
+    width: 1vw;
+    padding: 0.5vw 2vw 0.5vw 0.5vw;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+    /* outline: none; */
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.search-input:focus {
+    position: absolute;
+    padding: 0.5vw 0.5vw 0.5vw 2vw;
+    width: 10vw;
+    border: 1px solid #000000;
+    background-color: white;
+    cursor: text;
+}
+
+/* Header thứ 2 */
+.sub-header1 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 5px 10px;
+
+    box-sizing: border-box;
+    font-size: 14px;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.home-icon {
+    text-decoration: none;
+    padding: 0 10px;
+    font-size: 1.2rem;
+}
+
+.menu-list {
+    display: flex;
+    align-items: center;
+    gap: 1.5vw;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    padding: 2px 2px;
+    font-family: inherit;
+    font-size: inherit;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.menu-list::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-list a {
+    text-decoration: none;
+    color: #333;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.menu-list a:hover {
+    color: red;
+}

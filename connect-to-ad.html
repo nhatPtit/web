@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PTEWS</title>
+    <link rel="stylesheet" href="home-test.css">
+</head>
+
+<body>
+
+    <!-- Nơi header sẽ tự động load vào -->
+    <div id="header-placeholder"></div>
+
+    <!-- Nội dung riêng của từng trang -->
+    <main>
+        <p>SDT:0123456789</p><br>
+        <a href="mailto:ptew@ptit.new">Email</a>
+    </main>
+
+    <!-- Đoạn script tự nạp header -->
+    <script>
+        fetch('header1.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            });
+    </script>
+</body>
+
+</html>
