@@ -1,6 +1,8 @@
 # Bỏ qua một file cụ thể
 secret_key.txt
 .env
+package.json
+package-lock.json
 
 # Bỏ qua toàn bộ một thư mục (dấu / ở cuối)
 node_modules/
