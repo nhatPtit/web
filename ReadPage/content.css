@@ -11,30 +11,16 @@ body {
 }
 
 .ad-background-wrapper {
-    height: 600px;
-    background-color: black;
+    height: 56vw;
     background-image: url('img/AD-background.webp');
     background-repeat: no-repeat;
     background-size: 100vw auto;
-    /* display: flex; */
     position: sticky;
-    top: 20px;
+    top: 0px;
     z-index: -1;
 }
 
-/* .main-container {
-    width: 70vw;
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
-    border-radius: 10px;
-    position: absolute;
-    top: 17vw;
-    left: 15vw;
 
-    z-index: 1;
-} */
 .main-container {
     width: 70vw;
     margin: 0 auto;
@@ -42,18 +28,8 @@ body {
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
     border-radius: 10px;
-
-    /* Bỏ position absolute và top/left cũ đi */
-    /* position: absolute; */
-    /* top: 17vw; */
-    /* left: 15vw; */
-
-    /* Sử dụng position relative để z-index có tác dụng */
     position: relative;
-
-    /* Dùng margin-top âm để kéo khối này lên đè vào ảnh nền */
-    margin-top: -300px;
-    /* Bạn có thể điều chỉnh số này cho phù hợp với thiết kế */
-
+    margin-top: -39vw;
+    margin-left: 15vw;
     z-index: 1;
 }
