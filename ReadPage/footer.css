@@ -1,0 +1,42 @@
+#footer-placeholder {
+    height: 75px;
+    display: flex;
+    align-items: center;
+}
+
+#footer-placeholder .f-container {
+    background-color: var(--BackColor);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+#footer-placeholder .section1,
+.section2 {
+    display: flex;
+    gap: 2vw;
+    align-items: center;
+
+    font-size: var(--FontNavSize);
+}
+
+#footer-placeholder .section1 .f-logo {
+    width: 15vw;
+
+}
+
+#footer-placeholder .section2 {
+    flex-direction: column;
+
+
+}
+
+#footer-placeholder a {
+    text-decoration: none;
+    color: var(--TextColor);
+}
+
+#footer-placeholder a:hover {
+    color: var(--LinkColor);
+}

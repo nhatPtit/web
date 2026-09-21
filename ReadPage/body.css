@@ -1,0 +1,91 @@
+#body-placeholder .ad-background-wrapper {
+    height: 56vw;
+    width: 100%;
+    background-image: url('img/AD-background.webp');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    position: sticky;
+    top: 0px;
+    z-index: -1;
+
+}
+
+
+#body-placeholder .main-container {
+    width: 70vw;
+    margin: 0 auto;
+    background-color: var(--BackColor);
+    padding: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    position: relative;
+    margin-top: -39vw;
+    margin-left: 14.5vw;
+    z-index: 1;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+#body-placeholder .main-container .top-body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) 150px;
+    grid-template-rows: repeat(2, 180px);
+
+
+
+}
+
+#body-placeholder .main-container .top-body .item1 {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+}
+
+#body-placeholder .main-container .top-body .item2 {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 3;
+    grid-column-end: 4;
+
+}
+
+.top-body div {
+    border: 1px solid black;
+}
+
+.body1 div {
+    border: 1px solid black;
+}
+
+#body-placeholder .main-container .body1 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(6, 80px);
+}
+
+#body-placeholder .main-container .body1 .item1 {
+    grid-row: 1/3;
+    grid-column: 1/3;
+}
+
+#body-placeholder .main-container .body1 .item2 {
+    grid-row: 3/5;
+    grid-column: 1/3;
+}
+
+#body-placeholder .main-container .body1 .item3 {
+    grid-row: 5/7;
+    grid-column: 1/3;
+}
+
+#body-placeholder .main-container .body1 .item4 {
+    grid-row: 1/4;
+    grid-column: 3/6;
+}
+
+#body-placeholder .main-container .body1 .item5 {
+    grid-row: 4/7;
+    grid-column: 3/6;
+}

@@ -7,6 +7,20 @@
     <title>PTEWS</title>
     <link rel="icon" type="image/svg" href="img/logo-PTEWS.svg">
     <link rel="stylesheet" href="header1.css">
+    <link rel="stylesheet" href="body.css">
+    <link rel="stylesheet" href="footer.css">
+    <style>
+        :root {
+            --BackColor: rgb(255, 255, 255);
+            --LinkColor: rgb(255, 4, 0);
+
+            --TextColor: #333;
+
+
+            --FontNavSize: 14px;
+
+        }
+    </style>
 
 </head>
 
@@ -65,18 +79,38 @@
             <a href="#">Thế giới</a>
         </div>
     </nav>
-    <div id="content-placeholder"></div>
+    <main id="body-placeholder"></main>
 
+    <footer id="footer-placeholder">
 
+        <div class="f-container">
+            <section class="section1">
+                <div>
+                    <a href="header1.html"><img src="img/ptit-news-transparent.svg" alt="Logo" class="f-logo">
+                    </a>
+                </div>
+                <div class>
+                    <a href="header1.html">Báo Không Chính Thống PTIT</a>
+                </div>
 
+            </section>
 
+            <section class="section2">
+                <p>Email: <a href="mailto:PTEW@gmail.com.vn">PTEW@gmail.com.vn</a></p>
+                <p>SĐT: <a href="#">0123456789</a></p>
+
+            </section>
+        </div>
+    </footer>
     <script>
-        fetch('content.html')
+        fetch('body.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('content-placeholder').innerHTML = data;
+                document.getElementById('body-placeholder').innerHTML = data;
             });
+
     </script>
+
 </body>
 
 </html>

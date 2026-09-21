@@ -5,14 +5,15 @@
 }
 
 header {
-    width: 100vw;
+    width: 100%;
     background-color: white;
     display: flex;
     gap: 20vw;
     padding: 5px 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--FontNavSize);
+
 }
 
 .headLeft,
@@ -20,14 +21,14 @@ header {
     display: flex;
     align-items: center;
     gap: 2vw;
+
 }
 
 
 
-@media screen and (max-width: 720px) {
+/* @media screen and (max-width: 720px) {
     header {
         flex-direction: column;
-        /* 2div là 2 cột */
         gap: 3px;
     }
 
@@ -35,15 +36,13 @@ header {
     .headRight {
         justify-content: center;
         flex-wrap: wrap;
-        /* dồn các phần tử trong div */
         width: 100%;
         gap: 3px;
     }
-}
+} */
 
-/* Thẻ link kế thừa trực tiếp font và cỡ chữ từ header */
 header div span a {
-    color: #333;
+    color: var(--TextColor);
     text-decoration: none;
 }
 
@@ -96,9 +95,8 @@ header div span a:hover {
     background-color: white;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 5px 10px;
-
+    font-size: var(--FontNavSize);
     box-sizing: border-box;
-    font-size: 14px;
 
     position: sticky;
     top: 0;
@@ -108,7 +106,6 @@ header div span a:hover {
 .home-icon {
     text-decoration: none;
     padding: 0 10px;
-    font-size: 1.2rem;
 }
 
 .menu-list {
@@ -120,7 +117,6 @@ header div span a:hover {
     white-space: nowrap;
     padding: 2px 2px;
     font-family: inherit;
-    font-size: inherit;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
