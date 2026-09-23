@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giá vàng</title>
+</head>
+
+<body>
+
+    <h1>Giá vàng hôm nay</h1>
+
+    <div id="gold-price">
+        Đang tải dữ liệu...
+    </div>
+
+    <script>
+        // Frontend gọi API qua Backend
+        fetch('http://localhost:3000/api/gia-vang')
+            .then(response => response.json())
+            .then(data => {
+
+                // Lấy phần tử đầu tiên trong results
+                const gold = data.results[0];
+
+                // Hiển thị dữ liệu
+                document.getElementById('gold-price').innerHTML = `
+                    <p>Giá mua 1 chỉ: ${gold.buy_1c}</p>
+                    <p>Giá bán 1 chỉ: ${gold.sell_1c}</p>
+
+                    <p>Giá mua 1 lượng: ${gold.buy_1l}</p>
+                    <p>Giá bán 1 lượng: ${gold.sell_1l}</p>
+                    <p>Giá mua nữ trang9999: ${gold.buy_nutrang_9999}</p>
+                    <p>Giá bán nữ trang9999: ${gold.sell_nutrang_9999}</p>
+                `;
+            })
+            .catch(error => {
+                console.error(error);
+
+                document.getElementById('gold-price').innerHTML =
+                    'Không thể lấy dữ liệu giá vàng';
+            });
+    </script>
+
+</body>
+
+</html>
+<!-- <!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giá vàng</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 600px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Giá vàng hôm nay</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Loại</th>
+                <th>Giá mua</th>
+                <th>Giá bán</th>
+            </tr>
+        </thead>
+
+        <tbody id="gold-price">
+            <tr>
+                <td colspan="3">Đang tải...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        fetch('http://localhost:3000/api/gia-vang')
+            .then(response => response.json())
+            .then(data => {
+
+                const gold = data.results[0];
+
+                document.getElementById('gold-price').innerHTML = `
+                    <tr>
+                        <td>1 chỉ</td>
+                        <td>${gold.buy_1c}</td>
+                        <td>${gold.sell_1c}</td>
+                    </tr>
+
+                    <tr>
+                        <td>1 lượng</td>
+                        <td>${gold.buy_1l}</td>
+                        <td>${gold.sell_1l}</td>
+                    </tr>
+
+                    <tr>
+                        <td>5 chỉ</td>
+                        <td>${gold.buy_5c}</td>
+                        <td>${gold.sell_5c}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Nhẫn 1 chỉ</td>
+                        <td>${gold.buy_nhan1c}</td>
+                        <td>${gold.sell_nhan1c}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Nữ trang 99.99%</td>
+                        <td>${gold.buy_nutrang_9999}</td>
+                        <td>${gold.sell_nutrang_9999}</td>
+                    </tr>
+
+                `;
+            })
+            .catch(error => {
+                console.error(error);
+
+                document.getElementById('gold-price').innerHTML = `
+                    <tr>
+                        <td colspan="3">Không thể lấy dữ liệu</td>
+                    </tr>
+                `;
+            });
+    </script>
+
+</body>
+
+</html> -->
