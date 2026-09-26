@@ -1,0 +1,796 @@
+{
+    "data1": {
+        "success": true,
+        "days": 30,
+        "type": "SJL1L10",
+        "history": [
+            {
+                "date": "2026-09-23",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 142500000,
+                        "sell": 145500000,
+                        "day_change_buy": 600000,
+                        "day_change_sell": 600000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-22",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 141900000,
+                        "sell": 144900000,
+                        "day_change_buy": -1700000,
+                        "day_change_sell": -1700000,
+                        "updates": 4
+                    }
+                }
+            },
+            {
+                "date": "2026-09-21",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 143600000,
+                        "sell": 146600000,
+                        "day_change_buy": -1000000,
+                        "day_change_sell": -1000000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-20",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 144600000,
+                        "sell": 147600000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-09-19",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 144600000,
+                        "sell": 147600000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-09-18",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 144600000,
+                        "sell": 147600000,
+                        "day_change_buy": 1800000,
+                        "day_change_sell": 1800000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-17",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 142800000,
+                        "sell": 145800000,
+                        "day_change_buy": -700000,
+                        "day_change_sell": -700000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-16",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 143500000,
+                        "sell": 146500000,
+                        "day_change_buy": 1200000,
+                        "day_change_sell": 1200000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-15",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 142300000,
+                        "sell": 145300000,
+                        "day_change_buy": -300000,
+                        "day_change_sell": -300000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-14",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 142600000,
+                        "sell": 145600000,
+                        "day_change_buy": -400000,
+                        "day_change_sell": -400000,
+                        "updates": 4
+                    }
+                }
+            },
+            {
+                "date": "2026-09-13",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 143000000,
+                        "sell": 146000000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-09-12",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 143000000,
+                        "sell": 146000000,
+                        "day_change_buy": 600000,
+                        "day_change_sell": 600000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-11",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 142400000,
+                        "sell": 145400000,
+                        "day_change_buy": -1200000,
+                        "day_change_sell": -1200000,
+                        "updates": 4
+                    }
+                }
+            },
+            {
+                "date": "2026-09-10",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 143600000,
+                        "sell": 146600000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-09-09",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 143600000,
+                        "sell": 146600000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-08",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 143600000,
+                        "sell": 146600000,
+                        "day_change_buy": 100000,
+                        "day_change_sell": 100000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-07",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 143500000,
+                        "sell": 146500000,
+                        "day_change_buy": -1100000,
+                        "day_change_sell": -1100000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-06",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 144600000,
+                        "sell": 147600000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-09-05",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 144600000,
+                        "sell": 147600000,
+                        "day_change_buy": -1000000,
+                        "day_change_sell": -1000000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-04",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 145600000,
+                        "sell": 148600000,
+                        "day_change_buy": 200000,
+                        "day_change_sell": 200000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-03",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 145400000,
+                        "sell": 148400000,
+                        "day_change_buy": -300000,
+                        "day_change_sell": -300000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-02",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 145700000,
+                        "sell": 148700000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-09-01",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 145700000,
+                        "sell": 148700000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-08-31",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 145700000,
+                        "sell": 148700000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-08-30",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 145700000,
+                        "sell": 148700000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-08-29",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 145700000,
+                        "sell": 148700000,
+                        "day_change_buy": -1500000,
+                        "day_change_sell": -1500000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-08-28",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 147200000,
+                        "sell": 150200000,
+                        "day_change_buy": 200000,
+                        "day_change_sell": 200000,
+                        "updates": 4
+                    }
+                }
+            },
+            {
+                "date": "2026-08-27",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 147000000,
+                        "sell": 150000000,
+                        "day_change_buy": -300000,
+                        "day_change_sell": -300000,
+                        "updates": 4
+                    }
+                }
+            },
+            {
+                "date": "2026-08-26",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 147300000,
+                        "sell": 150300000,
+                        "day_change_buy": -300000,
+                        "day_change_sell": -300000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-08-25",
+                "prices": {
+                    "SJL1L10": {
+                        "name": "SJC 9999",
+                        "buy": 147600000,
+                        "sell": 150600000,
+                        "day_change_buy": 600000,
+                        "day_change_sell": 600000,
+                        "updates": 2
+                    }
+                }
+            }
+        ]
+    },
+    "data2": {
+        "success": true,
+        "days": 30,
+        "type": "BT9999NTT",
+        "history": [
+            {
+                "date": "2026-09-23",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 142300000,
+                        "sell": 146300000,
+                        "day_change_buy": 300000,
+                        "day_change_sell": 300000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-22",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 142000000,
+                        "sell": 146000000,
+                        "day_change_buy": -600000,
+                        "day_change_sell": -600000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-21",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 142600000,
+                        "sell": 146600000,
+                        "day_change_buy": -1000000,
+                        "day_change_sell": -1000000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-20",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 143600000,
+                        "sell": 147600000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-09-19",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 143600000,
+                        "sell": 147600000,
+                        "day_change_buy": -500000,
+                        "day_change_sell": -500000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-18",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 144100000,
+                        "sell": 148100000,
+                        "day_change_buy": 1400000,
+                        "day_change_sell": 1400000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-17",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 142700000,
+                        "sell": 146700000,
+                        "day_change_buy": -300000,
+                        "day_change_sell": -300000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-16",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 143000000,
+                        "sell": 147000000,
+                        "day_change_buy": 500000,
+                        "day_change_sell": 500000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-15",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 142500000,
+                        "sell": 146500000,
+                        "day_change_buy": -300000,
+                        "day_change_sell": -300000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-14",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 142800000,
+                        "sell": 146800000,
+                        "day_change_buy": -200000,
+                        "day_change_sell": -200000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-13",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 143000000,
+                        "sell": 147000000,
+                        "day_change_buy": 100000,
+                        "day_change_sell": 100000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-12",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 142900000,
+                        "sell": 146900000,
+                        "day_change_buy": 300000,
+                        "day_change_sell": 300000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-11",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 142600000,
+                        "sell": 146600000,
+                        "day_change_buy": -1400000,
+                        "day_change_sell": -1400000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-10",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 144000000,
+                        "sell": 148000000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-09-09",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 144000000,
+                        "sell": 148000000,
+                        "day_change_buy": -900000,
+                        "day_change_sell": -900000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-09-08",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 144900000,
+                        "sell": 148900000,
+                        "day_change_buy": 300000,
+                        "day_change_sell": 300000,
+                        "updates": 4
+                    }
+                }
+            },
+            {
+                "date": "2026-09-07",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 144600000,
+                        "sell": 148600000,
+                        "day_change_buy": -1200000,
+                        "day_change_sell": -1200000,
+                        "updates": 4
+                    }
+                }
+            },
+            {
+                "date": "2026-09-06",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 145800000,
+                        "sell": 149800000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-09-05",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 145800000,
+                        "sell": 149800000,
+                        "day_change_buy": -700000,
+                        "day_change_sell": -700000,
+                        "updates": 4
+                    }
+                }
+            },
+            {
+                "date": "2026-09-04",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 146500000,
+                        "sell": 150500000,
+                        "day_change_buy": 1200000,
+                        "day_change_sell": 1200000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-03",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 145300000,
+                        "sell": 149300000,
+                        "day_change_buy": 500000,
+                        "day_change_sell": 500000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-02",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 144800000,
+                        "sell": 148800000,
+                        "day_change_buy": -400000,
+                        "day_change_sell": -400000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-09-01",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 145200000,
+                        "sell": 149200000,
+                        "day_change_buy": -700000,
+                        "day_change_sell": -700000,
+                        "updates": 5
+                    }
+                }
+            },
+            {
+                "date": "2026-08-31",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 145900000,
+                        "sell": 149900000,
+                        "day_change_buy": 600000,
+                        "day_change_sell": 600000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-08-30",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 145300000,
+                        "sell": 149300000,
+                        "day_change_buy": 0,
+                        "day_change_sell": 0,
+                        "updates": 1
+                    }
+                }
+            },
+            {
+                "date": "2026-08-29",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 145300000,
+                        "sell": 149300000,
+                        "day_change_buy": -1900000,
+                        "day_change_sell": -1900000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-08-28",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 147200000,
+                        "sell": 151200000,
+                        "day_change_buy": -800000,
+                        "day_change_sell": -800000,
+                        "updates": 4
+                    }
+                }
+            },
+            {
+                "date": "2026-08-27",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 148000000,
+                        "sell": 152000000,
+                        "day_change_buy": -1700000,
+                        "day_change_sell": -1700000,
+                        "updates": 3
+                    }
+                }
+            },
+            {
+                "date": "2026-08-26",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 149700000,
+                        "sell": 153700000,
+                        "day_change_buy": -300000,
+                        "day_change_sell": -300000,
+                        "updates": 2
+                    }
+                }
+            },
+            {
+                "date": "2026-08-25",
+                "prices": {
+                    "BT9999NTT": {
+                        "name": "Bao Tin 9999",
+                        "buy": 150000000,
+                        "sell": 154000000,
+                        "day_change_buy": 1500000,
+                        "day_change_sell": 1500000,
+                        "updates": 4
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -7,6 +7,8 @@
 header {
     width: 100%;
     background-color: white;
+    background: linear-gradient(to bottom left, #FFBEBD 0%, #FFFAB3 100%);
+
     display: flex;
     gap: 20vw;
     padding: 5px 10px;
@@ -93,6 +95,10 @@ header div span a:hover {
     align-items: center;
     width: 100%;
     background-color: white;
+
+    background: linear-gradient(to top left, #FFBEBD 0%, #FFFAB3 100%);
+
+
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 5px 10px;
     font-size: var(--FontNavSize);

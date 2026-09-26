@@ -1,9 +1,12 @@
 #body-placeholder .ad-background-wrapper {
     height: 56vw;
     width: 100%;
-    background-image: url('img/AD-background.webp');
+    /* background-image: url('img/AD-background.webp');
     background-repeat: no-repeat;
-    background-size: 100% auto;
+    background-size: 100% auto; */
+    background: wheat;
+    background: linear-gradient(to top right, #0040FF 0%, #00EAFF 50%, #00FF2F 100%);
+
     position: sticky;
     top: 0px;
     z-index: -1;

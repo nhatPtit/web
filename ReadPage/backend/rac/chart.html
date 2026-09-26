@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<!-- https://www.w3schools.com/js/js_graphics_chartjs.asp -->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Biểu đồ Giá Vàng</title>
+    <!-- Nhúng thư viện Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
+</head>
+
+<body>
+    <canvas id="myChart" style="width:100%;max-width:800px"></canvas>
+
+    <script>
+        // Tạo một hàm bất đồng bộ (async) để gọi API trước khi vẽ biểu đồ
+        async function fetchAndDrawChart() {
+            try {
+                // 1. Gọi API backend của bạn
+                const response = await fetch('http://localhost:3000/api/gia-vang2');
+                const apiData = await response.json();
+
+                // 5. Cấu hình và vẽ biểu đồ
+                const ctx = document.getElementById('myChart');
+
+                new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: apiData.xValues,
+                        datasets: [
+                            {
+                                label: "SJC Mua vào",
+                                data: apiData.sjcBuy,
+                                borderColor: "red",
+                                pointRadius: 2,
+                                tension: 0.1,
+                            },
+                            {
+                                label: "SJC Bán ra",
+                                data: apiData.sjcSell,
+                                borderColor: "orange",
+                                pointRadius: 2,
+                                tension: 0.1,
+                            },
+                            {
+                                label: "Bảo Tín Mua vào",
+                                data: apiData.nhanBuy,
+                                borderColor: "blue",
+                                pointRadius: 2,
+                                tension: 0.1,
+                            },
+                            {
+                                label: "Bảo Tín Bán ra",
+                                data:  apiData.nhanSell,
+                                borderColor: "green",
+                                pointRadius: 2,
+                                tension: 0.1,
+                            }
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            // Đổi thành true để hiện chú thích (legend) phân biệt 4 đường
+                            legend: { display: true }
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error("Lỗi khi tải dữ liệu từ server:", error);
+                alert("Không thể tải dữ liệu giá vàng. Vui lòng kiểm tra server backend.");
+            }
+        }
+
+        // Chạy hàm khi trang vừa load
+        fetchAndDrawChart();
+    </script>
+</body>
+
+</html>

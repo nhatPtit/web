@@ -21,6 +21,7 @@
 
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
 
 </head>
 
@@ -102,13 +103,99 @@
             </section>
         </div>
     </footer>
+
     <script>
         fetch('body.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('body-placeholder').innerHTML = data;
+
+                fetchAndDrawChart();
             });
 
+        async function fetchAndDrawChart() {
+            try {
+                const canvas = document.getElementById('myChart');
+
+                // Trang này không có biểu đồ
+                if (!canvas) return;
+
+                const response = await fetch('http://localhost:3000/api/gia-vang2');
+                const apiData = await response.json();
+
+                new Chart(canvas, {
+                    type: "line",
+
+                    data: {
+                        labels: apiData.xValues,
+
+                        datasets: [
+                            {
+                                label: "SJC Mua vào",
+                                data: apiData.sjcBuy,
+                                borderColor: "red",
+                                pointRadius: 2,
+                                tension: 0.1
+                            },
+                            {
+                                label: "SJC Bán ra",
+                                data: apiData.sjcSell,
+                                borderColor: "orange",
+                                pointRadius: 2,
+                                tension: 0.1
+                            },
+                            {
+                                label: "Bảo Tín Mua vào",
+                                data: apiData.nhanBuy,
+                                borderColor: "blue",
+                                pointRadius: 2,
+                                tension: 0.1
+                            },
+                            {
+                                label: "Bảo Tín Bán ra",
+                                data: apiData.nhanSell,
+                                borderColor: "green",
+                                pointRadius: 2,
+                                tension: 0.1
+                            }
+                        ]
+                    },
+
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 2,
+                                    boxHeight: 2,
+                                    font: {
+                                        size: 11
+                                    },
+                                    padding: 5
+                                },
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    display: true,
+                                    maxTicksLimit: 4,
+                                },
+                                grid: {
+                                    display: true
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            catch (error) {
+                console.error("Lỗi khi tải biểu đồ:", error);
+            }
+        }
     </script>
 
 </body>
