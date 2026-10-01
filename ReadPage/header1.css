@@ -112,6 +112,29 @@ header div span a:hover {
 .home-icon {
     text-decoration: none;
     padding: 0 10px;
+    display: inline-block;
+}
+
+.home-svg {
+    width: 24px;
+    /* Chỉnh kích thước icon tùy ý */
+    height: 24px;
+}
+
+.home-bg {
+    fill: #EBEBEB;
+}
+
+.home-shape {
+    fill: #666666;
+}
+
+.home-icon:hover .home-bg {
+    fill: red;
+}
+
+.home-icon:hover .home-shape {
+    fill: #FFFFFF;
 }
 
 .menu-list {

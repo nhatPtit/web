@@ -1,0 +1,178 @@
+[
+    [
+        {
+            "id": 8783,
+            "created_at": "2026-09-30T17:00:04.000000Z",
+            "updated_at": "2026-10-01T08:10:03.000000Z",
+            "petrolimex_id": "2ed3d75ed91945b39bee9206b0f31da7",
+            "date": "2026-10-01 00:00:00",
+            "title": "X\u0103ng E5 RON 92 M\u1ee9c 2",
+            "zone1_price": 26560,
+            "zone2_price": 27090
+        },
+        {
+            "id": 8785,
+            "created_at": "2026-09-30T17:00:04.000000Z",
+            "updated_at": "2026-10-01T08:00:04.000000Z",
+            "petrolimex_id": "b85a9189d7174ee0a4be489f34962ab7",
+            "date": "2026-10-01 00:00:00",
+            "title": "X\u0103ng E10 RON 95 M\u1ee9c 5",
+            "zone1_price": 28180,
+            "zone2_price": 28740
+        },
+        {
+            "id": 8784,
+            "created_at": "2026-09-30T17:00:04.000000Z",
+            "updated_at": "2026-10-01T08:00:04.000000Z",
+            "petrolimex_id": "85176bf8a6dd45d597c6980f7a674316",
+            "date": "2026-10-01 00:00:00",
+            "title": "X\u0103ng E10 RON 95 M\u1ee9c 3",
+            "zone1_price": 27180,
+            "zone2_price": 27720
+        },
+        {
+            "id": 8781,
+            "created_at": "2026-09-30T17:00:04.000000Z",
+            "updated_at": "2026-10-01T08:10:03.000000Z",
+            "petrolimex_id": "66d8c775ff6645329c7f0b94f47642b0",
+            "date": "2026-10-01 00:00:00",
+            "title": "DO 0,05S M\u1ee9c 2",
+            "zone1_price": 29710,
+            "zone2_price": 30300
+        },
+        {
+            "id": 8782,
+            "created_at": "2026-09-30T17:00:04.000000Z",
+            "updated_at": "2026-10-01T08:00:04.000000Z",
+            "petrolimex_id": "fc72027b30984e92ba58a7013dad211e",
+            "date": "2026-10-01 00:00:00",
+            "title": "DO 0,001S M\u1ee9c 5",
+            "zone1_price": 31110,
+            "zone2_price": 31730
+        },
+        {
+            "id": 8780,
+            "created_at": "2026-09-30T17:00:04.000000Z",
+            "updated_at": "2026-10-01T08:10:03.000000Z",
+            "petrolimex_id": "cbd141e7c64a4d9b8a6cb96b5a121882",
+            "date": "2026-10-01 00:00:00",
+            "title": "D\u1ea7u h\u1ecfa 2-K",
+            "zone1_price": 29770,
+            "zone2_price": 30360
+        }
+    ],
+    [
+        {
+            "id": 5982,
+            "created_at": "2026-09-30T17:00:04.000000Z",
+            "updated_at": "2026-09-30T17:00:04.000000Z",
+            "date": "2026-10-01 00:00:00",
+            "title": "X\u0103ng E5 RON 92-II",
+            "price": 26390
+        },
+        {
+            "id": 5980,
+            "created_at": "2026-09-30T17:00:04.000000Z",
+            "updated_at": "2026-10-01T08:10:03.000000Z",
+            "date": "2026-10-01 00:00:00",
+            "title": "D\u1ea7u KO",
+            "price": 29770
+        },
+        {
+            "id": 5981,
+            "created_at": "2026-09-30T17:00:04.000000Z",
+            "updated_at": "2026-09-30T17:00:04.000000Z",
+            "date": "2026-10-01 00:00:00",
+            "title": "D\u1ea7u DO 0,05S-II",
+            "price": 30490
+        }
+    ],
+    [
+        {
+            "id": 8771,
+            "created_at": "2026-09-28T17:00:04.000000Z",
+            "updated_at": "2026-09-28T17:00:04.000000Z",
+            "petrolimex_id": "2ed3d75ed91945b39bee9206b0f31da7",
+            "date": "2026-09-29 00:00:00",
+            "title": "X\u0103ng E5 RON 92-II",
+            "zone1_price": 26390,
+            "zone2_price": 26910
+        },
+        {
+            "id": 8773,
+            "created_at": "2026-09-28T17:00:04.000000Z",
+            "updated_at": "2026-09-28T17:00:04.000000Z",
+            "petrolimex_id": "b85a9189d7174ee0a4be489f34962ab7",
+            "date": "2026-09-29 00:00:00",
+            "title": "X\u0103ng E10 RON 95-V",
+            "zone1_price": 28080,
+            "zone2_price": 28640
+        },
+        {
+            "id": 8772,
+            "created_at": "2026-09-28T17:00:04.000000Z",
+            "updated_at": "2026-09-28T17:00:04.000000Z",
+            "petrolimex_id": "85176bf8a6dd45d597c6980f7a674316",
+            "date": "2026-09-29 00:00:00",
+            "title": "X\u0103ng E10 RON 95-III",
+            "zone1_price": 27080,
+            "zone2_price": 27620
+        },
+        {
+            "id": 8769,
+            "created_at": "2026-09-28T17:00:04.000000Z",
+            "updated_at": "2026-09-28T17:00:04.000000Z",
+            "petrolimex_id": "66d8c775ff6645329c7f0b94f47642b0",
+            "date": "2026-09-29 00:00:00",
+            "title": "DO 0,05S-II",
+            "zone1_price": 30490,
+            "zone2_price": 31090
+        },
+        {
+            "id": 8770,
+            "created_at": "2026-09-28T17:00:04.000000Z",
+            "updated_at": "2026-09-28T17:00:04.000000Z",
+            "petrolimex_id": "fc72027b30984e92ba58a7013dad211e",
+            "date": "2026-09-29 00:00:00",
+            "title": "DO 0,001S-V",
+            "zone1_price": 32090,
+            "zone2_price": 32730
+        },
+        {
+            "id": 8768,
+            "created_at": "2026-09-28T17:00:04.000000Z",
+            "updated_at": "2026-09-28T17:00:04.000000Z",
+            "petrolimex_id": "cbd141e7c64a4d9b8a6cb96b5a121882",
+            "date": "2026-09-29 00:00:00",
+            "title": "D\u1ea7u h\u1ecfa 2-K",
+            "zone1_price": 30020,
+            "zone2_price": 30620
+        }
+    ],
+    [
+        {
+            "id": 5976,
+            "created_at": "2026-09-28T17:00:04.000000Z",
+            "updated_at": "2026-09-28T17:00:04.000000Z",
+            "date": "2026-09-29 00:00:00",
+            "title": "X\u0103ng E5 RON 92-II",
+            "price": 26390
+        },
+        {
+            "id": 5974,
+            "created_at": "2026-09-28T17:00:04.000000Z",
+            "updated_at": "2026-09-28T17:00:04.000000Z",
+            "date": "2026-09-29 00:00:00",
+            "title": "D\u1ea7u KO",
+            "price": 30020
+        },
+        {
+            "id": 5975,
+            "created_at": "2026-09-28T17:00:04.000000Z",
+            "updated_at": "2026-09-28T17:00:04.000000Z",
+            "date": "2026-09-29 00:00:00",
+            "title": "D\u1ea7u DO 0,05S-II",
+            "price": 30490
+        }
+    ]
+]

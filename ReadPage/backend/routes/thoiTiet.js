@@ -1,11 +1,9 @@
 
 const express = require('express');
-const router = express.Router(); // Tạo một router cục bộ
+const router = express.Router(); 
 
-// Lưu ý: Đường dẫn ở đây chỉ cần '/', vì lát nữa sẽ ghép chữ '/api/thoi-tiet' ở server.js
 router.get('/', async (req, res) => {
     try {
-        const apiKey = 'DEMO_KEY';
         const url = `https://api.openweathermap.org/data/2.5/weather?q=Hanoi&units=metric&lang=vi&appid=${apiKey}`;
         const response = await fetch(url);
         const externalData = await response.json();
