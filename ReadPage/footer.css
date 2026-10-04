@@ -7,29 +7,28 @@
 #footer-placeholder .f-container {
     background-color: var(--BackColor);
     width: 100%;
+    height: 100%;
+
     display: flex;
     justify-content: space-between;
-
 }
 
 #footer-placeholder .section1,
-.section2 {
+#footer-placeholder .section2 {
     display: flex;
     gap: 2vw;
     align-items: center;
-
     font-size: var(--FontNavSize);
+    margin: 30px;
 }
 
 #footer-placeholder .section1 .f-logo {
     width: 15vw;
-
 }
 
 #footer-placeholder .section2 {
     flex-direction: column;
-
-
+    justify-content: center;
 }
 
 #footer-placeholder a {

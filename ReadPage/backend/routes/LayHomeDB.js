@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     try {
         const pool = await connectDB();
         const query = `
-            SELECT TOP 11 
+            SELECT TOP 6 
                 BaiBao.ID_BB, 
                 BaiBao.TieuDe, 
                 BaiBao.TomTat, 
@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
         res.json(result.recordset);
 
     } catch (err) {
-        console.error("Lỗi khi lấy 11 bài báo:", err);
+        console.error("Lỗi khi lấy 6 bài báo:", err);
         res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
     }
 });

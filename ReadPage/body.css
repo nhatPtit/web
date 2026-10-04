@@ -13,6 +13,22 @@
 
 }
 
+.top-body div {
+    border: 1px solid black;
+}
+
+.body1 div {
+    border: 1px solid black;
+}
+
+.body2 div {
+    border: 1px solid black;
+}
+
+.body3 div {
+    border: 1px solid black;
+}
+
 
 #body-placeholder .main-container {
     width: 70vw;
@@ -29,6 +45,9 @@
 
 }
 
+/* ===================================================
+Khoi 1
+======================================================*/
 #body-placeholder .main-container .top-body {
     display: grid;
     grid-template-columns: repeat(2, 1fr) 150px;
@@ -52,17 +71,11 @@
     grid-column-start: 3;
     grid-column-end: 4;
     background: linear-gradient(to top right, #0040FF 0%, #00EAFF 50%, #00FF2F 100%);
-
 }
 
-.top-body div {
-    border: 1px solid black;
-}
-
-.body1 div {
-    border: 1px solid black;
-}
-
+/* ===================================================
+Khoi 2
+======================================================*/
 #body-placeholder .main-container .body1 {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -94,10 +107,44 @@
     grid-column: 3/6;
 }
 
+/* ===================================================
+Khối 3
+======================================================*/
+#body-placeholder .main-container .body2 {
+    display: grid;
+    grid-template-rows: repeat(5, 160px);
+}
 
+#body-placeholder .main-container .body2 .item1 {
+    grid-row: 1/2;
+}
+
+#body-placeholder .main-container .body2 .item2 {
+    grid-row: 2/3;
+}
+
+#body-placeholder .main-container .body2 .item3 {
+    grid-row: 3/4;
+}
+
+#body-placeholder .main-container .body2 .item4 {
+    grid-row: 4/5;
+}
+
+#body-placeholder .main-container .body2 .item5 {
+    grid-row: 5/6;
+}
+
+
+
+
+
+/* ===================================================
+BB1
+======================================================*/
 #BB1-container {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     align-items: flex-start;
 }
 
@@ -116,21 +163,24 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-
 }
 
-/* Khối 1: Tiêu đề */
 #BB1-title {
     margin: 0 0 12px 0;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 1.3;
+    font-size: var(--FontHeader1);
+    font-family: var(--FontFamilyBB);
+
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 #BB1-title a {
-    font-family: serif;
+
     text-decoration: none;
-    color: #222;
+    color: var(--HeaderColor);
 }
 
 #BB1-title a:hover {
@@ -138,11 +188,148 @@
 }
 
 #BB1-summary a {
-    font-size: 10px;
-    color: #333;
-    line-height: 1.5;
+    font-size: var(--FontConten1);
+    color: var(--TextColor);
+
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 #BB1-summary a:hover {
     color: #087cce;
+}
+
+/* ===================================================
+BB34567
+======================================================*/
+#BB34-Container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+/* Phần khối Tiêu đề */
+#BB34-title {
+    width: 100%;
+    flex: 0 0 auto;
+}
+
+#BB34-title a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#BB34-title h3 {
+    font-size: 12px;
+    color: var(--HeaderColor);
+    font-family: var(--FontFamilyBB);
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#BB34-title h3:hover {
+    color: #0056b3;
+
+}
+
+#BB34-img {
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+}
+
+#BB34-img a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#BB34-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ===================================================
+
+======================================================*/
+/* Trả lại Flexbox cho container chứa ảnh và chữ */
+#body3 .article-item {
+    display: flex;
+    gap: 15px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+/* Phần chứa ảnh */
+#body3 .img-wrapper {
+    flex: 0 0 50%;
+    max-width: 50%;
+    height: 100%;
+}
+
+/* Thẻ A bọc ảnh phải chiếm trọn không gian của img-wrapper */
+#body3 .img-wrapper a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#body3 .img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Phần chứa nội dung */
+#body3 .content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#body3 .content-wrapper h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+/* Bỏ gạch chân mặc định của link tiêu đề */
+#body3 .content-wrapper h3 a {
+    text-decoration: none;
+    color: #000;
+    /* Hoặc color: inherit; để lấy màu mặc định của web */
+    transition: color 0.2s ease;
+}
+
+/* Hiệu ứng đổi màu khi trỏ chuột vào tiêu đề */
+#body3 .content-wrapper h3 a:hover {
+    color: #007bff;
+    /* Đổi màu xanh lam khi hover */
+}
+
+/* Tóm tắt 5 dòng (Giữ nguyên) */
+#body3 .content-wrapper p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }

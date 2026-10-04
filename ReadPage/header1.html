@@ -13,10 +13,20 @@
         :root {
             --BackColor: rgb(255, 255, 255);
             --LinkColor: rgb(255, 4, 0);
-
+            --HeaderColor1: #000;
             --TextColor: #333;
+
             --FontNavSize: 14px;
-            --FontFamilyBB:'Times New Roman', Times, serif;
+            --FontHeader1: 14px;
+            --FontHeader2: 12px;
+            --FontConten1: 12px;
+            --FontConten2: 11px;
+
+            --FontFamilyBB: serif, times;
+            --FontFamilyBB2: Arial, Helvetica, sans-serif;
+
+            --LineHeaderHigh: 1.6;
+
 
         }
     </style>
@@ -114,7 +124,6 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('body-placeholder').innerHTML = data;
-
                 fetchAndDrawChart();
                 fetchAndDrawChartXang();
                 fetchTopNews();
@@ -124,13 +133,10 @@
         async function fetchAndDrawChart() {
             try {
                 const canvas = document.getElementById('myChart');
-
                 // Trang này không có biểu đồ
                 if (!canvas) return;
-
                 const response = await fetch('http://localhost:3000/api/gia-vang2');
                 const apiData = await response.json();
-
                 new Chart(canvas, {
                     type: "line",
 
@@ -316,12 +322,12 @@
                 const response = await fetch('http://localhost:3000/api/lay-home-db');
                 const newsData = await response.json();
 
-                const targetIds = ['BB1', 'BB3', 'BB4', 'BB5', 'BB6', 'BB7', 'BB9', 'BB10', 'BB11', 'BB12', 'BB13'];
+                const targetIds = ['BB1', 'BB3', 'BB4', 'BB5', 'BB6', 'BB7'];
 
-                const newsContainer = document.getElementById(targetIds[0]);
-                if (newsContainer) {
+                let ContainerID = document.getElementById(targetIds[0]);
+                if (ContainerID) {
                     const news = newsData[0];
-                    newsContainer.innerHTML = '';
+                    // newsContainer.innerHTML = '';
                     const htmlContent = `
                             <div id="BB1-container">
                                 <div id="BB1-img">
@@ -332,54 +338,132 @@
                                 <div id = "BB1-subContainer">
                                     <div id="BB1-title">
                                         <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
-                                        <h3 class="news-title">${news.TieuDe}</h3>
+                                        <h3>${news.TieuDe}</h3>
                                         </a>
                                     </div>
                                     <div id="BB1-summary">
                                         <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
-                                            <p class="news-summary">${news.TomTat}</p>
+                                            <p>${news.TomTat}</p>
                                         </a>
                                     <div>
                                 </div>
                             </div>
                             `;
-                    newsContainer.innerHTML = htmlContent;
+                    ContainerID.innerHTML = htmlContent;
                 };
 
-                // newsData.forEach((news, index) => {
-                //     if (index < targetIds.length) {
-                //         const newsContainer = document.getElementById(targetIds[index]);
+                newsData.forEach((news, index) => {
+                    ContainerID = document.getElementById(targetIds[index]);
+                    if (index < targetIds.length && index > 0 && index < 3) {
+                        if (ContainerID) {
+                            const htmlContent = `
+                                <div id = "BB34-Container">
+                                    <div id="BB34-title">
+                                        <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
+                                        <h3>${news.TieuDe}</h3>
+                                        </a>
+                                    </div>
+                                <div id="BB34-img">
+                                    <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;"> 
+                                        ${news.AnhBia ? `<img src=".${news.AnhBia}" alt="Lỗi ảnh">` : ''}
+                                    </a>
+                                </div>
+                                </div>
+                            `;
 
-                //         if (newsContainer) {
-                //             newsContainer.innerHTML = '';
-                //             const htmlContent = `
-                //             <div>
-                //                 <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
-                //                     <h3 class="news-title">${news.TieuDe}</h3>
-                //                 </a>
-                //             </div>
-                //             <div>
-                //                 <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;"> 
-                //                     ${news.AnhBia ? `<img src=".${news.AnhBia}" alt="Lỗi ảnh">` : ''}
-                //                 </a>
-                //             </div>
-                //             <div>
-                //                 <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
-                //                     <p class="news-summary">${news.TomTat}</p>
-                //                 </a>
-                //             <div>
-                //             `;
+                            ContainerID.innerHTML = htmlContent;
+                        }
+                    }
+                    else if (index < targetIds.length && index >= 3 && index < 6) {
+                        if (ContainerID) {
+                            const htmlContent = `
+                                <div id = "BB34-Container">
+                                    <div id="BB34-title">
+                                        <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
+                                        <h3>${news.TieuDe}</h3>
+                                        </a>
+                                    </div>
+                                    <div id="BB34-img">
+                                        <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;"> 
+                                            ${news.AnhBia ? `<img src=".${news.AnhBia}" alt="Lỗi ảnh">` : ''}
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
 
-                //             newsContainer.innerHTML = htmlContent;
-                //         }
-                //     }
-                // });
+                            ContainerID.innerHTML = htmlContent;
+                        }
+                    }
+                });
 
             } catch (error) {
                 console.error("Lỗi khi tải dữ liệu bài báo:", error);
             }
         }
 
+        let currentOffset = 6; // Bắt đầu cuộn từ bài số 6 trở đi
+        let isLoading = false; // Cờ chặn gọi API liên tục khi đang tải
+        let hasMoreData = true; // Cờ dừng gọi API khi đã hết bài báo
+
+        window.addEventListener('scroll', async () => {
+            // Kích hoạt khi cuộn cách đáy trang khoảng 100px
+            const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+
+            if (isNearBottom && !isLoading && hasMoreData) {
+                isLoading = true;
+
+                try {
+                    // Gọi API với biến offset hiện tại
+                    const response = await fetch(`http://localhost:3000/api/lay-body-db5?offset=${currentOffset}`);
+                    const newArticles = await response.json();
+
+                    if (newArticles.length === 0) {
+                        // Nếu mảng trả về rỗng -> đã hết bài báo
+                        hasMoreData = false;
+                    } else {
+                        // Render các bài báo mới ra giao diện
+                        renderArticlesToDOM(newArticles);
+
+                        // Tăng offset lên 5 để chuẩn bị cho lần cuộn tiếp theo
+                        currentOffset += 5;
+                    }
+                } catch (error) {
+                    console.error("Lỗi fetch dữ liệu:", error);
+                } finally {
+                    isLoading = false; // Mở khóa để có thể cuộn tiếp
+                }
+            }
+        });
+
+
+        function renderArticlesToDOM(articles) {
+            const container = document.getElementById('body3'); // ID vùng chứa bài báo
+
+            articles.forEach((article, index) => {
+                // index bắt đầu từ 0, nên cần + 1 để thành item1, item2...
+                // Dùng (index % 5) + 1 để nếu có load thêm (bài 6, 7...) nó vẫn quay lại class item1 - item5 cho đúng CSS Grid của bạn.
+                const itemClass = `item${(index % 5) + 1}`;
+
+                const articleHTML = `
+                <div class="${itemClass} article-item" id="BB${article.ID_BB}">
+                    <div class="img-wrapper">
+                        <!-- Link bọc riêng hình ảnh -->
+                        <a href="chi-tiet.html?id=${article.ID_BB}">
+                            <img src="${article.AnhBia ? `.${article.AnhBia}` : 'default.jpg'}" alt="${article.TieuDe}">
+                        </a>
+                    </div>
+                    <div class="content-wrapper">
+                        <h3>
+                            <!-- Link bọc riêng tiêu đề -->
+                            <a href="chi-tiet.html?id=${article.ID_BB}">${article.TieuDe}</a>
+                        </h3>
+                        <p>${article.TomTat}</p>
+                    </div>
+                </div>
+            `;
+                container.insertAdjacentHTML('beforeend', articleHTML);
+            });
+        }
 
 
     </script>
