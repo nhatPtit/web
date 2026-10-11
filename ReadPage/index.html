@@ -6,120 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PTEWS</title>
     <link rel="icon" type="image/svg" href="img/logo-PTEWS.svg">
-    <link rel="stylesheet" href="header1.css">
+    <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="body.css">
     <link rel="stylesheet" href="footer.css">
     <style>
         :root {
-            --BackColor: rgb(255, 255, 255);
-            --LinkColor: rgb(255, 4, 0);
-            --HeaderColor1: #000;
-            --TextColor: #333;
+            --BackColor: #ffffff;
+            --LinkColor: #bb0000;
+            --HeaderColor: #111827;
+            --TextColor: #374151;
+            --TextMuted: #6b7280;
 
             --FontNavSize: 14px;
-            --FontHeader1: 14px;
-            --FontHeader2: 12px;
-            --FontConten1: 12px;
-            --FontConten2: 11px;
+            --FontHeader1: 18px;
+            --FontHeader2: 13px;
+            --FontConten1: 13.5px;
+            --FontConten2: 12px;
 
-            --FontFamilyBB: serif, times;
-            --FontFamilyBB2: Arial, Helvetica, sans-serif;
+            --FontFamilyBB: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            --FontFamilyBB2: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 
-            --LineHeaderHigh: 1.6;
-
-
+            --LineHeaderHigh: 1.5;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
+    <script src="js/amlich.js"></script>
+    <script src="js/header.js"></script>
 
 </head>
 
 <body>
-    <header>
-        <div class="headLeft">
-            <span>
-                <a href="home.html">
-                    <img src="img/ptit-news-transparent.svg" alt="PTEWS" style="height: 2.5vw;">
-                </a>
-            </span>
-
-            <span>
-                <a href="#ThoiTiet">#ThoiTiet</a>
-            </span>
-            <span>
-                <a href="#Date">
-                    <p>DL:dd/mm/yyyy <br> AL:dd/mm/yyyy</p>
-                </a>
-            </span>
-            <span class="search-box">
-
-                <img src="img/54481.png" alt=" search" class="search-icon">
-
-                <input type="text" class="search-input" placeholder="Tìm kiếm...">
-            </span>
-        </div>
-        <div class="headRight">
-            <span><a href="intro.html" target="_blank">
-                    Giới thiệu
-                </a>
-            </span>
-
-            <span><a href="https://www.youtube.com/@PChannels/featured" target="_blank">
-                    Youtube
-                </a>
-            </span>
-
-            <span><a href="https://www.facebook.com/HocvienPTIT/" target="_blank">
-                    Link FB
-                </a>
-            </span>
-
-
-            <span><a href="connect-to-ad.html" target="_blank">
-                    Link advertisement
-                </a>
-            </span>
-        </div>
-    </header>
-    <nav class="sub-header1">
-        <a href="header1.html" class="home-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="home-svg">
-                <circle class="home-bg" cx="50" cy="50" r="48" />
-                <path class="home-shape"
-                    d="M 50,26 L 28,42 A 3,3 0 0,0 27,45.5 V 70 a 4,4 0 0,0 4,4 h 11 a 2,2 0 0,0 2,-2 V 54 a 2,2 0 0,1 2,-2 h 8 a 2,2 0 0,1 2,2 v 18 a 2,2 0 0,0 2,2 h 11 a 4,4 0 0,0 4,-4 V 45.5 a 3,3 0 0,0 -1,-3.5 Z" />
-            </svg>
-        </a>
-
-        <div class="menu-list" id="menuList">
-            <a href="https://www.youtube.com">Thời sự</a>
-            <a href="#">Thế giới</a>
-        </div>
-    </nav>
+    <header id="header1-placeholder"></header>
+    <nav class="sub-header1" id="header2-placeholder"></nav>
     <main id="body-placeholder"></main>
-
-    <footer id="footer-placeholder">
-
-        <div class="f-container">
-            <section class="section1">
-                <div>
-                    <a href="header1.html"><img src="img/ptit-news-transparent.svg" alt="Logo" class="f-logo">
-                    </a>
-                </div>
-                <div class>
-                    <a href="header1.html">Báo Không Chính Thống PTIT</a>
-                </div>
-
-            </section>
-
-            <section class="section2">
-                <p>Email: <a href="mailto:PTEW@gmail.com.vn">PTEW@gmail.com.vn</a></p>
-                <p>SĐT: <a href="#">0123456789</a></p>
-
-            </section>
-        </div>
-    </footer>
+    <footer id="footer-placeholder"></footer>
 
     <script>
+        // 2. Nạp header_1.html và khởi tạo Lịch + Thời tiết
+        fetch('header_1.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header1-placeholder').innerHTML = data;
+                initHeader();
+            });
+        // .catch(err => console.error("Lỗi nạp header_1.html:", err));
+
         fetch('body.html')
             .then(response => response.text())
             .then(data => {
@@ -129,6 +60,17 @@
                 fetchTopNews();
 
             });
+        fetch('header_2.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header2-placeholder').innerHTML = data;
+            });
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+
 
         async function fetchAndDrawChart() {
             try {
@@ -457,7 +399,8 @@
                             <!-- Link bọc riêng tiêu đề -->
                             <a href="chi-tiet.html?id=${article.ID_BB}">${article.TieuDe}</a>
                         </h3>
-                        <p>${article.TomTat}</p>
+                        <a href="chi-tiet.html?id=${article.ID_BB}">${article.TomTat}</a>
+                        
                     </div>
                 </div>
             `;

@@ -1,0 +1,16 @@
+<script src="js/amlich.js"></script>
+
+<script>
+    // Chờ DOM nạp xong để đảm bảo AmLichVN đã sẵn sàng
+    document.addEventListener("DOMContentLoaded", () => {
+        if (typeof AmLichVN !== 'undefined') {
+            const result1 = AmLichVN.convertSolar2Lunar(9, 10, 2026);
+            console.log("Kết quả 1:", result1);
+
+            const result2 = AmLichVN.convertSolar2Lunar(10, 10, 2026);
+            console.log("Kết quả 2:", result2);
+        } else {
+            console.error("Chưa nạp được thư viện AmLichVN!");
+        }
+    });
+</script>

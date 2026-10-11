@@ -1,11 +1,12 @@
+require('dotenv').config();
 const sql = require('mssql');
 
 const config = {
-    server: 'localhost',
-    port: 1433,
-    database: 'WebBaoDB',
-    user: 'sa',
-    password: 'Sa@123456',
+    server: process.env.DB_SERVER || 'localhost',
+    port: parseInt(process.env.DB_PORT, 10) || 1433,
+    database: process.env.DB_NAME || 'WebBaoDB',
+    user: process.env.DB_USER || 'sa',
+    password: process.env.DB_PASSWORD,
     options: {
         encrypt: false,
         trustServerCertificate: true

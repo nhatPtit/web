@@ -9,6 +9,12 @@ node_modules/
 dist/
 .vscode/
 
+# Thư mục thử nghiệm và nháp
+ReadPage/test/
+ReadPage/backend/rac/
+test/
+rac/
+
 # Bỏ qua tất cả các file có đuôi mở rộng nhất định
 *.log
 *.zip

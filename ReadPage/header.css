@@ -1,0 +1,244 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    width: 100%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 35px;
+    border-bottom: 1px solid #e5e7eb;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--FontNavSize);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.headLeft {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.headRight {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Khối hiển thị thời tiết */
+.weather-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: #4b5563;
+    vertical-align: middle;
+    user-select: none;
+}
+
+.weather-icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    display: block;
+}
+
+.weather-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.25;
+}
+
+.weather-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.weather-select {
+    border: none;
+    background: transparent;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--HeaderColor);
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+}
+
+.weather-select:hover {
+    color: var(--LinkColor);
+}
+
+.weather-temp {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--LinkColor);
+}
+
+.weather-humidity {
+    font-size: 11px;
+    font-weight: 500;
+    color: #2563eb;
+}
+
+.weather-aqi {
+    font-size: 10.5px;
+    color: #4b5563;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: default;
+    width: 100%;
+}
+
+.headLeft a.date-display {
+    text-decoration: none;
+    color: #4b5563;
+    font-size: 11.5px;
+    line-height: 1.35;
+    background-color: #f3f4f6;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.headLeft a.date-display p {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-weight: 500;
+}
+
+header div span a {
+    color: var(--TextColor);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+header div span a:hover {
+    color: var(--LinkColor);
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: 10px;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.search-input {
+    width: 150px;
+    padding: 5px 12px 5px 30px;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    background-color: #f8fafc;
+    font-size: 12.5px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.search-input:focus {
+    width: 200px;
+    border-color: var(--LinkColor);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(187, 0, 0, 0.1);
+}
+
+/* Header thứ 2 */
+.sub-header1 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #ffffff;
+    border-bottom: 2px solid var(--LinkColor);
+    padding: 0 35px;
+    font-size: var(--FontNavSize);
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.home-icon {
+    text-decoration: none;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.home-svg {
+    width: 22px;
+    height: 22px;
+}
+
+.home-bg {
+    fill: #f3f4f6;
+    transition: fill 0.2s ease;
+}
+
+.home-shape {
+    fill: #4b5563;
+    transition: fill 0.2s ease;
+}
+
+.home-icon:hover .home-bg {
+    fill: var(--LinkColor);
+}
+
+.home-icon:hover .home-shape {
+    fill: #ffffff;
+}
+
+.menu-list {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    padding: 6px 4px;
+    font-family: inherit;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.menu-list::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-list a {
+    text-decoration: none;
+    color: var(--HeaderColor);
+    font-weight: 600;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.menu-list a:hover {
+    color: var(--LinkColor);
+    background-color: #fef2f2;
+}

@@ -1,24 +1,49 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" style="font-family: Arial, Helvetica, sans-serif;">
 
 <head>
     <meta charset="UTF-8">
-    <title>PTEWS</title>
-    <link rel="stylesheet" href="home-test.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg" href="img/logo-PTEWS.svg">
+    <title>Chi tiet</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="chi-tiet.css">
+    <link rel="stylesheet" href="footer.css">
+    <style>
+        :root {
+            --BackColor: rgb(255, 255, 255);
+            --LinkColor: rgb(255, 4, 0);
+            --HeaderColor1: #000;
+            --TextColor: #333;
+        }
+    </style>
 </head>
 
 <body>
+    <header id="header1-placeholder"></header>
+    <nav class="sub-header1" id="header2-placeholder"></nav>
 
-    <div id="header-placeholder"></div>
+    <div class="ad-background-wrapper"></div>
+    <div class="main-container">
+        <p>Gioi thieu trang bao</p>
+    </div>
 
-    <main>
-        <h1>Giới thiệu PTEWS</h1>
-    </main>
+    <footer id="footer-placeholder"></footer>
     <script>
-        fetch('header1.html')
+        fetch('header_1.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('header-placeholder').innerHTML = data;
+                document.getElementById('header1-placeholder').innerHTML = data;
+            });
+        fetch('header_2.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header2-placeholder').innerHTML = data;
+            });
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
             });
     </script>
 </body>

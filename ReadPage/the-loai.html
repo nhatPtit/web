@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi" style="font-family: Arial, Helvetica, sans-serif;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg" href="img/logo-PTEWS.svg">
+    <title>Chi tiet</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="chi-tiet.css">
+    <link rel="stylesheet" href="footer.css">
+    <style>
+        :root {
+            --BackColor: rgb(255, 255, 255);
+            --LinkColor: rgb(255, 4, 0);
+            --HeaderColor1: #000;
+            --TextColor: #333;
+        }
+    </style>
+    <script src="js/amlich.js"></script>
+    <script src="js/header.js"></script>
+</head>
+
+<body>
+    <header id="header1-placeholder"></header>
+    <nav class="sub-header1" id="header2-placeholder"></nav>
+
+    <div class="ad-background-wrapper"></div>
+
+    <div class="main-container" id="category-list" style="display: grid; gap: 20px; padding: 20px;">
+    </div>
+    <div id="loading-spinner" style="text-align: center; display: none; padding: 20px;">
+        <p style="color: gray;">Đang tải thêm bài báo...</p>
+    </div>
+
+    <footer id="footer-placeholder">
+    </footer>
+    <script>
+        fetch('header_1.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header1-placeholder').innerHTML = data;
+                initHeader();
+            });
+        fetch('header_2.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header2-placeholder').innerHTML = data;
+            });
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            // Lấy id_tl thay vì id bài viết
+            const idTl = urlParams.get('id_tl');
+            const container = document.getElementById('category-list');
+            const loadingSpinner = document.getElementById('loading-spinner');
+
+            if (!idTl) {
+                container.innerHTML = '<p style="text-align:center;">Lỗi: Không xác định được thể loại!</p>';
+                return;
+            }
+
+            let currentOffset = 0;
+            let isLoading = false;
+            let hasMoreData = true;
+
+            // Hàm gọi API và render dữ liệu
+            async function fetchAndRenderCategoryArticles(offset) {
+                if (isLoading || !hasMoreData) return;
+
+                isLoading = true;
+                loadingSpinner.style.display = 'block';
+
+                try {
+
+                    const response = await fetch(`http://localhost:3000/api/the-loai?id_tl=${idTl}&offset=${offset}`);
+
+                    if (!response.ok) {
+                        throw new Error("Lỗi khi tải dữ liệu");
+                    }
+                    const articles = await response.json();
+                    if (articles.length === 0) {
+                        hasMoreData = false;
+                        if (offset === 0) {
+                            container.innerHTML = '<p style="text-align:center;">Chưa có bài báo nào trong thể loại này.</p>';
+                        } else {
+                            // Tùy chọn: Báo hết dữ liệu
+                            // loadingSpinner.innerHTML = '<p>Đã hết bài viết.</p>';
+                        }
+                    } else {
+                        renderArticlesToDOM(articles, offset);
+                        currentOffset += 5; // Tăng offset lên bằng limit
+                    }
+                } catch (error) {
+                    console.error("Lỗi fetch dữ liệu thể loại:", error);
+                    if (offset === 0) {
+                        container.innerHTML = '<p style="text-align:center;">Đã xảy ra lỗi khi kết nối với máy chủ.</p>';
+                    }
+                } finally {
+                    isLoading = false;
+                    if (hasMoreData) loadingSpinner.style.display = 'none';
+                }
+            }
+            function renderArticlesToDOM(articles, startOffset) {
+                articles.forEach((article, index) => {
+                    // Tính class item1, item2... dựa trên tổng số bài đã load
+                    const globalIndex = startOffset + index;
+                    const itemClass = `item${(globalIndex % 5) + 1}`;
+
+                    const articleHTML = `
+                        <div class="${itemClass} article-item" id="BB${article.ID_BB}" style="display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
+                            <div class="img-wrapper" style="flex: 0 0 30%;">
+                                <a href="chi-tiet.html?id=${article.ID_BB}">
+                                    <img src="${article.AnhBia ? `.${article.AnhBia}` : 'default.jpg'}" alt="${article.TieuDe}" style="width: 100%; height: auto; border-radius: 4px; object-fit: cover; aspect-ratio: 16/9;">
+                                </a>
+                            </div>
+                            <div class="content-wrapper" style="flex: 1;">
+                                <h3 style="margin-top: 0; font-size: 18px;">
+                                    <a href="chi-tiet.html?id=${article.ID_BB}" style="text-decoration: none; color: #333;">${article.TieuDe}</a>
+                                </h3>
+                                <a href="chi-tiet.html?id=${article.ID_BB}" style="text-decoration: none; color: #666; font-size: 14px; display: block; margin-top: 8px;">${article.TomTat}</a>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', articleHTML);
+                });
+            }
+
+            // --- Lắng nghe sự kiện cuộn trang (Infinite Scroll) ---
+            window.addEventListener('scroll', () => {
+                const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+                if (isNearBottom && !isLoading && hasMoreData) {
+                    fetchAndRenderCategoryArticles(currentOffset);
+                }
+            });
+
+            // Tải lần đầu tiên (offset = 0)
+            fetchAndRenderCategoryArticles(0);
+
+            // (Tùy chọn) Gọi thêm 1 API khác để lấy Tên Thể Loại để set document.title 
+            // document.title = "Tên thể loại - PTEWS";
+        });
+    </script>
+</body>
+
+</html>
