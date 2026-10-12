@@ -69,7 +69,45 @@ function initWeatherWidget() {
     }
 }
 
+function initSearch() {
+    const searchInput = document.querySelector('.search-input');
+    const searchIcon = document.querySelector('.search-icon');
+
+    if (!searchInput) return;
+
+    function handleSearch() {
+        const query = searchInput.value.trim();
+        if (query) {
+            window.location.href = `tim-kiem.html?q=${encodeURIComponent(query)}`;
+        }
+    }
+
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearch();
+        }
+    });
+
+    if (searchIcon) {
+        searchIcon.style.cursor = 'pointer';
+        searchIcon.style.pointerEvents = 'auto';
+        searchIcon.addEventListener('click', () => {
+            handleSearch();
+        });
+    }
+
+    // Tự động điền lại từ khóa nếu đang ở trang tìm kiếm
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentQ = urlParams.get('q');
+    if (currentQ && window.location.pathname.includes('tim-kiem.html')) {
+        searchInput.value = currentQ;
+    }
+}
+
 function initHeader() {
     updateHeaderDate();
     initWeatherWidget();
+    initSearch();
 }
+
