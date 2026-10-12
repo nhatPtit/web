@@ -5,13 +5,16 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-// Phục vụ toàn bộ giao diện Frontend (HTML, CSS, JS, Ảnh) từ thư mục ReadPage
-app.use(express.static(path.join(__dirname, '..')));//path.join(__dirname, '..') sẽ trỏ ra thư mục cha của server.js
-//__dirname lưu path tới server.js
-//express.static(...) Nó biến thư mục được truyền vào (ở đây là thư mục cha) thành một kho lưu trữ file tĩnh.
-//mặc định tìm kiếm file có tên là index.html khi người dùng truy cập vào thư mục gốc
+// Phục vụ giao diện độc giả từ thư mục ReadPage (Mặc định vào http://localhost:3000/)
+app.use('/', express.static(path.join(__dirname, '../ReadPage')));
 
-require('dotenv').config();
+// Phục vụ thư mục ảnh bài viết dùng chung
+app.use('/Anh-BB', express.static(path.join(__dirname, '../ReadPage/Anh-BB')));
+
+// Phục vụ trang cho phóng viên/nhà báo (Truy cập qua http://localhost:3000/upload/)
+app.use('/upload', express.static(path.join(__dirname, '../UploadPage')));
+
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const giaVang2Route = require('./routes/giaVang2');
 const giaXangRoute = require('./routes/giaXang');

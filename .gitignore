@@ -12,6 +12,7 @@ dist/
 # Thư mục thử nghiệm và nháp
 ReadPage/test/
 ReadPage/backend/rac/
+backend/rac/
 test/
 rac/
 
