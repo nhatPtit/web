@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTEWS - Cổng Quản Lý & Tác Nghiệp Báo Chí</title>
+  <link rel="icon" type="image/svg+xml" href="img/logo-PTEWS.svg">
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans cho typography báo chí hiện đại -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body id="portal-body" class="portal-body">
+
+  <!-- Lớp phủ nền ảnh khuôn viên (WebP) -->
+  <div id="bg-cover-overlay" class="bg-cover-overlay"></div>
+
+  <!-- Container tổng bao phủ toàn bộ giao diện -->
+  <div id="app-container" class="app-container">
+
+    <!-- KHỐI 1: HEADER QUẢN LÝ (Đồng bộ nhận diện thương hiệu ReadPage) -->
+    <header id="header-wrapper" class="header-wrapper">
+      <div id="header-content" class="header-content">
+
+        <!-- Khối Logo bên trái (Logo PTIT News trong suốt như ReadPage) -->
+        <div id="header-logo-box" class="header-logo-box">
+          <a id="logo-link" class="logo-link" href="index.html" title="Trang chủ Quản trị PTEWS">
+            <img id="logo-image" class="logo-image" src="img/ptit-news-transparent.svg" alt="PTEWS Logo">
+          </a>
+        </div>
+
+        <!-- Khối Thông tin vai trò / Phân hệ bên phải (thay cho nút đăng nhập cũ) -->
+        <div id="header-right-box" class="header-right-box">
+          <span id="role-badge" class="role-badge">Hệ Thống Tác Nghiệp</span>
+          <h1 id="header-role-title" class="header-role-title">Duyệt bài / Quản lý</h1>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- KHỐI 2: KHUNG NỘI DUNG CHÍNH (Nền ảnh làm mờ nhẹ, khối chào mừng nổi bật ở trung tâm) -->
+    <main id="main-wrapper" class="main-wrapper">
+
+      <!-- Khung kính Glassmorphism trung tâm -->
+      <section id="content-container" class="content-container">
+
+        <div id="welcome-card" class="welcome-card">
+          <!-- Huy hiệu nhỏ thanh lịch -->
+          <div id="welcome-tag" class="welcome-tag">
+            <span id="tag-dot" class="tag-dot"></span>
+            <span id="tag-text" class="tag-text">Không Gian Biên Tập Viên & Quản Trị</span>
+          </div>
+
+          <!-- Khối chữ trung tâm nghệ thuật: "Chào mừng đồng nghiệp?" -->
+          <h2 id="welcome-headline" class="welcome-headline">
+            Chào mừng đồng nghiệp?
+          </h2>
+
+          <!-- Dòng giới thiệu mô tả thanh lịch (phần bỏ ngỏ sẵn sàng gắn form đăng bài/duyệt bài) -->
+          <p id="welcome-subline" class="welcome-subline">
+            Hệ thống quản lý xuất bản tin tức, phê duyệt bài báo và kiểm duyệt nội dung của tòa soạn PTEWS.
+          </p>
+
+          <!-- Khu vực hành động chờ sẵn cho các tính năng tiếp theo -->
+          <div id="welcome-actions" class="welcome-actions">
+            <button type="button" id="btn-quick-entry" class="btn-quick-entry">
+              Bắt đầu ca làm việc
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</body>
+
+</html>
