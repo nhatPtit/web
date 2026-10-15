@@ -34,17 +34,6 @@
 *Đẩy code lên thật, bước cuối cùng rồi*
 - *Lệnh đầy đủ: git push origin brand_name  (origin là link repo, brand_name là tên nhánh)*
 - *`git push -u origin main` Nếu lần đầu push*
-> ## Các bước tải code về:
-
-#### `1.git pull`
-- *Chỉ tải những chỗ thay đổi rồi đồng bộ với máy*
-- Tương đương với `git fetch` và `git merge`
-- *`git pull origin main --allow-unrelated-histories`* Tải code về không gộp lịch sử.
-
-> # Một số lệnh khác:
-### `git clone url`
-- Tải tất cả file trong repo về máy, các file trong .gitignore sẽ không tải về.
-- Nguyên một dự án hoàn toàn mới, chỉ nên dùng lần đầu vì nó không đồng bộ dự án đang chạy.
 ### Trường hợp máy bị thiếu commit so với github
 - `git stash` Đưa code chưa commit vào vùng an toàn.
 - `git pull --rebase origin main`  Đặt commit sắp tới lưu trên máy sau commit thằng mới nhất trên github.
@@ -53,8 +42,21 @@
 Nếu tự tin code an toàn thì có thể:
 - `git add .`
 - `git commit -m ""` commit đã an toàn cho code của mình rồi.
-- `git pull --rebase origin main`
+- `git pull --rebase origin main` tải về sau đó gộp và nối lịch sử commit trên máy sau lịch sử repo
 - `git push`
+> ## Các bước tải code về:
+
+#### `1.git pull`
+- *Chỉ tải những chỗ thay đổi rồi đồng bộ với máy*
+- Tương đương với `git fetch` và `git merge`
+- *`git pull origin main --allow-unrelated-histories`* Tải code về không gộp lịch sử.
+
+
+> # Một số lệnh khác:
+### `git clone url`
+- Tải tất cả file trong repo về máy, các file trong .gitignore sẽ không tải về.
+- Nguyên một dự án hoàn toàn mới, chỉ nên dùng lần đầu vì nó không đồng bộ dự án đang chạy.
+
 ### `git reflog`
 Xem lịch sử commit, thoát nhấn q
 ### git bracnh
