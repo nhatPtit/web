@@ -1,92 +1,211 @@
-// Lấy giá xăng từ web giaxanghomnay.com
 const sql = require('mssql');
 const { connectDB } = require('../db');
+const { spawn } = require('child_process');
+const os = require('os');
+const path = require('path');
 
-async function luuGiaXang() {
+// 1. Phân tích HTML từ trang PVOIL để bóc tách ngày và giá xăng RON 95
+function parsePvoilHtml(html) {
+    if (!html) return null;
+
+    // A. Bóc tách ngày áp dụng
+    // Tìm mẫu: "ngày 15/10/2026" hoặc "15-10-2026"
+    let dateStr = null;
+    const dateMatch = html.match(/ngày\s*(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/i) ||
+                      html.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+    if (dateMatch) {
+        const day = dateMatch[1].padStart(2, '0');
+        const month = dateMatch[2].padStart(2, '0');
+        const year = dateMatch[3];
+        dateStr = `${year}-${month}-${day}`;
+    } else {
+        dateStr = new Date().toISOString().slice(0, 10);
+    }
+
+    // B. Bóc tách giá RON 95
+    // Tìm dòng tr chứa "RON 95"
+    let price = null;
+    const trMatches = html.match(/<tr[\s\S]*?<\/tr>/gi);
+    if (trMatches) {
+        for (const tr of trMatches) {
+            if (/RON\s*95/i.test(tr)) {
+                // Lấy tất cả các thẻ td trong tr này
+                const tdMatches = tr.match(/<td[\s\S]*?<\/td>/gi);
+                if (tdMatches && tdMatches.length >= 3) {
+                    // Cột 1: STT, Cột 2: Tên mặt hàng, Cột 3: Giá bán lẻ (Vùng 1)
+                    // Một số table colspan="2" ở cột tên -> td[2] là giá
+                    for (let i = 1; i < tdMatches.length; i++) {
+                        const tdText = tdMatches[i].replace(/<[^>]+>/g, '').trim();
+                        // Tìm chuỗi chứa số dạng "26.670" hoặc "26,670"
+                        const numMatch = tdText.match(/(\d{1,3}[\.,]\d{3})/);
+                        if (numMatch) {
+                            price = parseInt(numMatch[1].replace(/[\.,]/g, ''), 10);
+                            break;
+                        }
+                    }
+                }
+                if (price) break;
+            }
+        }
+    }
+
+    // Nếu không tìm thấy qua table row, thử regex trực tiếp
+    if (!price) {
+        const directMatch = html.match(/RON\s*95[^\d]*?(\d{1,3}[\.,]\d{3})/i);
+        if (directMatch) {
+            price = parseInt(directMatch[1].replace(/[\.,]/g, ''), 10);
+        }
+    }
+
+    return { date: dateStr, price };
+}
+
+// 2. Lấy HTML trang PVOIL (Hỗ trợ Direct Fetch + Browser Fallback vượt Cloudflare)
+async function fetchPvoilHtml() {
+    const PVOIL_URL = 'https://www.pvoil.com.vn/tin-gia-xang-dau';
+
+    // Bước 1: Thử fetch trực tiếp qua HTTP
     try {
-        const today = new Date().toISOString().slice(0, 10);
+        console.log('[PVOIL] Thử tải dữ liệu trực tiếp từ:', PVOIL_URL);
+        const res = await fetch(PVOIL_URL, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7'
+            }
+        });
 
-        const response = await fetch(
-            `https://giaxanghomnay.com/api/pvdate/${today}`
-        );
-
-        const apiData = await response.json();
-
-        let ron95 = null;
-
-        for (const group of apiData) {
-            if (!Array.isArray(group)) continue;
-
-            const found = group.find(
-                item => item.title === 'X\u0103ng E10 RON 95 M\u1ee9c 3'
-            );
-
-            if (found) {
-                ron95 = found;
-                break;
+        if (res.ok) {
+            const html = await res.text();
+            if (html.includes('RON 95') || html.includes('Xăng')) {
+                console.log('[PVOIL] Tải trực tiếp thành công!');
+                return html;
             }
         }
+    } catch (e) {
+        console.warn('[PVOIL] Fetch trực tiếp gặp lỗi:', e.message);
+    }
 
-        if (!ron95) {
-            console.log('Không tìm thấy Xăng E10 RON 95-III');
-            return;
-        }
-        // console.log(ron95);
-        const pool = await connectDB();
+    // Bước 2: Khi bị Cloudflare Turnstile chặn, dùng Edge offscreen tự động giải mã
+    console.log('[PVOIL] Phát hiện lớp bảo vệ Cloudflare, đang kích hoạt trình duyệt cào tự động...');
+    const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+    const profileDir = path.join(os.tmpdir(), 'edge_profile_cf');
+    const port = 9222 + Math.floor(Math.random() * 50);
 
-        const dateOnly = ron95.date.slice(0, 10);
+    const edge = spawn(edgePath, [
+        `--remote-debugging-port=${port}`,
+        '--window-position=-32000,-32000',
+        '--window-size=800,600',
+        '--no-first-run',
+        '--no-default-browser-check',
+        '--user-data-dir=' + profileDir,
+        PVOIL_URL
+    ]);
 
-        const check = await pool.request()
-            .input('date', sql.Date, dateOnly)
-            .query(`
-        SELECT TOP 1 [Date], [Price]
-        FROM [WebBaoDB].[dbo].[N95III]
-        WHERE [Date] = @date
-    `);
-
-        if (check.recordset.length > 0) {
-            const oldPrice = check.recordset[0].Price;
-
-            if (Number(oldPrice) === Number(ron95.zone1_price)) {
-                console.log(`Ngày ${dateOnly} đã có giá ${ron95.zone1_price}, không cần cập nhật.`);
-                return;
+    try {
+        let htmlResult = null;
+        for (let i = 1; i <= 15; i++) {
+            await new Promise(r => setTimeout(r, 1000));
+            try {
+                const res = await fetch(`http://127.0.0.1:${port}/json`);
+                const tabs = await res.json();
+                const tab = tabs.find(t => t.url && t.url.includes('pvoil.com.vn'));
+                if (tab && tab.title && !tab.title.includes('Just a moment')) {
+                    // Trang đã load thành công, kết nối WebSocket CDP lấy HTML
+                    htmlResult = await new Promise((resolve, reject) => {
+                        const ws = new WebSocket(tab.webSocketDebuggerUrl);
+                        ws.onopen = () => {
+                            ws.send(JSON.stringify({
+                                id: 1,
+                                method: 'Runtime.evaluate',
+                                params: { expression: 'document.documentElement.outerHTML' }
+                            }));
+                        };
+                        ws.onmessage = (event) => {
+                            const data = JSON.parse(event.data);
+                            if (data.id === 1 && data.result && data.result.result) {
+                                ws.close();
+                                resolve(data.result.result.value);
+                            }
+                        };
+                        ws.onerror = reject;
+                        setTimeout(() => reject(new Error('Timeout WebSocket CDP')), 5000);
+                    });
+                    break;
+                }
+            } catch (err) {
+                // Tiếp tục chờ trang load
             }
-
-            // Ngày đã có nhưng giá khác → cập nhật giá mới
-            await pool.request()
-                .input('date', sql.Date, dateOnly)
-                .input('price', sql.Decimal(18, 0), ron95.zone1_price)
-                .query(`
-            UPDATE [WebBaoDB].[dbo].[N95III]
-            SET [Price] = @price
-            WHERE [Date] = @date
-        `);
-
-            console.log(
-                `Đã cập nhật giá xăng ngày ${dateOnly}: ${oldPrice} → ${ron95.zone1_price}`
-            );
-
-            return;
         }
-
-        // Ngày chưa có → thêm dữ liệu mới
-        await pool.request()
-            .input('date', sql.Date, dateOnly)
-            .input('price', sql.Decimal(18, 0), ron95.zone1_price)
-            .query(`
-            INSERT INTO [WebBaoDB].[dbo].[N95III]
-                ([Date], [Price])
-            VALUES
-                (@date, @price)
-        `);
-
-        console.log(
-            `Đã thêm giá Xăng E10 RON 95-III: ${dateOnly} - ${ron95.zone1_price}`
-        );
-
-    } catch (error) {
-        console.error('Lỗi lưu giá xăng:', error);
+        edge.kill();
+        return htmlResult;
+    } catch (e) {
+        console.error('[PVOIL] Lỗi khi cào dữ liệu qua trình duyệt:', e);
+        edge.kill();
+        return null;
     }
 }
 
-module.exports = { luuGiaXang };
+// 3. Hàm chính: Cào giá PVOIL và lưu vào database WebBao
+async function luuGiaXang() {
+    try {
+        console.log('=== BẮT ĐẦU CẬP NHẬT GIÁ XĂNG TỪ PVOIL ===');
+        const html = await fetchPvoilHtml();
+        if (!html) {
+            console.error('[PVOIL] Không thể tải nội dung trang web PVOIL!');
+            return;
+        }
+
+        const data = parsePvoilHtml(html);
+        if (!data || !data.price) {
+            console.error('[PVOIL] Không trích xuất được giá xăng RON 95 từ HTML!');
+            return;
+        }
+
+        console.log(`[PVOIL] Dữ liệu cào được: Ngày = ${data.date}, Giá Xăng RON 95 = ${data.price} đ/lít`);
+
+        const pool = await connectDB();
+        const check = await pool.request()
+            .input('date', sql.Date, data.date)
+            .query(`
+                SELECT TOP 1 [Date], [Price]
+                FROM [dbo].[N95III]
+                WHERE [Date] = @date
+            `);
+
+        if (check.recordset.length > 0) {
+            const oldPrice = check.recordset[0].Price;
+            if (Number(oldPrice) === Number(data.price)) {
+                console.log(`[PVOIL] Ngày ${data.date} đã có giá ${data.price}, không cần cập nhật.`);
+                return;
+            }
+
+            await pool.request()
+                .input('date', sql.Date, data.date)
+                .input('price', sql.Decimal(18, 2), data.price)
+                .query(`
+                    UPDATE [dbo].[N95III]
+                    SET [Price] = @price
+                    WHERE [Date] = @date
+                `);
+
+            console.log(`[PVOIL] Đã cập nhật giá xăng ngày ${data.date}: ${oldPrice} -> ${data.price}`);
+            return;
+        }
+
+        await pool.request()
+            .input('date', sql.Date, data.date)
+            .input('price', sql.Decimal(18, 2), data.price)
+            .query(`
+                INSERT INTO [dbo].[N95III] ([Date], [Price])
+                VALUES (@date, @price)
+            `);
+
+        console.log(`[PVOIL] Đã lưu giá xăng mới thành công: Ngày ${data.date} - Giá ${data.price}`);
+
+    } catch (error) {
+        console.error('[PVOIL] Lỗi khi lưu giá xăng:', error);
+    }
+}
+
+module.exports = { luuGiaXang, parsePvoilHtml, fetchPvoilHtml };

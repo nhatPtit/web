@@ -22,21 +22,22 @@ router.get('/', async (req, res) => {
         // Truy vấn lấy danh sách bài báo thuộc thể loại, kèm ảnh bìa
         const query = `
             SELECT 
-                BaiBao.ID_BB, 
-                BaiBao.TieuDe, 
-                BaiBao.TomTat, 
-                BaiBao.NgayDang,
+                b.Id AS ID_BB, 
+                b.Id,
+                b.title AS TieuDe, 
+                b.sapo AS TomTat, 
+                b.published_at AS NgayDang,
                 (
-                    SELECT TOP 1 Anh.URL 
-                    FROM Anh 
-                    WHERE Anh.ID_BB = BaiBao.ID_BB AND Anh.ViTriTrongBai = 1
+                    SELECT TOP 1 a.image_url 
+                    FROM dbo.AnhBaiViet a 
+                    WHERE a.id_BB = b.Id AND a.display_order = 1
                 ) AS AnhBia
             FROM 
-                BaiBao
+                dbo.BaiViet b
             WHERE 
-                TrangThai = 2 AND ID_TL = @id_tl
+                b.status = 'published' AND b.category_id = @id_tl
             ORDER BY 
-                BaiBao.NgayDang DESC
+                b.published_at DESC
             OFFSET @offset ROWS 
             FETCH NEXT @limit ROWS ONLY;
         `;

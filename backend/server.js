@@ -54,6 +54,10 @@ uploadApp.listen(UPLOAD_PORT, () => {
   console.log(`[UploadPage] Đang chạy tại http://localhost:${UPLOAD_PORT}`);
 });
 
+// 1. Tự động kiểm tra và cập nhật giá xăng PVOIL ngay khi vừa bật server
+luuGiaXang();
+
+// 2. Tự động kiểm tra và cào giá xăng mới định kỳ mỗi ngày (mỗi 6 giờ kiểm tra một lần)
 setInterval(() => {
   luuGiaXang();
-}, 5 * 60 * 60 * 1000);
+}, 6 * 60 * 60 * 1000);

@@ -8,20 +8,21 @@ router.get('/', async (req, res) => {
         const pool = await connectDB();
         const query = `
             SELECT TOP 6 
-                BaiBao.ID_BB, 
-                BaiBao.TieuDe, 
-                BaiBao.TomTat, 
-                BaiBao.NgayDang,
+                b.Id AS ID_BB, 
+                b.Id,
+                b.title AS TieuDe, 
+                b.sapo AS TomTat, 
+                b.published_at AS NgayDang,
                 (
-                    SELECT TOP 1 Anh.URL 
-                    FROM Anh 
-                    WHERE Anh.ID_BB = BaiBao.ID_BB AND Anh.ViTriTrongBai=1
+                    SELECT TOP 1 a.image_url 
+                    FROM dbo.AnhBaiViet a 
+                    WHERE a.id_BB = b.Id AND a.display_order = 1
                 ) AS AnhBia
             FROM 
-                BaiBao
-            WHERE TrangThai =2 
+                dbo.BaiViet b
+            WHERE b.status = 'published'
             ORDER BY 
-                BaiBao.NgayDang DESC;
+                b.published_at DESC;
         `;
 
         const result = await pool.request().query(query);

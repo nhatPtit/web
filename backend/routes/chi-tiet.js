@@ -20,14 +20,29 @@ router.get('/', async (req, res) => {
             .input('id_bb', sql.Int, articleId)
             .query(`
                 -- Truy vấn 1: Lấy chi tiết bài báo
-                SELECT *
-                FROM [WebBaoDB].[dbo].[BaiBao]
-                WHERE ID_BB = @id_bb;
+                SELECT 
+                    b.Id AS ID_BB,
+                    b.Id,
+                    b.title AS TieuDe,
+                    b.sapo AS TomTat,
+                    b.Content AS NoiDung,
+                    b.published_at AS NgayDang,
+                    b.category_id AS ID_TL,
+                    b.author_id AS ID_NhaBao_Viet,
+                    b.editor_id AS ID_Nguoi_Duyet,
+                    b.status,
+                    b.views_count
+                FROM dbo.BaiViet b
+                WHERE b.Id = @id_bb;
 
                 -- Truy vấn 2: Lấy tất cả ảnh thuộc bài báo này
-                SELECT [ID_Anh], [URL], [Caption], [ViTriTrongBai]
-                FROM [WebBaoDB].[dbo].[Anh]
-                WHERE ID_BB = @id_bb;
+                SELECT 
+                    a.Id AS ID_Anh, 
+                    a.image_url AS [URL], 
+                    a.caption AS [Caption], 
+                    a.display_order AS [ViTriTrongBai]
+                FROM dbo.AnhBaiViet a
+                WHERE a.id_BB = @id_bb;
             `);
 
         // Truy vấn 1 sẽ nằm ở result.recordsets[0]

@@ -11,7 +11,7 @@ router.get('/lich-su-gia-xang', async (req, res) => {
             SELECT TOP (100)
                 FORMAT([Date], 'dd/MM') AS [date],
                 [Price] AS [price]
-            FROM [WebBaoDB].[dbo].[N95III]
+            FROM [dbo].[N95III]
         `);
 
         res.status(200).json({

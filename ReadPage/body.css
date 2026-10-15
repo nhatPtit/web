@@ -267,13 +267,13 @@ BB3, BB4, BB5, BB6, BB7
 
 #BB34-title a {
     text-decoration: none;
-    color: inherit;
+    color: #0f172a;
 }
 
 #BB34-title h3 {
     font-size: var(--FontHeader2);
-    font-weight: 600;
-    color: var(--HeaderColor);
+    font-weight: 700;
+    color: #0f172a;
     font-family: var(--FontFamilyBB);
     line-height: 1.35;
     margin: 0;
@@ -285,7 +285,8 @@ BB3, BB4, BB5, BB6, BB7
     transition: color 0.2s ease;
 }
 
-#BB34-title h3:hover {
+#BB34-title h3:hover,
+#BB34-title a:hover h3 {
     color: var(--LinkColor);
 }
 
@@ -362,30 +363,42 @@ Body3: Cuộn vô hạn
 }
 
 #body3 .content-wrapper h3 {
-    margin: 0 0 8px 0;
-    font-size: 15.5px;
-    font-weight: 600;
-    line-height: 1.35;
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #0f172a;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-#body3 .content-wrapper a {
+#body3 .content-wrapper h3 a {
     text-decoration: none;
-    color: var(--HeaderColor);
+    color: #0f172a;
     transition: color 0.2s ease;
 }
 
-#body3 .content-wrapper a:hover {
+#body3 .content-wrapper h3 a:hover {
     color: var(--LinkColor);
 }
 
-#body3 .content-wrapper p {
-    margin: 0;
-    font-size: 13.5px;
+/* Phần tóm tắt bên dưới tiêu đề */
+#body3 .content-wrapper > a {
+    text-decoration: none;
+    color: #4b5563;
+    font-size: 14px;
     line-height: 1.5;
-    color: var(--TextColor);
     display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    transition: color 0.2s ease;
+}
+
+#body3 .content-wrapper > a:hover {
+    color: var(--LinkColor);
 }

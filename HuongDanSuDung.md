@@ -3,7 +3,15 @@
 - `git config --global user.email "email-cua-ban@gmail.com"`
 - `git config --global user.name "Ten Cua Ban"`
 - `git config --global user.email    : Kiểm tra emai`
-  
+
+#### Link URL
+- `git remote -v` Hiện  URL của repo.
+- `git remote remove origin` Xóa liên kết hiện tại
+- `git remote add origin URL` Liên kết lần đầu, chưa có origin
+- `git remote set-url origin <URL_MOI>` Đổi liên kết
+
+### Khái niệm
+- `origin`: Tên mặc định của kho lưu trữ từ xa trên GitHub mà bạn đã kết nối.
 *cần các lệnh này để commit và push*
 
 > ### `git init`
@@ -25,13 +33,13 @@
 #### `5. git push`
 *Đẩy code lên thật, bước cuối cùng rồi*
 - *Lệnh đầy đủ: git push origin brand_name  (origin là link repo, brand_name là tên nhánh)*
-
+- *`git push -u origin main` Nếu lần đầu push*
 > ## Các bước tải code về:
 
 #### `1.git pull`
 - *Chỉ tải những chỗ thay đổi rồi đồng bộ với máy*
-- *Nên dùng trước khi sửa code trên máy để đồng bộ*
-- *Nếu đã sửa code rồi thì xem trường hợp thiếu commit*
+- Tương đương với `git fetch` và `git merge`
+- *`git pull origin main --allow-unrelated-histories`* Tải code về không gộp lịch sử.
 
 > # Một số lệnh khác:
 ### `git clone url`
