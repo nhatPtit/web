@@ -4,7 +4,7 @@
     /* Gradient nền dịu mắt hiện đại */
     background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #2563eb 100%);
     position: sticky;
-    top: 0px;
+    top: 42px;
     z-index: -1;
 }
 
@@ -27,16 +27,15 @@
 
 #body-placeholder .main-container {
     width: 70vw;
-    margin: 0 auto;
+    margin: -39vw auto 0 auto;
     background-color: var(--BackColor);
     padding: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border-radius: 8px;
     position: relative;
-    margin-top: -39vw;
-    margin-left: 14.5vw;
     z-index: 1;
     font-family: var(--FontFamilyBB);
+    box-sizing: border-box;
 }
 
 /* ===================================================
@@ -236,8 +235,8 @@ BB1 (Bài báo chính tiêu điểm)
     line-height: 1.45;
     text-decoration: none;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
     -webkit-box-orient: vertical;
     overflow: hidden;
     transition: color 0.2s ease;
@@ -250,7 +249,7 @@ BB1 (Bài báo chính tiêu điểm)
 /* ===================================================
 BB3, BB4, BB5, BB6, BB7
 ======================================================*/
-#BB34-Container {
+.bb34-container {
     width: 100%;
     height: 100%;
     display: flex;
@@ -260,17 +259,17 @@ BB3, BB4, BB5, BB6, BB7
     box-sizing: border-box;
 }
 
-#BB34-title {
+.bb34-title {
     width: 100%;
     flex: 0 0 auto;
 }
 
-#BB34-title a {
+.bb34-title a {
     text-decoration: none;
     color: #0f172a;
 }
 
-#BB34-title h3 {
+.bb34-title h3 {
     font-size: var(--FontHeader2);
     font-weight: 700;
     color: #0f172a;
@@ -285,24 +284,24 @@ BB3, BB4, BB5, BB6, BB7
     transition: color 0.2s ease;
 }
 
-#BB34-title h3:hover,
-#BB34-title a:hover h3 {
+.bb34-title h3:hover,
+.bb34-title a:hover h3 {
     color: var(--LinkColor);
 }
 
-#BB34-img {
+.bb34-img {
     width: 100%;
     flex: 1;
     overflow: hidden;
 }
 
-#BB34-img a {
+.bb34-img a {
     display: block;
     width: 100%;
     height: 100%;
 }
 
-#BB34-img img {
+.bb34-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -310,7 +309,7 @@ BB3, BB4, BB5, BB6, BB7
     transition: transform 0.35s ease;
 }
 
-#BB34-img:hover img {
+.bb34-img:hover img {
     transform: scale(1.05);
 }
 

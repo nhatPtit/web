@@ -5,16 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg" href="img/logo-PTEWS.svg">
-    <title>Chi tiet</title>
+    <title>Thể loại - PTEWS</title>
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="chi-tiet.css">
     <link rel="stylesheet" href="footer.css">
     <style>
         :root {
-            --BackColor: rgb(255, 255, 255);
-            --LinkColor: rgb(255, 4, 0);
-            --HeaderColor1: #000;
-            --TextColor: #333;
+            --BackColor: #ffffff;
+            --LinkColor: #bb0000;
+            --HeaderColor: #111827;
+            --TextColor: #374151;
+            --TextMuted: #6b7280;
+            --FontNavSize: 14px;
+            --FontFamilyBB: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
         }
     </style>
     <script src="js/amlich.js"></script>
@@ -87,13 +90,10 @@
                         hasMoreData = false;
                         if (offset === 0) {
                             container.innerHTML = '<p style="text-align:center;">Chưa có bài báo nào trong thể loại này.</p>';
-                        } else {
-                            // Tùy chọn: Báo hết dữ liệu
-                            // loadingSpinner.innerHTML = '<p>Đã hết bài viết.</p>';
                         }
                     } else {
                         renderArticlesToDOM(articles, offset);
-                        currentOffset += 5; // Tăng offset lên bằng limit
+                        currentOffset += 5;
                     }
                 } catch (error) {
                     console.error("Lỗi fetch dữ liệu thể loại:", error);
@@ -140,9 +140,6 @@
 
             // Tải lần đầu tiên (offset = 0)
             fetchAndRenderCategoryArticles(0);
-
-            // (Tùy chọn) Gọi thêm 1 API khác để lấy Tên Thể Loại để set document.title 
-            // document.title = "Tên thể loại - PTEWS";
         });
     </script>
 </body>

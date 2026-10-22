@@ -1,31 +1,1249 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" style="font-family: Arial, Helvetica, sans-serif;">
 
 <head>
     <meta charset="UTF-8">
-    <title>PTEWS</title>
-    <link rel="stylesheet" href="home-test.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg" href="img/logo-PTEWS.svg">
+    <title>Quảng cáo - PTEWS</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="chi-tiet.css">
+    <link rel="stylesheet" href="footer.css">
+    <style>
+        :root {
+            --BackColor: rgb(255, 255, 255);
+            --LinkColor: rgb(255, 4, 0);
+            --HeaderColor1: #000;
+            --TextColor: #333;
+        }
+
+        /* Nội dung bên trong box kem */
+        .ad-page-content {
+            padding: 24px 28px 32px;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--TextColor);
+        }
+
+        .ad-page-content h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111;
+            margin: 0 0 6px 0;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        .ad-page-content .subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 28px;
+        }
+
+        /* Thông tin liên hệ */
+        .contact-block {
+            background: #fff8f0;
+            border: 1px solid #f3e8d0;
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-bottom: 28px;
+        }
+
+        .contact-block h2 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #374151;
+            margin: 0 0 12px 0;
+        }
+
+        .contact-block p {
+            font-size: 14px;
+            color: #4b5563;
+            margin: 6px 0;
+            line-height: 1.6;
+        }
+
+        .contact-block a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .contact-block a:hover {
+            text-decoration: underline;
+        }
+
+        /* Danh sách vị trí quảng cáo */
+        .ad-positions-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #374151;
+            margin: 0 0 14px 0;
+        }
+
+        .ad-positions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .ad-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+
+
+        .ad-card-body {
+            padding: 12px 14px 14px;
+        }
+
+        .ad-card-body h3 {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #111;
+            margin: 0 0 4px 0;
+        }
+
+        .ad-card-body .ad-desc {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 0 0 8px 0;
+            line-height: 1.5;
+        }
+
+        .ad-card-body .ad-size {
+            font-size: 11px;
+            color: #9ca3af;
+            margin: 0;
+        }
+
+        /* Ghi chú cuối */
+        .ad-note {
+            font-size: 12.5px;
+            color: #6b7280;
+            background: #f9fafb;
+            border-left: 3px solid #d1d5db;
+            padding: 10px 14px;
+            border-radius: 0 6px 6px 0;
+            line-height: 1.6;
+        }
+
+        /* Hướng dẫn đặt quảng cáo */
+        .guide-block {
+            margin-top: 28px;
+        }
+
+        .guide-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .guide-step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            flex: 0 0 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #1e3a5f;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .step-connector {
+            width: 36px;
+            flex: 0 0 36px;
+            display: flex;
+            justify-content: center;
+            padding: 4px 0;
+        }
+
+        .step-connector::before {
+            content: '';
+            display: block;
+            width: 2px;
+            height: 22px;
+            background: #d1d5db;
+            border-radius: 1px;
+        }
+
+        .step-body {
+            padding-bottom: 18px;
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+            margin: 4px 0 6px 0;
+        }
+
+        .step-desc {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.6;
+            margin: 0 0 6px 0;
+        }
+
+        .step-list {
+            margin: 6px 0 0 16px;
+            padding: 0;
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        .step-list li {
+            margin-bottom: 2px;
+        }
+
+        /* Khối xem trước quảng cáo tương tác */
+        .preview-section {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 2px dashed #e5e7eb;
+        }
+
+        .preview-controls-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .preview-pos-group {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .preview-pos-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #1e293b;
+            cursor: pointer;
+            background: #f8fafc;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            transition: all 0.2s ease;
+        }
+
+        .preview-pos-label:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+
+        .preview-pos-label input[type="radio"]:checked+span {
+            color: #2563eb;
+        }
+
+        .preview-pos-label:has(input[type="radio"]:checked) {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            color: #1d4ed8;
+        }
+
+        .preview-actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-preview-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-preview-action.upload {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .btn-preview-action.upload:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-preview-action.sample {
+            background: #f1f5f9;
+            color: #334155;
+            border-color: #cbd5e1;
+        }
+
+        .btn-preview-action.sample:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-preview-action.reset {
+            background: #fff1f2;
+            color: #be123c;
+            border-color: #fecdd3;
+        }
+
+        .btn-preview-action.reset:hover {
+            background: #ffe4e6;
+        }
+
+        .preview-hint-text {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        .preview-frame-container {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .preview-frame-header {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12.5px;
+        }
+
+        .preview-open-link {
+            color: #93c5fd;
+            text-decoration: none;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .preview-open-link:hover {
+            color: #bfdbfe;
+            text-decoration: underline;
+        }
+
+        #preview-ad-frame {
+            width: 100%;
+            height: 640px;
+            border: none;
+            display: block;
+            background: #ffffff;
+        }
+
+        /* Dòng đầu tiên: Tiêu đề + Nút Đăng ký / Đăng nhập */
+        .ad-top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .ad-top-header h1 {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin: 0;
+        }
+
+        .btn-auth-trigger {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            color: #ffffff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+            font-family: inherit;
+        }
+
+        .btn-auth-trigger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+            background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%);
+        }
+
+        .user-logged-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #166534;
+        }
+
+        .btn-portal-link {
+            background: #15803d;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-portal-link:hover {
+            background: #166534;
+        }
+
+        .btn-auth-logout-small {
+            background: transparent;
+            border: none;
+            color: #dc2626;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: underline;
+        }
+
+        /* MODAL POPUP ĐĂNG NHẬP / ĐĂNG KÝ */
+        .auth-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .auth-modal-card {
+            background: #ffffff;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding: 28px 30px;
+            box-sizing: border-box;
+        }
+
+        .auth-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            color: #94a3b8;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: color 0.15s ease;
+        }
+
+        .auth-modal-close:hover {
+            color: #0f172a;
+            background: #f1f5f9;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 22px;
+            gap: 12px;
+        }
+
+        .auth-tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 16px;
+            font-size: 14.5px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            position: relative;
+            font-family: inherit;
+            transition: color 0.2s ease;
+        }
+
+        .auth-tab-btn:hover {
+            color: #1e293b;
+        }
+
+        .auth-tab-btn.active {
+            color: #2563eb;
+        }
+
+        .auth-tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #2563eb;
+            border-radius: 2px;
+        }
+
+        .auth-form-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .auth-form-sub {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .auth-input-group {
+            margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .auth-input-group label {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .auth-input-group label .req {
+            color: #dc2626;
+        }
+
+        .auth-input-group input {
+            padding: 9px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13.5px;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        .auth-input-group input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .auth-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .auth-col-full {
+            grid-column: 1 / -1;
+        }
+
+        .btn-auth-submit {
+            width: 100%;
+            padding: 11px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-auth-submit:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-auth-submit:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .auth-switch-prompt {
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 14px;
+        }
+
+        .auth-switch-prompt a {
+            color: #2563eb;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-switch-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hộp cảnh báo lỗi / thành công */
+        .auth-alert {
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .auth-alert.error {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .auth-alert.success {
+            background-color: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+    </style>
+    <script src="js/amlich.js"></script>
+    <script src="js/header.js"></script>
 </head>
 
 <body>
+    <header id="header1-placeholder"></header>
+    <nav class="sub-header1" id="header2-placeholder"></nav>
 
-    <!-- Nơi header sẽ tự động load vào -->
-    <div id="header-placeholder"></div>
+    <!-- Nền gradient giống chi-tiet.html -->
+    <div class="ad-background-wrapper"></div>
 
-    <!-- Nội dung riêng của từng trang -->
-    <main>
-        <p>SDT:0123456789</p><br>
-        <a href="mailto:ptew@ptit.new">Email</a>
-    </main>
+    <!-- Box kem giống chi-tiet.html -->
+    <div class="main-container">
+        <div class="ad-page-content">
+            <!-- Dòng đầu tiên: Tiêu đề trang + Nút Đăng ký / Đăng nhập -->
+            <div class="ad-top-header">
+                <h1>Đặt quảng cáo tại PTEWS</h1>
+                <div id="auth-header-action">
+                    <button type="button" class="btn-auth-trigger" onclick="openAuthModal('login')">
+                        🔐 Đăng ký / Đăng nhập
+                    </button>
+                </div>
+            </div>
 
-    <!-- Đoạn script tự nạp header -->
+            <!-- Thông tin liên hệ -->
+            <div class="contact-block">
+                <h2>📞 Liên hệ đặt quảng cáo</h2>
+                <p>📧 Email: <a href="mailto:PTEW@gmail.com.vn">PTEW@gmail.com.vn</a></p>
+                <p>📱 Điện thoại: <a href="tel:0123456789">0123456789</a></p>
+                <p>🕐 Giờ làm việc: Thứ 2 – Thứ 6, 8:00 – 17:00</p>
+            </div>
+
+            <!-- 3 vị trí quảng cáo -->
+            <p class="ad-positions-title">📌 Các vị trí quảng cáo có sẵn</p>
+            <div class="ad-positions-grid">
+
+                <!-- Vị trí 1 -->
+                <div class="ad-card">
+                    <div class="ad-card-body">
+                        <h3>Vị trí 1 · Home Background</h3>
+                        <p class="ad-desc">Quảng cáo hiển thị toàn bộ phần nền phía sau nội dung trang chủ, xuất hiện
+                            ngay khi độc giả truy cập.</p>
+                        <p class="ad-size">Kích thước đề xuất: 1600 × 900px</p>
+                    </div>
+                </div>
+
+                <!-- Vị trí 2 -->
+                <div class="ad-card">
+                    <div class="ad-card-body">
+                        <h3>Vị trí 2 · Top Sidebar Banner</h3>
+                        <p class="ad-desc">Banner dọc hiển thị tại cột bên phải trang chủ, nổi bật cạnh khu vực tin tiêu
+                            điểm.</p>
+                        <p class="ad-size">Kích thước đề xuất: 225 × 468px</p>
+                    </div>
+                </div>
+
+                <!-- Vị trí 3 -->
+                <div class="ad-card">
+
+                    <div class="ad-card-body">
+                        <h3>Vị trí 3 · In-article Background</h3>
+                        <p class="ad-desc">Quảng cáo hiển thị trên nền trang đọc bài viết chi tiết, tiếp cận độc giả
+                            đang đọc nội dung.</p>
+                        <p class="ad-size">Kích thước đề xuất: 1600 × 900px</p>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Hướng dẫn đặt quảng cáo -->
+            <div class="guide-block">
+                <p class="ad-positions-title">📋 Hướng dẫn đặt quảng cáo</p>
+
+                <div class="guide-steps">
+
+                    <!-- Bước 1 -->
+                    <div class="guide-step">
+                        <div class="step-number">1</div>
+                        <div class="step-body">
+                            <h3 class="step-title">Tạo tài khoản / Đăng nhập</h3>
+                            <p class="step-desc">Truy cập cổng quản lý PTEWS và đăng nhập bằng tài khoản đối tác. Nếu
+                                chưa có tài khoản, liên hệ ban biên tập qua email hoặc số điện thoại bên trên để được
+                                cấp quyền truy cập.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-connector"></div>
+
+                    <!-- Bước 2 -->
+                    <div class="guide-step">
+                        <div class="step-number">2</div>
+                        <div class="step-body">
+                            <h3 class="step-title">Gửi đơn yêu cầu quảng cáo</h3>
+                            <p class="step-desc">Điền đầy đủ thông tin và tải lên tài liệu quảng cáo theo các bước:</p>
+                            <ul class="step-list">
+                                <li>Chọn vị trí quảng cáo mong muốn (Vị trí 1, 2 hoặc 3)</li>
+                                <li>Tải lên file ảnh / banner và xem trước kết quả hiển thị</li>
+                                <li>Chọn ngày bắt đầu và ngày kết thúc</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="step-connector"></div>
+
+                    <!-- Bước 3 -->
+                    <div class="guide-step">
+                        <div class="step-number">3</div>
+                        <div class="step-body">
+                            <h3 class="step-title">Thanh toán</h3>
+                            <p class="step-desc">Sau khi đơn được ban biên tập phê duyệt (1–2 ngày làm việc).<br>Bạn sẽ
+                                nhận thông báo qua email và tại phần theo dõi đơn trên trang này.<br>Tiến hành thanh
+                                toán theo hướng dẫn để quảng cáo được kích
+                                hoạt và hiển thị đúng lịch.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Ghi chú -->
+            <p class="ad-note">
+                Mọi nội dung quảng cáo phải tuân thủ quy định của PTEWS và pháp luật Việt Nam.
+                Quảng cáo sẽ được kiểm duyệt trước khi thanh toán. Thời gian xét duyệt tối đa 1–2 ngày làm việc.
+            </p>
+
+            <!-- KHỐI XEM TRƯỚC QUẢNG CÁO TRỰC TIẾP (LIVE PREVIEW) -->
+            <div class="preview-section">
+                <p class="ad-positions-title">🔍 Xem trước quảng cáo thực tế</p>
+                <p style="font-size: 13.5px; color: #4b5563; margin-top: -6px; margin-bottom: 16px; line-height: 1.5;">
+                    Bạn có thể tải lên hình ảnh quảng cáo của mình hoặc chọn ảnh mẫu để xem trước banner sẽ xuất hiện
+                    như thế nào trên trang báo PTEWS trước khi gửi yêu cầu.
+                </p>
+
+                <!-- Bảng điều khiển tương tác -->
+                <div class="preview-controls-box">
+                    <div
+                        style="font-size: 12.5px; font-weight: 700; color: #475569; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        1. Chọn vị trí muốn xem thử:
+                    </div>
+                    <div class="preview-pos-group">
+                        <label class="preview-pos-label">
+                            <input type="radio" name="preview-position" value="1" checked
+                                onchange="onPositionChanged()">
+                            <span>Vị trí 1&3 · Nền tràn 2 bên lề</span>
+                        </label>
+                        <label class="preview-pos-label">
+                            <input type="radio" name="preview-position" value="2" onchange="onPositionChanged()">
+                            <span>Vị trí 2 ·Banner bên phải trang chủ</span>
+                        </label>
+                    </div>
+
+                    <div
+                        style="font-size: 12.5px; font-weight: 700; color: #475569; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        2. Chèn hình ảnh:
+                    </div>
+                    <div class="preview-actions-bar">
+                        <input type="file" id="preview-file-input" accept="image/*" style="display: none;"
+                            onchange="handleFileUpload(event)">
+
+                        <button type="button" class="btn-preview-action upload"
+                            onclick="document.getElementById('preview-file-input').click()">
+                            📁 Tải ảnh của bạn lên xem trước
+                        </button>
+
+                        <button type="button" class="btn-preview-action sample" onclick="loadSampleAd()">
+                            ⚡ Xem ảnh mẫu chuẩn của PTEWS
+                        </button>
+
+                        <button type="button" class="btn-preview-action reset" onclick="resetAdPreview()">
+                            🔄 Đặt lại mặc định
+                        </button>
+                    </div>
+
+                    <p id="preview-status-hint" class="preview-hint-text">
+                        ℹ️ <strong>Kích thước khuyến nghị:</strong> 1600 × 900 px (nên dùng định dạng WebP). Vị trí 3
+                        bên trong bài báo.
+                    </p>
+                </div>
+
+                <!-- Khung Iframe nhúng trang mô phỏng -->
+                <div class="preview-frame-container">
+                    <div class="preview-frame-header">
+                        <div class="preview-frame-dots">
+                            <span style="margin-left: 8px; font-weight: 600;">Giao diện mô phỏng trang chủ PTEWS</span>
+                        </div>
+                        <a href="preview-ad.html" target="_blank" class="preview-open-link"
+                            title="Mở trang xem trước trong tab mới">
+                            ↗️ Mở toàn màn hình
+                        </a>
+                    </div>
+                    <iframe id="preview-ad-frame" src="preview-ad.html"
+                        title="Xem trước vị trí quảng cáo trên PTEWS"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer id="footer-placeholder"></footer>
+
     <script>
-        fetch('header1.html')
+        fetch('header_1.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('header-placeholder').innerHTML = data;
+                document.getElementById('header1-placeholder').innerHTML = data;
+                initHeader();
             });
+        fetch('header_2.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header2-placeholder').innerHTML = data;
+            });
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+
+        // ==========================================
+        // LOGIC ĐIỀU KHIỂN XEM TRƯỚC QUẢNG CÁO (IFRAME)
+        // ==========================================
+        let currentAdPos = 1;
+
+        function getSelectedPosition() {
+            const checkedRadio = document.querySelector('input[name="preview-position"]:checked');
+            return checkedRadio ? parseInt(checkedRadio.value, 10) : 1;
+        }
+
+        function onPositionChanged() {
+            currentAdPos = getSelectedPosition();
+            const hint = document.getElementById('preview-status-hint');
+            if (currentAdPos === 1) {
+                hint.innerHTML = 'ℹ️ <strong>Vị trí 1&3:</strong> Kích thước khuyến nghị 1600 × 900 px. Ảnh sẽ phủ toàn bộ phần nền phía sau và tràn sang 2 bên lề.';
+            } else {
+                hint.innerHTML = 'ℹ️ <strong>Vị trí 2:</strong> Kích thước khuyến nghị 225 × 468 px. Banner sẽ hiển thị dọc ở cột bên phải trang chủ, cạnh tin tiêu điểm.';
+            }
+        }
+
+        // Gửi thông điệp cập nhật ảnh vào iframe
+        function sendAdToIframe(pos, imgUrl) {
+            const frame = document.getElementById('preview-ad-frame');
+            if (frame && frame.contentWindow) {
+                frame.contentWindow.postMessage({
+                    type: 'UPDATE_AD',
+                    position: pos,
+                    imageUrl: imgUrl
+                }, '*');
+            }
+        }
+
+        // Xử lý khi khách hàng tải ảnh từ máy tính
+        function handleFileUpload(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const dataUrl = e.target.result;
+                const pos = getSelectedPosition();
+                sendAdToIframe(pos, dataUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Xem ảnh mẫu chuẩn
+        function loadSampleAd() {
+            const pos = getSelectedPosition();
+            const sampleUrl = pos === 1
+                ? 'AD_file/ad1-background-takeover.svg'
+                : 'AD_file/ad2-top-sidebar-banner.svg';
+            sendAdToIframe(pos, sampleUrl);
+        }
+
+        // Đặt lại mặc định
+        function resetAdPreview() {
+            const pos = getSelectedPosition();
+            sendAdToIframe(pos, null);
+            document.getElementById('preview-file-input').value = '';
+        }
+
+        // ==========================================
+        // LOGIC XÁC THỰC DOANH NGHIỆP (LOGIN / REGISTER)
+        // ==========================================
+        const API_AUTH_BASE = window.location.port === '3000' ? '' : 'http://localhost:3000';
+
+        function checkCurrentAuth() {
+            const container = document.getElementById('auth-header-action');
+            if (!container) return;
+
+            const storedUser = localStorage.getItem('ptews_advertiser');
+            if (storedUser) {
+                try {
+                    const user = JSON.parse(storedUser);
+                    if (user && user.company_name) {
+                        container.innerHTML = `
+                            <div class="user-logged-box">
+                                🏢 <strong>${user.company_name}</strong>
+                                <a href="portal-doanhnghiep.html" class="btn-portal-link">Vào trang quản lý ↗</a>
+                                <button type="button" class="btn-auth-logout-small" onclick="handleLogout()">Đăng xuất</button>
+                            </div>
+                        `;
+                        return;
+                    }
+                } catch (e) {
+                    localStorage.removeItem('ptews_advertiser');
+                }
+            }
+
+            container.innerHTML = `
+                <button type="button" class="btn-auth-trigger" onclick="openAuthModal('login')">
+                    🔐 Đăng ký / Đăng nhập
+                </button>
+            `;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('ptews_advertiser');
+            checkCurrentAuth();
+        }
+
+        function openAuthModal(tab = 'login') {
+            const modal = document.getElementById('auth-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                switchAuthTab(tab);
+            }
+        }
+
+        function closeAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                clearAuthAlerts();
+            }
+        }
+
+        function switchAuthTab(tab) {
+            const tabLogin = document.getElementById('tab-login');
+            const tabReg = document.getElementById('tab-register');
+            const formLogin = document.getElementById('form-login');
+            const formReg = document.getElementById('form-register');
+
+            clearAuthAlerts();
+
+            if (tab === 'login') {
+                tabLogin.classList.add('active');
+                tabReg.classList.remove('active');
+                formLogin.style.display = 'block';
+                formReg.style.display = 'none';
+            } else {
+                tabReg.classList.add('active');
+                tabLogin.classList.remove('active');
+                formReg.style.display = 'block';
+                formLogin.style.display = 'none';
+            }
+        }
+
+        function clearAuthAlerts() {
+            const loginAlert = document.getElementById('login-alert');
+            const regAlert = document.getElementById('register-alert');
+            if (loginAlert) { loginAlert.style.display = 'none'; loginAlert.innerText = ''; }
+            if (regAlert) { regAlert.style.display = 'none'; regAlert.innerText = ''; }
+        }
+
+        function showAlert(alertId, message, type = 'error') {
+            const el = document.getElementById(alertId);
+            if (!el) return;
+            el.className = `auth-alert ${type}`;
+            el.innerText = message;
+            el.style.display = 'block';
+        }
+
+        // Xử lý gửi form Đăng nhập
+        async function handleLoginSubmit(event) {
+            event.preventDefault();
+            clearAuthAlerts();
+
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            const submitBtn = document.getElementById('btn-submit-login');
+
+            if (!username || !password) {
+                showAlert('login-alert', 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Đang kiểm tra...';
+
+            try {
+                const response = await fetch(`${API_AUTH_BASE}/api/auth-doanhnghiep/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showAlert('login-alert', data.message || 'Đăng nhập không thành công. Vui lòng thử lại!');
+                    return;
+                }
+
+                // Đăng nhập thành công -> lưu thông tin và chuyển hướng sang giao diện mới
+                localStorage.setItem('ptews_advertiser', JSON.stringify(data.user));
+                showAlert('login-alert', 'Đăng nhập thành công! Đang chuyển hướng...', 'success');
+
+                setTimeout(() => {
+                    window.location.href = data.redirectUrl || 'portal-doanhnghiep.html';
+                }, 600);
+
+            } catch (err) {
+                console.error('Lỗi đăng nhập:', err);
+                showAlert('login-alert', 'Không thể kết nối máy chủ backend. Vui lòng kiểm tra lại server!');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Đăng nhập';
+            }
+        }
+
+        // Xử lý gửi form Đăng ký Doanh nghiệp
+        async function handleRegisterSubmit(event) {
+            event.preventDefault();
+            clearAuthAlerts();
+
+            const payload = {
+                company_name: document.getElementById('reg-company-name').value.trim(),
+                chucdanh: document.getElementById('reg-chucdanh').value.trim(),
+                full_name: document.getElementById('reg-full-name').value.trim(),
+                phone: document.getElementById('reg-phone').value.trim(),
+                email: document.getElementById('reg-email').value.trim(),
+                username: document.getElementById('reg-username').value.trim(),
+                password: document.getElementById('reg-password').value
+            };
+
+            const submitBtn = document.getElementById('btn-submit-register');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Đang khởi tạo tài khoản...';
+
+            try {
+                const response = await fetch(`${API_AUTH_BASE}/api/auth-doanhnghiep/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showAlert('register-alert', data.message || 'Đăng ký không thành công. Vui lòng kiểm tra lại!');
+                    return;
+                }
+
+                // Đăng ký thành công -> báo xanh và tự động chuyển sang tab đăng nhập
+                showAlert('register-alert', data.message || 'Đăng ký thành công!', 'success');
+
+                setTimeout(() => {
+                    document.getElementById('form-register').reset();
+                    switchAuthTab('login');
+                    document.getElementById('login-username').value = payload.username;
+                    showAlert('login-alert', 'Đăng ký thành công! Hãy nhập mật khẩu để đăng nhập.', 'success');
+                }, 1400);
+
+            } catch (err) {
+                console.error('Lỗi đăng ký:', err);
+                showAlert('register-alert', 'Không thể kết nối máy chủ backend. Vui lòng thử lại!');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Đăng ký tài khoản Doanh nghiệp';
+            }
+        }
+
+        // Đóng modal khi bấm ra ngoài nền tối
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('auth-modal');
+            if (e.target === modal) {
+                closeAuthModal();
+            }
+        });
+
+        // Đóng modal khi bấm phím ESC
+        window.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeAuthModal();
+            }
+        });
+
+        // Kiểm tra phiên đăng nhập ngay khi tải trang
+        checkCurrentAuth();
     </script>
+
+    <!-- MODAL POPUP ĐĂNG NHẬP / ĐĂNG KÝ DOANH NGHIỆP -->
+    <div id="auth-modal" class="auth-modal-overlay" style="display: none;">
+        <div class="auth-modal-card">
+            <button type="button" class="auth-modal-close" onclick="closeAuthModal()" title="Đóng">&times;</button>
+
+            <!-- Tabs chọn Đăng nhập hoặc Đăng ký -->
+            <div class="auth-tabs">
+                <button type="button" id="tab-login" class="auth-tab-btn active" onclick="switchAuthTab('login')">
+                    Đăng nhập
+                </button>
+                <button type="button" id="tab-register" class="auth-tab-btn" onclick="switchAuthTab('register')">
+                    Đăng ký
+                </button>
+            </div>
+
+            <!-- 1. FORM ĐĂNG NHẬP -->
+            <form id="form-login" class="auth-form" onsubmit="handleLoginSubmit(event)">
+                <div class="auth-form-title">Đăng nhập</div>
+                <p class="auth-form-sub">Dành cho đối tác quảng cáo có đăng ký thông tin doanh nghiệp tại PTEWS</p>
+
+                <div id="login-alert" class="auth-alert" style="display: none;"></div>
+
+                <div class="auth-input-group">
+                    <label for="login-username">Tên đăng nhập<span class="req">*</span></label>
+                    <input type="text" id="login-username" required placeholder="Nhập tên đăng nhập">
+                </div>
+
+                <div class="auth-input-group">
+                    <label for="login-password">Mật khẩu <span class="req">*</span></label>
+                    <input type="password" id="login-password" required placeholder="Nhập mật khẩu">
+                </div>
+
+                <button type="submit" id="btn-submit-login" class="btn-auth-submit">
+                    Đăng nhập
+                </button>
+
+                <div class="auth-switch-prompt">
+                    Chưa có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('register')">Đăng ký</a>
+                </div>
+            </form>
+
+            <!-- 2. FORM ĐĂNG KÝ -->
+            <form id="form-register" class="auth-form" style="display: none;" onsubmit="handleRegisterSubmit(event)">
+                <div class="auth-form-title">Đăng ký</div>
+                <p class="auth-form-sub">Vui lòng điền đầy đủ các thông tin để khởi tạo hồ sơ</p>
+
+                <div id="register-alert" class="auth-alert" style="display: none;"></div>
+
+                <div class="auth-form-grid">
+                    <div class="auth-input-group auth-col-full">
+                        <label for="reg-company-name">Tên Công ty / Doanh nghiệp <span class="req">*</span></label>
+                        <input type="text" id="reg-company-name" required
+                            placeholder="VD: Công ty Cổ phần Công nghệ ABC">
+                    </div>
+
+
+                    <div class="auth-input-group">
+                        <label for="reg-chucdanh">Chức vụ <span class="req">*</span></label>
+                        <input type="text" id="reg-chucdanh" required placeholder="VD: Trưởng phòng Marketing, Giám đốc...">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-full-name">Họ và tên người đại diện <span class="req">*</span></label>
+                        <input type="text" id="reg-full-name" required placeholder="VD: Nguyễn Văn Nam">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-phone">Số điện thoại người đại diện <span class="req">*</span></label>
+                        <input type="tel" id="reg-phone" required placeholder="VD: 0912345678">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-email">Email người đại diện <span class="req">*</span></label>
+                        <input type="email" id="reg-email" required placeholder="VD: contact@doanhnghiep.vn">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-username">Tên đăng nhập <span class="req">*</span></label>
+                        <input type="text" id="reg-username" required placeholder="Tối thiểu 3 ký tự">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-password">Mật khẩu <span class="req">*</span></label>
+                        <input type="password" id="reg-password" required placeholder="Tối thiểu 6 ký tự">
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit-register" class="btn-auth-submit" style="margin-top: 14px;">
+                    Tạo tài khoản Doanh nghiệp
+                </button>
+
+                <div class="auth-switch-prompt">
+                    Đã có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('login')">Quay lại Đăng
+                        nhập</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>
