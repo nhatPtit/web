@@ -8,19 +8,12 @@ const path = require('path');
 function parsePvoilHtml(html) {
     if (!html) return null;
 
-    // A. Bóc tách ngày áp dụng
-    // Tìm mẫu: "ngày 15/10/2026" hoặc "15-10-2026"
-    let dateStr = null;
-    const dateMatch = html.match(/ngày\s*(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/i) ||
-                      html.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
-    if (dateMatch) {
-        const day = dateMatch[1].padStart(2, '0');
-        const month = dateMatch[2].padStart(2, '0');
-        const year = dateMatch[3];
-        dateStr = `${year}-${month}-${day}`;
-    } else {
-        dateStr = new Date().toISOString().slice(0, 10);
-    }
+    // A. Lấy ngày hiện tại (múi giờ địa phương Việt Nam)
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
 
     // B. Bóc tách giá RON 95
     // Tìm dòng tr chứa "RON 95"
@@ -208,4 +201,4 @@ async function luuGiaXang() {
     }
 }
 
-module.exports = { luuGiaXang, parsePvoilHtml, fetchPvoilHtml };
+module.exports = { luuGiaXang };

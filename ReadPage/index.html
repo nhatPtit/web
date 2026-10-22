@@ -49,7 +49,6 @@
                 document.getElementById('header1-placeholder').innerHTML = data;
                 initHeader();
             });
-        // .catch(err => console.error("Lỗi nạp header_1.html:", err));
 
         fetch('body.html')
             .then(response => response.text())
@@ -269,75 +268,52 @@
                 let ContainerID = document.getElementById(targetIds[0]);
                 if (ContainerID) {
                     const news = newsData[0];
-                    // newsContainer.innerHTML = '';
                     const htmlContent = `
-                            <div id="BB1-container">
-                                <div id="BB1-img">
-                                    <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;"> 
-                                        ${news.AnhBia ? `<img src=".${news.AnhBia}" alt="Lỗi ảnh">` : ''}
+                        <div id="BB1-container">
+                            <div id="BB1-img">
+                                <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
+                                    ${news.AnhBia ? `<img src=".${news.AnhBia}" alt="Lỗi ảnh">` : ''}
+                                </a>
+                            </div>
+                            <div id="BB1-subContainer">
+                                <div id="BB1-title">
+                                    <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
+                                        <h3>${news.TieuDe}</h3>
                                     </a>
                                 </div>
-                                <div id = "BB1-subContainer">
-                                    <div id="BB1-title">
-                                        <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
-                                        <h3>${news.TieuDe}</h3>
-                                        </a>
-                                    </div>
-                                    <div id="BB1-summary">
-                                        <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
-                                            <p>${news.TomTat}</p>
-                                        </a>
-                                    <div>
+                                <div id="BB1-summary">
+                                    <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
+                                        <p>${news.TomTat}</p>
+                                    </a>
                                 </div>
                             </div>
-                            `;
+                        </div>
+                    `;
                     ContainerID.innerHTML = htmlContent;
                 };
 
                 newsData.forEach((news, index) => {
-                    ContainerID = document.getElementById(targetIds[index]);
-                    if (index < targetIds.length && index > 0 && index < 3) {
-                        if (ContainerID) {
-                            const htmlContent = `
-                                <div id = "BB34-Container">
-                                    <div id="BB34-title">
+                    // Bỏ qua index = 0 vì đã xử lý riêng cho BB1
+                    if (index > 0 && index < targetIds.length) {
+                        const targetElement = document.getElementById(targetIds[index]);
+                        if (targetElement) {
+                            targetElement.innerHTML = `
+                                <div class="bb34-container">
+                                    <div class="bb34-title">
                                         <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
-                                        <h3>${news.TieuDe}</h3>
+                                            <h3>${news.TieuDe}</h3>
                                         </a>
                                     </div>
-                                <div id="BB34-img">
-                                    <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;"> 
-                                        ${news.AnhBia ? `<img src=".${news.AnhBia}" alt="Lỗi ảnh">` : ''}
-                                    </a>
-                                </div>
-                                </div>
-                            `;
-
-                            ContainerID.innerHTML = htmlContent;
-                        }
-                    }
-                    else if (index < targetIds.length && index >= 3 && index < 6) {
-                        if (ContainerID) {
-                            const htmlContent = `
-                                <div id = "BB34-Container">
-                                    <div id="BB34-title">
-                                        <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;">
-                                        <h3>${news.TieuDe}</h3>
-                                        </a>
-                                    </div>
-                                    <div id="BB34-img">
+                                    <div class="bb34-img">
                                         <a href="chi-tiet.html?id=${news.ID_BB}" style="text-decoration: none;"> 
                                             ${news.AnhBia ? `<img src=".${news.AnhBia}" alt="Lỗi ảnh">` : ''}
                                         </a>
                                     </div>
                                 </div>
                             `;
-
-                            ContainerID.innerHTML = htmlContent;
                         }
                     }
                 });
-
             } catch (error) {
                 console.error("Lỗi khi tải dữ liệu bài báo:", error);
             }

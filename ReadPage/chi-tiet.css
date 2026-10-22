@@ -1,30 +1,21 @@
 .ad-background-wrapper {
     height: 56vw;
     width: 100%;
-    /* background-image: url('img/AD-background.webp');
-    background-repeat: no-repeat;
-    background-size: 100% auto; */
-    background: wheat;
-    background: linear-gradient(to top right, #0040FF 0%, #00EAFF 50%, #00FF2F 100%);
-
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #2563eb 100%);
     position: sticky;
-    top: 0px;
+    top: 42px;
     z-index: -1;
-
 }
-
 
 .main-container {
     width: 70vw;
-    margin: 0 auto;
-    background-color: rgb(255, 243, 222);
+    margin: -39vw auto 0 auto;
+    background-color: #ffffff;
     padding: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
     position: relative;
-    margin-top: -39vw;
-    margin-left: 14.5vw;
     z-index: 1;
-    font-family: serif, times;
-
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }

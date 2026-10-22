@@ -32,6 +32,7 @@ const theLoaiRoute = require('./routes/the-loai');
 const thoiTietRouter = require('./routes/thoiTiet');
 const timKiemRoute = require('./routes/tim-kiem');
 const authRoute = require('./routes/auth');
+const authDoanhNghiepRoute = require('./routes/authDoanhNghiep');
 
 // Gắn các API dùng chung cho cả 2 ứng dụng
 [readApp, uploadApp].forEach(instance => {
@@ -45,6 +46,7 @@ const authRoute = require('./routes/auth');
   instance.use('/api/the-loai', theLoaiRoute);
   instance.use('/api/thoi-tiet', thoiTietRouter);
   instance.use('/api/tim-kiem', timKiemRoute);
+  instance.use('/api/auth-doanhnghiep', authDoanhNghiepRoute);
   instance.get('/api/luu-gia-Xang', async (req, res) => {
     await luuGiaXang();
     res.json({ message: "Đã chạy lệnh kiểm tra và lưu giá xăng" });
@@ -53,16 +55,16 @@ const authRoute = require('./routes/auth');
 
 // Khởi chạy cổng 3000 cho ReadPage
 readApp.listen(READ_PORT, () => {
-  console.log(`[ReadPage] Đang chạy tại http://localhost:${READ_PORT}`);
+  console.log(`[ReadPage] : http://localhost:${READ_PORT}`);
 });
 
 // Khởi chạy cổng 3001 cho UploadPage
 uploadApp.listen(UPLOAD_PORT, () => {
-  console.log(`[UploadPage] Đang chạy tại http://localhost:${UPLOAD_PORT}`);
+  console.log(`[UploadPage] : http://localhost:${UPLOAD_PORT}`);
 });
 
 // 1. Tự động kiểm tra và cập nhật giá xăng PVOIL ngay khi vừa bật server
-luuGiaXang();
+// luuGiaXang();
 
 // 2. Tự động kiểm tra và cào giá xăng mới định kỳ mỗi ngày (mỗi 6 giờ kiểm tra một lần)
 setInterval(() => {

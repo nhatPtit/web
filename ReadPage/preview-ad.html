@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi" style="font-family: Arial, Helvetica, sans-serif;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTEWS - Xem trước vị trí quảng cáo</title>
+    <link rel="icon" type="image/svg" href="img/logo-PTEWS.svg">
+    <link rel="stylesheet" href="body.css">
+    <style>
+        :root {
+            --BackColor: #ffffff;
+            --HeaderColor: #111827;
+            --TextColor: #374151;
+            --FontFamilyBB: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        /* Hiệu ứng Skeleton Placeholder */
+        .skel-box {
+            background: linear-gradient(90deg, #f0f2f5 25%, #e6e9ee 50%, #f0f2f5 75%);
+            background-size: 200% 100%;
+            animation: skelShimmer 1.8s infinite;
+            border-radius: 4px;
+        }
+
+        @keyframes skelShimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skel-img {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .skel-line {
+            height: 12px;
+            margin-bottom: 8px;
+            border-radius: 3px;
+        }
+
+        .skel-line.title {
+            height: 16px;
+            background-color: #cbd5e1;
+        }
+
+        .skel-line.w-100 { width: 100%; }
+        .skel-line.w-85  { width: 85%; }
+        .skel-line.w-70  { width: 70%; }
+        .skel-line.w-60  { width: 60%; }
+        .skel-line.w-50  { width: 50%; }
+
+        /* Khối vị trí quảng cáo 2 (Sidebar) */
+        #preview-ad-sidebar {
+            background: linear-gradient(180deg, #991b1b 0%, #dc2626 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-align: center;
+            padding: 12px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        #preview-ad-sidebar .ad-placeholder-sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 100%;
+            width: 100%;
+            border: 1px dashed rgba(255, 255, 255, 0.45);
+            border-radius: 4px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .ad-badge-preview {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10.5px;
+            letter-spacing: 0.5px;
+            font-weight: bold;
+        }
+
+        #preview-ad-sidebar p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        #preview-ad-sidebar small {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Khối vị trí quảng cáo 1 (Nền trang) */
+        #preview-ad-bg {
+            transition: background 0.3s ease;
+        }
+
+        /* Khối biểu đồ giữ chỗ */
+        .chart-mockup {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+            color: #64748b;
+            font-size: 11px;
+            padding: 8px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .chart-mockup-bar {
+            width: 80%;
+            height: 45px;
+            margin-top: 8px;
+            background: repeating-linear-gradient(45deg,
+                    #f1f5f9,
+                    #f1f5f9 6px,
+                    #e2e8f0 6px,
+                    #e2e8f0 12px);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header
+        style="width: 100%; background-color: #ffffff; padding: 10px 35px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: flex-start; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+        <img src="img/ptit-news-transparent.svg" alt="PTEWS" style="height: 38px; display: block;">
+
+    </header>
+
+    <nav class="sub-header1"
+        style="height: 40px; background-color: #ffffff; border-bottom: 2px solid #bb0000; width: 100%;"></nav>
+
+    <!-- KHỐI QUẢNG CÁO VỊ TRÍ 1: BACKGROUND TAKEOVER -->
+    <main id="body-placeholder">
+        <div class="ad-background-wrapper" id="preview-ad-bg"></div>
+
+        <div class="main-container">
+
+
+            <!-- KHỐI 1: TOP BODY -->
+            <section class="top-body">
+                <!-- Vị trí bài báo 1 (Hero Lead - Giữ chỗ) -->
+                <div class="item1" id="BB1" style="border: 1px solid #e2e8f0;">
+                    <div id="BB1-container">
+                        <div id="BB1-img">
+                            <div class="skel-box skel-img">
+                                📷 Khu vực ảnh tin tức tiêu điểm
+                            </div>
+                        </div>
+                        <div id="BB1-subContainer" style="padding: 10px;">
+                            <div class="skel-box skel-line title w-100"></div>
+                            <div class="skel-box skel-line title w-70"></div>
+                            <div style="height: 12px;"></div>
+                            <div class="skel-box skel-line w-100"></div>
+                            <div class="skel-box skel-line w-100"></div>
+                            <div class="skel-box skel-line w-85"></div>
+                            <div class="skel-box skel-line w-50"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VỊ TRÍ QUẢNG CÁO 2: TOP SIDEBAR BANNER (225 x 468 px) -->
+                <div class="item2" id="preview-ad-sidebar" style="border: 1px solid black;">
+                    <div class="ad-placeholder-sidebar">
+                        <span class="ad-badge-preview">VỊ TRÍ QUẢNG CÁO 2</span>
+                        <p>Banner Cột Phải (Sidebar)</p>
+                        <small>Kích thước: 225 × 468 px</small>
+                    </div>
+                </div>
+
+                <!-- Vị trí bài báo 3 (Giữ chỗ) -->
+                <div class="item3" id="BB3" style="border: 1px solid #e2e8f0;">
+                    <div class="bb34-container">
+                        <div style="margin-bottom: 6px;">
+                            <div class="skel-box skel-line title w-100" style="height: 14px;"></div>
+                            <div class="skel-box skel-line title w-70" style="height: 14px;"></div>
+                        </div>
+                        <div class="bb34-img">
+                            <div class="skel-box skel-img" style="height: 100%;">
+                                📷 Ảnh bài viết
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vị trí bài báo 4 (Giữ chỗ) -->
+                <div class="item4" id="BB4" style="border: 1px solid #e2e8f0;">
+                    <div class="bb34-container">
+                        <div style="margin-bottom: 6px;">
+                            <div class="skel-box skel-line title w-100" style="height: 14px;"></div>
+                            <div class="skel-box skel-line title w-70" style="height: 14px;"></div>
+                        </div>
+                        <div class="bb34-img">
+                            <div class="skel-box skel-img" style="height: 100%;">
+                                📷 Ảnh bài viết
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <br>
+
+            <!-- KHỐI 2: BODY1 (Các bài tin + Biểu đồ) -->
+            <section class="body1">
+                <!-- Bài 5 (Giữ chỗ) -->
+                <div class="item1" id="BB5" style="border: 1px solid #e2e8f0;">
+                    <div class="bb34-container">
+                        <div style="margin-bottom: 6px;">
+                            <div class="skel-box skel-line title w-100" style="height: 13px;"></div>
+                            <div class="skel-box skel-line title w-60" style="height: 13px;"></div>
+                        </div>
+                        <div class="bb34-img">
+                            <div class="skel-box skel-img" style="height: 100%;">📷 Ảnh tin tức</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài 6 (Giữ chỗ) -->
+                <div class="item2" id="BB6" style="border: 1px solid #e2e8f0;">
+                    <div class="bb34-container">
+                        <div style="margin-bottom: 6px;">
+                            <div class="skel-box skel-line title w-100" style="height: 13px;"></div>
+                            <div class="skel-box skel-line title w-60" style="height: 13px;"></div>
+                        </div>
+                        <div class="bb34-img">
+                            <div class="skel-box skel-img" style="height: 100%;">📷 Ảnh tin tức</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài 7 (Giữ chỗ) -->
+                <div class="item3" id="BB7" style="border: 1px solid #e2e8f0;">
+                    <div class="bb34-container">
+                        <div style="margin-bottom: 6px;">
+                            <div class="skel-box skel-line title w-100" style="height: 13px;"></div>
+                            <div class="skel-box skel-line title w-60" style="height: 13px;"></div>
+                        </div>
+                        <div class="bb34-img">
+                            <div class="skel-box skel-img" style="height: 100%;">📷 Ảnh tin tức</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Biểu đồ xăng (Giữ chỗ) -->
+                <div class="item4" style="border: 1px solid #e2e8f0;">
+                    <div class="chart-mockup">
+                        <strong>📊 Biểu đồ Xăng RON 95-III</strong>
+                        <div class="chart-mockup-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Biểu đồ vàng (Giữ chỗ) -->
+                <div class="item5" style="border: 1px solid #e2e8f0;">
+                    <div class="chart-mockup">
+                        <strong>📈 Biểu đồ Giá Vàng SJC & Bảo Tín</strong>
+                        <div class="chart-mockup-bar"></div>
+                    </div>
+                </div>
+            </section>
+            <br>
+
+            <!-- KHỐI 3: BODY3 (Danh sách tin tức cuộn) -->
+            <section class="body3" id="body3" style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; gap: 14px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 4px;">
+                    <div class="skel-box skel-img" style="width: 140px; height: 90px; flex-shrink: 0;">📷 Ảnh bài viết
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="skel-box skel-line title w-70"></div>
+                        <div class="skel-box skel-line w-100"></div>
+                        <div class="skel-box skel-line w-85"></div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 14px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 4px;">
+                    <div class="skel-box skel-img" style="width: 140px; height: 90px; flex-shrink: 0;">📷 Ảnh bài viết
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="skel-box skel-line title w-70"></div>
+                        <div class="skel-box skel-line w-100"></div>
+                        <div class="skel-box skel-line w-85"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer giản lược: logo và dải trắng -->
+    <footer
+        style="width: 100%; background-color: #ffffff; border-top: 2px solid #bb0000; padding: 20px 35px; display: flex; align-items: center;">
+        <img src="img/ptit-news-transparent.svg" alt="PTEWS Logo" style="height: 38px; display: block;">
+    </footer>
+
+    <script>
+        // Hàm cập nhật quảng cáo hiển thị
+        function updateAdPreview(position, imageUrl) {
+            if (position === '1' || position === 1) {
+                const bg = document.getElementById('preview-ad-bg');
+                if (bg) {
+                    if (imageUrl) {
+                        bg.style.backgroundImage = `url("${imageUrl}")`;
+                        bg.style.backgroundSize = 'cover';
+                        bg.style.backgroundPosition = 'center top';
+                        bg.style.backgroundRepeat = 'no-repeat';
+                    } else {
+                        bg.style.backgroundImage = '';
+                    }
+                }
+            } else if (position === '2' || position === 2) {
+                const sidebar = document.getElementById('preview-ad-sidebar');
+                if (sidebar) {
+                    if (imageUrl) {
+                        sidebar.style.padding = '0';
+                        sidebar.innerHTML = `<img src="${imageUrl}" style="width: 100%; height: 100%; object-fit: cover; display: block;" alt="Quảng cáo của bạn">`;
+                    } else {
+                        sidebar.style.padding = '12px';
+                        sidebar.innerHTML = `
+                            <div class="ad-placeholder-sidebar">
+                                <span class="ad-badge-preview">VỊ TRÍ QUẢNG CÁO 2</span>
+                                <p>Banner Cột Phải (Sidebar)</p>
+                                <small>Kích thước: 225 × 468 px</small>
+                            </div>
+                        `;
+                    }
+                }
+            }
+        }
+
+        // Lắng nghe sự kiện truyền từ trang cha (connect-to-ad.html) qua postMessage
+        window.addEventListener('message', function (event) {
+            if (!event.data) return;
+            const { type, position, imageUrl } = event.data;
+            if (type === 'UPDATE_AD') {
+                updateAdPreview(position, imageUrl);
+            }
+        });
+
+        // Hỗ trợ kiểm tra tham số URL nếu mở trực tiếp: preview-ad.html?pos=1&img=...
+        const urlParams = new URLSearchParams(window.location.search);
+        const pPos = urlParams.get('pos');
+        const pImg = urlParams.get('img');
+        if (pPos && pImg) {
+            updateAdPreview(pPos, pImg);
+        }
+    </script>
+</body>
+
+</html>
