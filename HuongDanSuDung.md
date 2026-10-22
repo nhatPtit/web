@@ -44,6 +44,14 @@ Nếu tự tin code an toàn thì có thể:
 - `git commit -m ""` commit đã an toàn cho code của mình rồi.
 - `git pull --rebase origin main` tải về sau đó gộp và nối lịch sử commit trên máy sau lịch sử repo
 - `git push`
+
+#### Nếu xung đột tại pull --rebase:
+- file đánh dấu đỏ, mở ra đọc (Chỉ cần dòng khác nhau là nó báo lỗi)
+- sửa lại rồi
+- `git add backend/file_vua_sua.js`
+- `git rebase --continue` + `git push`
+- nếu không tiếp tục thì `git rebase --abort`
+
 > ## Các bước tải code về:
 
 #### `1.git pull`
@@ -74,3 +82,10 @@ Xem lịch sử commit, thoát nhấn q
 
 
 
+Khi Git so sánh:
+
+- Git thấy: "Cả 2 người đều sửa vào cùng một vị trí chính xác (ngay sau dòng timKiemRoute), nhưng người A bảo dòng đó nên là authRoute, còn người B bảo dòng đó nên là authDoanhNghiepRoute."
+- Git không biết:
+    - Dòng nào nên đứng trước?
+    - Liệu hai dòng này có loại trừ nhau không (ví dụ một người đổi tên biến/thay thế thư viện cũ)?
+    - Liệu việc giữ cả 2 có gây lỗi cú pháp hoặc xung đột logic trong chương trình không?
