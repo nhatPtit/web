@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTEWS - Quản Trị Hệ Thống</title>
+  <link rel="icon" type="image/svg+xml" href="img/logo-PTEWS.svg">
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body id="portal-body" class="portal-body">
+
+  <!-- Lớp phủ nền ảnh khuôn viên (WebP) -->
+  <div id="bg-cover-overlay" class="bg-cover-overlay"></div>
+
+  <!-- Container tổng bao phủ toàn bộ giao diện -->
+  <div id="app-container" class="app-container">
+
+    <!-- KHỐI 1: HEADER QUẢN LÝ ADMIN -->
+    <header id="header-wrapper" class="header-wrapper">
+      <div id="header-content" class="header-content">
+
+        <!-- Khối Logo bên trái -->
+        <div id="header-logo-box" class="header-logo-box">
+          <a id="logo-link" class="logo-link" href="admin.html" title="Trang chủ Quản trị PTEWS">
+            <img id="logo-image" class="logo-image" src="img/ptit-news-transparent.svg" alt="PTEWS Logo">
+          </a>
+        </div>
+
+        <!-- Khối Thông tin người dùng & Đăng xuất bên phải -->
+        <div id="header-right-box" class="header-right-box">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="text-align: right;">
+              <span class="role-badge" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd;">Admin Hệ Thống</span>
+              <h2 id="admin-user-name" style="font-size: 14px; font-weight: 600; color: #1e293b; margin-top: 2px;">Quản trị viên</h2>
+            </div>
+            <button type="button" id="btn-logout" class="btn-logout-small" title="Đăng xuất khỏi tài khoản">
+              Đăng xuất
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- KHỐI 2: KHUNG QUẢN TRỊ ADMIN (3 CỘT ĐỘ RỘNG 96%) -->
+    <main id="main-wrapper" class="main-wrapper">
+
+      <section id="content-container" class="content-container">
+
+        <div id="admin-dashboard" class="admin-dashboard">
+
+          <!-- CỘT 1: SIDEBAR MENU ĐIỀU HƯỚNG -->
+          <aside class="admin-sidebar-col">
+            <button type="button" id="menu-btn-users" class="admin-nav-btn active"
+              title="Quản lý nhà báo, doanh nghiệp và người kiểm duyệt">
+              Quản lý nhà báo, doanh nghiệp và người kiểm duyệt
+            </button>
+            <button type="button" id="menu-btn-ads" class="admin-nav-btn"
+              title="Quản lý đơn giá và 3 vị trí quảng cáo tòa soạn">
+              Báo giá quảng cáo
+            </button>
+            <button type="button" id="menu-btn-backup" class="admin-nav-btn"
+              title="Quản lý sao lưu và khôi phục cơ sở dữ liệu hệ thống">
+              Sao lưu & Phục hồi
+            </button>
+            <button type="button" class="admin-nav-btn" style="opacity: 0.6; cursor: not-allowed;">
+              Thống kê hệ thống
+            </button>
+          </aside>
+
+          <!-- ============================================================= -->
+          <!-- PHÂN HỆ 1: QUẢN LÝ TÀI KHOẢN (MẶC ĐỊNH) -->
+          <!-- ============================================================= -->
+          <!-- CỘT 2: VÙNG GIỮA - TÌM KIẾM, BỘ LỌC VÀ DANH SÁCH TÀI KHOẢN -->
+          <section id="users-main-col" class="admin-main-col">
+
+            <!-- Thanh tìm kiếm & bộ lọc -->
+            <div class="admin-filter-box">
+              <div class="search-input-wrap">
+                <input type="text" id="admin-search-input" class="admin-search-input"
+                  placeholder="Tìm kiếm theo tên, username, bút danh, email, SĐT...">
+                <button type="button" id="btn-refresh-users" class="btn-refresh" title="Tải lại dữ liệu">🔄</button>
+              </div>
+
+              <div class="filter-controls-wrap">
+                <div class="filter-item">
+                  <label for="admin-role-filter">Vai trò:</label>
+                  <select id="admin-role-filter" class="admin-select">
+                    <option value="ALL">Tất cả vai trò</option>
+                    <option value="NB">Nhà báo (NB)</option>
+                    <option value="BT">Người kiểm duyệt (BT)</option>
+                    <option value="DN">Doanh nghiệp (DN)</option>
+                  </select>
+                </div>
+
+                <div class="filter-item">
+                  <label for="admin-status-filter">Trạng thái:</label>
+                  <select id="admin-status-filter" class="admin-select">
+                    <option value="ALL">Tất cả trạng thái</option>
+                    <option value="HoatDong">Hoạt động</option>
+                    <option value="HanChe">Hạn chế</option>
+                    <option value="Cam">Bị cấm</option>
+                  </select>
+                </div>
+
+                <div class="filter-item-badge">
+                  <span id="users-count-badge" class="users-count-badge">0 tài khoản</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Danh sách các thẻ tài khoản -->
+            <div id="users-list-container" class="users-list-container">
+              <!-- Nội dung danh sách tài khoản được nạp động bởi admin.js -->
+            </div>
+
+          </section>
+
+          <!-- CỘT 3: CỘT PHẢI - ĐIỀU HƯỚNG TÁC VỤ & GHI CHÚ QUẢN TRỊ TÀI KHOẢN -->
+          <aside id="users-actions-col" class="admin-actions-col">
+
+            <div id="tab-list-users" class="action-card active">
+              <h3 class="action-card-title">Các tài khoản hiện hành</h3>
+              <p class="action-card-desc">Đang xem danh sách tài khoản Nhà báo, Kiểm duyệt và Doanh nghiệp trong hệ thống.</p>
+            </div>
+
+            <div id="tab-create-user" class="action-card action-card-clickable"
+              title="Nhấn vào đây để mở biểu mẫu tạo tài khoản mới">
+              <div class="action-card-header">
+                <span class="action-card-icon">➕</span>
+                <h3 class="action-card-title">Tạo tài khoản mới</h3>
+              </div>
+              <p class="action-card-desc">
+                Nhấn vào đây để mở biểu mẫu cấp phát tài khoản mới cho Nhà báo, Người kiểm duyệt hoặc Doanh nghiệp.
+              </p>
+              <div class="action-card-footer">
+                <span class="action-card-btn-text">Mở biểu mẫu tạo →</span>
+              </div>
+            </div>
+
+          </aside>
+
+          <!-- ============================================================= -->
+          <!-- PHÂN HỆ 2: QUẢN LÝ BÁO GIÁ VÀ VỊ TRÍ QUẢNG CÁO -->
+          <!-- ============================================================= -->
+          <!-- CỘT 2: VÙNG GIỮA - 3 VỊ TRÍ QUẢNG CÁO & LỊCH SỬ ĐỐI SOÁT -->
+          <section id="ads-main-col" class="admin-main-col" style="display: none;">
+
+            <!-- Header tổng quan báo giá -->
+            <div class="ads-overview-box">
+              <div class="ads-overview-header">
+                <div class="ads-header-text">
+                  <h3 class="ads-overview-title">Quản Lý Báo Giá & Vị Trí Quảng Cáo</h3>
+                  <p class="ads-overview-desc">
+                    Quy định mức giá niêm yết theo ngày (<code>price_per_day</code>) cho 3 vị trí quảng cáo chuẩn trong tòa soạn.
+                  </p>
+                </div>
+                <div class="ads-header-actions">
+                  <button type="button" id="btn-refresh-ads" class="btn-refresh" title="Tải lại dữ liệu báo giá">🔄</button>
+                </div>
+              </div>
+
+              <div class="ads-policy-banner">
+                <span class="policy-icon">🛡️</span>
+                <div class="policy-text">
+                  <strong>Quy tắc bảo toàn chi phí lịch sử:</strong>
+                  Khi Admin cập nhật báo giá mới hôm nay, hệ thống chỉ áp dụng cho các chiến dịch quảng cáo đăng ký mới. Toàn bộ chi phí của các yêu cầu quảng cáo đã được ghi nhận trong quá khứ được <strong>bảo toàn tuyệt đối</strong>.
+                </div>
+              </div>
+            </div>
+
+            <!-- Lưới 3 vị trí quảng cáo chuẩn -->
+            <div id="ad-positions-grid" class="ad-positions-grid">
+              <!-- Render động 3 vị trí bởi admin.js -->
+            </div>
+
+            <!-- Bảng tra cứu đối soát các yêu cầu quảng cáo lịch sử -->
+            <div class="ad-history-box">
+              <div class="ad-history-header">
+                <h4 class="ad-history-title">Danh sách yêu cầu quảng cáo từ Doanh nghiệp (Đối soát chi phí lịch sử)</h4>
+                <span id="ad-requests-count-badge" class="users-count-badge">0 yêu cầu</span>
+              </div>
+              <div id="ad-requests-table-wrap" class="ad-requests-table-wrap">
+                <!-- Render bảng danh sách đơn quảng cáo bởi admin.js -->
+              </div>
+            </div>
+
+          </section>
+
+          <!-- CỘT 3: CỘT PHẢI - THÔNG TIN ĐỊNH GIÁ & QUY CHUẨN KỸ THUẬT -->
+          <aside id="ads-actions-col" class="admin-actions-col" style="display: none;">
+
+            <div class="action-card active">
+              <h3 class="action-card-title">Công thức tính chi phí</h3>
+              <p class="action-card-desc">
+                <strong>Chi phí dự kiến =</strong><br>
+                <code>Số ngày chạy × Đơn giá/ngày</code><br>
+                <em>(Đơn giá được chốt cố định tại thời điểm doanh nghiệp nộp đơn).</em>
+              </p>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <span class="action-card-icon">📐</span>
+                <h3 class="action-card-title">Quy chuẩn kích thước</h3>
+              </div>
+              <ul class="ad-specs-list">
+                <li><strong>Banner Top:</strong> <code>1200 × 120 px</code> (Nổi bật nhất)</li>
+                <li><strong>Sidebar:</strong> <code>300 × 600 px</code> (Cố định cột phải)</li>
+                <li><strong>Trong bài viết:</strong> <code>728 × 90 px</code> (Xen kẽ nội dung)</li>
+              </ul>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <span class="action-card-icon">💼</span>
+                <h3 class="action-card-title">Chính sách thanh toán</h3>
+              </div>
+              <p class="action-card-desc" style="font-size: 13px;">
+                Quảng cáo chỉ được duyệt kích hoạt sau khi kiểm duyệt viên xác nhận đã nhận đủ tiền thanh toán theo đúng biểu phí hợp đồng.
+              </p>
+            </div>
+
+          </aside>
+
+          <!-- ============================================================= -->
+          <!-- PHÂN HỆ 3: QUẢN LÝ SAO LƯU & KHÔI PHỤC DỮ LIỆU -->
+          <!-- ============================================================= -->
+          <!-- CỘT 2: VÙNG GIỮA - NÚT BACKUP & BẢNG DANH SÁCH FILE .BAK -->
+          <section id="backup-main-col" class="admin-main-col" style="display: none;">
+
+            <!-- Header tổng quan sao lưu -->
+            <div class="ads-overview-box">
+              <div class="ads-overview-header">
+                <div class="ads-header-text">
+                  <h3 class="ads-overview-title">Quản Lý Sao Lưu & Phục Hồi Dữ Liệu Tòa Soạn</h3>
+                  <p class="ads-overview-desc">
+                    Tạo bản sao lưu toàn diện (Full Database Backup) chuẩn Microsoft SQL Server (.bak) để bảo toàn dữ liệu và phục hồi khi có sự cố.
+                  </p>
+                </div>
+                <div class="ads-header-actions">
+                  <button type="button" id="btn-create-backup" class="btn-submit-action btn-create-backup-action">
+                    💾 Tạo bản sao lưu ngay
+                  </button>
+                  <button type="button" id="btn-refresh-backups" class="btn-refresh" title="Tải lại danh sách bản sao lưu">🔄</button>
+                </div>
+              </div>
+
+              <div class="ads-policy-banner" style="background:#eff6ff; border-color:#bfdbfe;">
+                <span class="policy-icon">ℹ️</span>
+                <div class="policy-text" style="color:#1d4ed8;">
+                  <strong>Nguyên tắc an toàn dữ liệu:</strong> Thao tác <em>Sao lưu</em> là an toàn tuyệt đối và không ảnh hưởng đến độc giả hay nhà báo đang tác nghiệp. Thao tác <em>Khôi phục</em> sẽ hoàn trả dữ liệu về đúng thời điểm sao lưu (cần xác thực mật khẩu Admin).
+                </div>
+              </div>
+            </div>
+
+            <!-- Bảng danh sách các file bản sao lưu -->
+            <div class="ad-history-box">
+              <div class="ad-history-header">
+                <h4 class="ad-history-title">Danh sách các bản sao lưu đã lưu trữ trên máy chủ (.bak)</h4>
+                <span id="backups-count-badge" class="users-count-badge">0 bản sao lưu</span>
+              </div>
+              <div id="backups-table-wrap" class="ad-requests-table-wrap">
+                <!-- Render bảng danh sách file backup bởi admin.js -->
+              </div>
+            </div>
+
+          </section>
+
+          <!-- CỘT 3: CỘT PHẢI - THÔNG TIN AN TOÀN & QUY TRÌNH PHỤC HỒI -->
+          <aside id="backup-actions-col" class="admin-actions-col" style="display: none;">
+
+            <div class="action-card active">
+              <h3 class="action-card-title">Cơ chế sao lưu an toàn</h3>
+              <p class="action-card-desc">
+                Bản sao lưu được đóng gói bằng câu lệnh SQL Server nguyên bản, chứa đầy đủ các bảng dữ liệu: bài viết, hình ảnh, tài khoản, quảng cáo và biến động giá xăng.
+              </p>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <span class="action-card-icon">⚠️</span>
+                <h3 class="action-card-title">Lưu ý khi khôi phục</h3>
+              </div>
+              <p class="action-card-desc" style="font-size: 13px; color: #b91c1c;">
+                Khi chọn khôi phục, hệ thống sẽ chuyển database sang chế độ đơn người dùng (SINGLE_USER) và ghi đè dữ liệu hiện tại về bản sao lưu đã chọn.
+              </p>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <span class="action-card-icon">📂</span>
+                <h3 class="action-card-title">Định dạng chuẩn</h3>
+              </div>
+              <p class="action-card-desc" style="font-size: 13px;">
+                Tên file tự động gán nhãn: <code>WebBao_backup_YYYYMMDD_HHmmss.bak</code>, lưu trữ trực tiếp trong thư mục bảo mật máy chủ.
+              </p>
+            </div>
+
+          </aside>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- MODAL TẠO TÀI KHOẢN MỚI -->
+  <div id="create-user-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card-lg">
+      <div class="modal-header">
+        <div class="modal-badge-primary">Phân hệ Quản trị</div>
+        <h3 class="modal-title">Tạo Tài Khoản Mới</h3>
+        <p class="modal-subtitle">Nhập thông tin để cấp tài khoản Nhà báo, Kiểm duyệt hoặc Doanh nghiệp.</p>
+      </div>
+
+      <form id="create-user-form" class="create-form">
+        <!-- Lựa chọn vai trò -->
+        <div class="form-group">
+          <label for="create-role" class="form-label">Vai trò tài khoản <span class="req">*</span></label>
+          <select id="create-role" class="form-control form-select-large" required>
+            <option value="NB">Nhà báo (NB)</option>
+            <option value="BT">Người kiểm duyệt (BT)</option>
+            <option value="DN">Doanh nghiệp (DN)</option>
+          </select>
+        </div>
+
+        <!-- Lưới thông tin chung -->
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="create-fullname" class="form-label">Họ và tên <span class="req">*</span></label>
+            <input type="text" id="create-fullname" class="form-control" placeholder="Ví dụ: Nguyễn Văn An" required
+              maxlength="100">
+          </div>
+
+          <div class="form-group">
+            <label for="create-username" class="form-label">Tên đăng nhập <span class="req">*</span></label>
+            <input type="text" id="create-username" class="form-control"
+              placeholder="Chữ cái, số, gạch dưới (3-50 ký tự)" required maxlength="50" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="create-password" class="form-label">Mật khẩu ban đầu <span class="req">*</span></label>
+            <input type="password" id="create-password" class="form-control" placeholder="Tối thiểu 6 ký tự" required
+              minlength="6" autocomplete="new-password">
+          </div>
+
+          <div class="form-group">
+            <label for="create-email" class="form-label">Địa chỉ Email <span class="req">*</span></label>
+            <input type="email" id="create-email" class="form-control" placeholder="email@domain.com" required
+              maxlength="100">
+          </div>
+
+          <div class="form-group full-span">
+            <label for="create-phone" class="form-label">Số điện thoại <span class="req">*</span></label>
+            <input type="tel" id="create-phone" class="form-control" placeholder="Ví dụ: 0912345678" required
+              maxlength="20">
+          </div>
+        </div>
+
+        <!-- Khối trường riêng theo vai trò -->
+        <!-- 1. Nhà báo -->
+        <div id="field-group-nb" class="role-specific-group">
+          <div class="form-group">
+            <label for="create-butdanh" class="form-label">Bút danh tác nghiệp <span class="req">*</span></label>
+            <input type="text" id="create-butdanh" class="form-control" placeholder="Ví dụ: Sao Đỏ, Thanh Bình..."
+              maxlength="100">
+            <small class="form-hint">Bút danh sẽ xuất hiện trên các bài viết do phóng viên/nhà báo này biên
+              soạn.</small>
+          </div>
+        </div>
+
+        <!-- 2. Người kiểm duyệt -->
+        <div id="field-group-bt" class="role-specific-group" style="display: none;">
+          <div class="info-note-box">
+            ℹ️ <strong>Phân quyền mặc định:</strong> Tài khoản Người kiểm duyệt sẽ được phân quyền thẩm định bài báo,
+            duyệt bài và kiểm duyệt quảng cáo trong tòa soạn.
+          </div>
+        </div>
+
+        <!-- 3. Doanh nghiệp -->
+        <div id="field-group-dn" class="role-specific-group" style="display: none;">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="create-company" class="form-label">Tên doanh nghiệp / Công ty <span
+                  class="req">*</span></label>
+              <input type="text" id="create-company" class="form-control" placeholder="Ví dụ: Tập đoàn Viễn thông ABC"
+                maxlength="150">
+            </div>
+
+            <div class="form-group">
+              <label for="create-contact" class="form-label">Người đại diện liên hệ <span class="req">*</span></label>
+              <input type="text" id="create-contact" class="form-control"
+                placeholder="Ví dụ: Trần Thị Mai (Trưởng phòng Mar)" maxlength="100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Vùng báo lỗi -->
+        <div id="create-error-msg" class="create-error-box" style="display: none;"></div>
+
+        <!-- Nút hành động -->
+        <div class="form-actions">
+          <button type="button" id="btn-cancel-create" class="btn-cancel">Hủy bỏ</button>
+          <button type="submit" id="btn-submit-create" class="btn-submit-action">Lưu tài khoản</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL CHỈNH SỬA THÔNG TIN TÀI KHOẢN -->
+  <div id="edit-user-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card-lg">
+      <div class="modal-header">
+        <div class="modal-badge-primary">Quản Lý Tài Khoản</div>
+        <h3 class="modal-title">Cập Nhật Thông Tin Tài Khoản</h3>
+        <p class="modal-subtitle">Chỉnh sửa thông tin cá nhân và liên hệ (Tên đăng nhập & Vai trò được cố định để bảo toàn dữ liệu).</p>
+      </div>
+
+      <form id="edit-user-form" class="create-form">
+        <input type="hidden" id="edit-user-id">
+        <input type="hidden" id="edit-user-role">
+
+        <!-- Thông tin cố định (Read-only) -->
+        <div class="form-grid-2" style="margin-bottom: 12px; background: #f8fafc; padding: 12px 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 12px; color: #64748b;">Tên đăng nhập (Cố định):</label>
+            <div id="edit-username-display" style="font-weight: 700; color: #1e293b; font-size: 14px;">—</div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 12px; color: #64748b;">Vai trò tài khoản:</label>
+            <div id="edit-role-display">—</div>
+          </div>
+        </div>
+
+        <!-- Lưới thông tin chỉnh sửa -->
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="edit-fullname" class="form-label">Họ và tên <span class="req">*</span></label>
+            <input type="text" id="edit-fullname" class="form-control" required maxlength="100">
+          </div>
+
+          <div class="form-group">
+            <label for="edit-email" class="form-label">Địa chỉ Email <span class="req">*</span></label>
+            <input type="email" id="edit-email" class="form-control" required maxlength="100">
+          </div>
+
+          <div class="form-group full-span">
+            <label for="edit-phone" class="form-label">Số điện thoại <span class="req">*</span></label>
+            <input type="tel" id="edit-phone" class="form-control" required maxlength="20">
+          </div>
+        </div>
+
+        <!-- Trường riêng theo vai trò -->
+        <div id="edit-group-nb" class="role-specific-group" style="display: none;">
+          <div class="form-group">
+            <label for="edit-butdanh" class="form-label">Bút danh tác nghiệp <span class="req">*</span></label>
+            <input type="text" id="edit-butdanh" class="form-control" maxlength="100">
+            <small class="form-hint">Bút danh xuất hiện trên các bài viết do nhà báo/phóng viên này biên soạn.</small>
+          </div>
+        </div>
+
+        <div id="edit-group-dn" class="role-specific-group" style="display: none;">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="edit-company" class="form-label">Tên doanh nghiệp / Công ty <span class="req">*</span></label>
+              <input type="text" id="edit-company" class="form-control" maxlength="150">
+            </div>
+
+            <div class="form-group">
+              <label for="edit-contact" class="form-label">Người đại diện liên hệ <span class="req">*</span></label>
+              <input type="text" id="edit-contact" class="form-control" maxlength="100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Vùng báo lỗi -->
+        <div id="edit-error-msg" class="create-error-box" style="display: none;"></div>
+
+        <!-- Nút hành động -->
+        <div class="form-actions">
+          <button type="button" id="btn-cancel-edit" class="btn-cancel">Hủy bỏ</button>
+          <button type="submit" id="btn-submit-edit" class="btn-submit-action">Lưu thay đổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL ĐỔI TRẠNG THÁI / KHÓA TÀI KHOẢN -->
+  <div id="status-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-badge-primary">Phân Quyền Truy Cập</div>
+        <h3 class="modal-title">Khóa & Mở Khóa Tài Khoản</h3>
+        <p class="modal-subtitle">Chuyển đổi trạng thái hoạt động của tài khoản trong hệ thống tòa soạn.</p>
+      </div>
+
+      <form id="status-form" class="create-form">
+        <input type="hidden" id="status-user-id">
+
+        <div style="background: #f8fafc; padding: 12px 14px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+          <div style="font-size: 13px; color: #64748b;">Tài khoản thao tác:</div>
+          <div id="status-username-display" style="font-size: 15px; font-weight: 700; color: #1e293b; margin-top: 2px;">—</div>
+        </div>
+
+        <div class="form-group">
+          <label for="status-select" class="form-label">Chọn trạng thái mới <span class="req">*</span></label>
+          <select id="status-select" class="form-control form-select-large">
+            <option value="HoatDong">🟢 Hoạt động (Được phép đăng nhập & tác nghiệp bình thường)</option>
+            <option value="HanChe">🟡 Hạn chế (Tạm thời giới hạn tác nghiệp và đăng bài)</option>
+            <option value="Cam">🔴 Bị cấm (Khóa hoàn toàn quyền truy cập hệ thống)</option>
+          </select>
+        </div>
+
+        <div id="status-error-msg" class="create-error-box" style="display: none;"></div>
+
+        <div class="form-actions">
+          <button type="button" id="btn-cancel-status" class="btn-cancel">Hủy bỏ</button>
+          <button type="submit" id="btn-submit-status" class="btn-submit-action">Cập nhật trạng thái</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL THEO DÕI & CẬP NHẬT VI PHẠM DOANH NGHIỆP -->
+  <div id="violation-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-badge-primary" style="background:#fef2f2; color:#b91c1c; border-color:#fecaca;">Giám Sát Doanh Nghiệp</div>
+        <h3 class="modal-title">Theo Dõi Vi Phạm Quảng Cáo</h3>
+        <p class="modal-subtitle">Ghi nhận số lần vi phạm chính sách quảng cáo của đối tác doanh nghiệp.</p>
+      </div>
+
+      <form id="violation-form" class="create-form">
+        <input type="hidden" id="violation-user-id">
+
+        <div style="background: #f8fafc; padding: 12px 14px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+          <div style="font-size: 13px; color: #64748b;">Doanh nghiệp:</div>
+          <div id="violation-company-display" style="font-size: 15px; font-weight: 700; color: #1e293b; margin-top: 2px;">—</div>
+          <div style="margin-top: 6px; font-size: 13.5px;">
+            Số vi phạm hiện tại: <strong id="violation-current-count" style="color: #b91c1c; font-size: 16px;">0</strong> lần
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Chọn hành động ghi nhận <span class="req">*</span></label>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer;">
+              <input type="radio" name="violation-action" value="increment" checked>
+              <span><strong>Cộng thêm 1 lần vi phạm (+1)</strong></span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer;">
+              <input type="radio" name="violation-action" value="reset">
+              <span><strong>Đặt lại về 0 (Xóa tiền án vi phạm)</strong></span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer;">
+              <input type="radio" name="violation-action" value="set">
+              <span><strong>Nhập số lần cụ thể:</strong></span>
+            </label>
+          </div>
+          <input type="number" id="violation-custom-count" class="form-control" min="0" max="100" placeholder="Nhập số lần..." style="margin-top: 8px; display: none;">
+        </div>
+
+        <div class="info-note-box" style="margin-top: 10px; font-size: 12.5px;">
+          ⚠️ <strong>Quy tắc tự động:</strong> Nếu số lần vi phạm đạt từ <strong>3 lần</strong> trở lên, hệ thống sẽ tự động chuyển tài khoản sang trạng thái <strong>Hạn chế</strong>; từ <strong>5 lần</strong> trở lên sẽ tự động chuyển sang <strong>Bị cấm</strong>.
+        </div>
+
+        <div id="violation-error-msg" class="create-error-box" style="display: none;"></div>
+
+        <div class="form-actions">
+          <button type="button" id="btn-cancel-violation" class="btn-cancel">Hủy bỏ</button>
+          <button type="submit" id="btn-submit-violation" class="btn-submit-action">Lưu vi phạm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL CẬP NHẬT BÁO GIÁ QUẢNG CÁO (MỚI) -->
+  <div id="edit-ad-price-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-badge-primary" style="background:#fef3c7; color:#b45309; border-color:#fde68a;">Quản Lý Báo Giá</div>
+        <h3 class="modal-title">Cập Nhật Báo Giá Vị Trí Quảng Cáo</h3>
+        <p class="modal-subtitle">Điều chỉnh đơn giá niêm yết theo ngày cho vị trí hiển thị trong tòa soạn.</p>
+      </div>
+
+      <form id="edit-ad-price-form" class="create-form">
+        <input type="hidden" id="ad-position-id">
+
+        <div style="background: #f8fafc; padding: 12px 14px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+          <div style="font-size: 13px; color: #64748b;">Vị trí quảng cáo:</div>
+          <div id="ad-position-name-display" style="font-size: 16px; font-weight: 700; color: #1e293b; margin-top: 2px;">—</div>
+          <div style="margin-top: 4px; font-size: 13px; color: #64748b;">
+            Đơn giá hiện hành: <strong id="ad-current-price-display" style="color: #15803d; font-size: 14.5px;">0 đ/ngày</strong>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ad-new-price" class="form-label">Đơn giá mới theo ngày (VNĐ/ngày) <span class="req">*</span></label>
+          <input type="number" id="ad-new-price" class="form-control" required min="1000" step="10000" placeholder="Ví dụ: 550000">
+          <small class="form-hint">Mức phí một ngày chạy chiến dịch quảng cáo tại vị trí này.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="ad-edit-desc" class="form-label">Mô tả & Kích thước hiển thị</label>
+          <textarea id="ad-edit-desc" class="form-control" rows="3" maxlength="255" placeholder="Nhập quy chuẩn kích thước, vị trí hiển thị..."></textarea>
+        </div>
+
+        <div class="info-note-box" style="margin-top: 10px; font-size: 12.5px;">
+          🛡️ <strong>Bảo toàn chi phí lịch sử:</strong> Báo giá mới chỉ áp dụng cho các chiến dịch tạo mới từ bây giờ. Chi phí (<code>total_amount</code>) của các yêu cầu quảng cáo đã gửi hoặc duyệt trước đó sẽ <strong>không bị thay đổi</strong>.
+        </div>
+
+        <div id="ad-edit-error-msg" class="create-error-box" style="display: none;"></div>
+
+        <div class="form-actions">
+          <button type="button" id="btn-cancel-ad-price" class="btn-cancel">Hủy bỏ</button>
+          <button type="submit" id="btn-submit-ad-price" class="btn-submit-action">Lưu báo giá mới</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL XÁC NHẬN KHÔI PHỤC DỮ LIỆU (RESTORE) -->
+  <div id="restore-confirm-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-badge-primary" style="background:#fef2f2; color:#b91c1c; border-color:#fecaca;">Cảnh Báo An Toàn Dữ Liệu</div>
+        <h3 class="modal-title">Xác Nhận Khôi Phục Cơ Sở Dữ Liệu</h3>
+        <p class="modal-subtitle">Thao tác này sẽ phục hồi toàn bộ cơ sở dữ liệu về thời điểm tạo bản sao lưu.</p>
+      </div>
+
+      <form id="restore-confirm-form" class="create-form">
+        <input type="hidden" id="restore-target-filename">
+
+        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 14px; margin-bottom: 16px;">
+          <div style="font-size: 13px; color: #991b1b; font-weight: 600;">File bản sao lưu được chọn:</div>
+          <div id="restore-filename-display" style="font-size: 15px; font-weight: 700; color: #b91c1c; margin-top: 2px; word-break: break-all;">—</div>
+          <div style="margin-top: 10px; font-size: 12.5px; color: #7f1d1d; line-height: 1.5;">
+            ⚠️ <strong>CẢNH BÁO NGUY HIỂM:</strong> Toàn bộ dữ liệu hiện tại của tòa soạn sẽ bị ghi đè. Mọi bài viết, bình luận và thông tin tạo sau thời điểm này sẽ bị mất vĩnh viễn!
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="restore-admin-password" class="form-label">Mật khẩu xác thực Quản trị viên <span class="req">*</span></label>
+          <input type="password" id="restore-admin-password" class="form-control" required placeholder="Nhập mật khẩu tài khoản Admin..." autocomplete="current-password">
+          <small class="form-hint">Yêu cầu xác thực bảo mật nhằm ngăn chặn việc khôi phục nhầm lẫn.</small>
+        </div>
+
+        <div id="restore-error-msg" class="create-error-box" style="display: none;"></div>
+
+        <div class="form-actions">
+          <button type="button" id="btn-cancel-restore" class="btn-cancel">Hủy bỏ</button>
+          <button type="submit" id="btn-submit-restore" class="btn-submit-action" style="background:#dc2626; border-color:#b91c1c;">
+            Tiến hành Khôi phục
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Nạp file script xử lý logic Admin -->
+  <script src="admin.js"></script>
+
+</body>
+
+</html>

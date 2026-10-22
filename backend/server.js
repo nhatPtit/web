@@ -13,6 +13,7 @@ readApp.use('/', express.static(path.join(__dirname, '../ReadPage')));
 // Cổng 3001: Dành riêng cho UploadPage
 const uploadApp = express();
 uploadApp.use(cors());
+uploadApp.use(express.json());
 uploadApp.use('/Anh-BB', express.static(path.join(__dirname, '../ReadPage/Anh-BB')));
 uploadApp.use('/', express.static(path.join(__dirname, '../UploadPage')));
 
@@ -27,6 +28,9 @@ const chiTietRoute = require('./routes/chi-tiet');
 const theLoaiRoute = require('./routes/the-loai');
 const thoiTietRouter = require('./routes/thoiTiet');
 const timKiemRoute = require('./routes/tim-kiem');
+const adminUsersRoute = require('./routes/admin-users');
+const adminAdsRoute = require('./routes/admin-ads');
+const adminBackupRoute = require('./routes/admin-backup');
 
 // Gắn các API dùng chung cho cả 2 ứng dụng
 [readApp, uploadApp].forEach(instance => {
@@ -43,6 +47,12 @@ const timKiemRoute = require('./routes/tim-kiem');
     res.json({ message: "Đã chạy lệnh kiểm tra và lưu giá xăng" });
   });
 });
+
+// API Quản trị hệ thống (Chỉ gắn riêng cho UploadPage, không gắn vào ReadPage)
+uploadApp.use('/api/admin', adminUsersRoute);
+uploadApp.use('/api/admin/ads', adminAdsRoute);
+uploadApp.use('/api/admin/backup', adminBackupRoute);
+
 
 // Khởi chạy cổng 3000 cho ReadPage
 readApp.listen(READ_PORT, () => {

@@ -34,39 +34,35 @@
           </a>
         </div>
 
-        <!-- Khối Thông tin vai trò / Phân hệ bên phải (thay cho nút đăng nhập cũ) -->
+        <!-- Khối Thông tin vai trò / Phân hệ bên phải -->
         <div id="header-right-box" class="header-right-box">
           <span id="role-badge" class="role-badge">Hệ Thống Tác Nghiệp</span>
-          <h1 id="header-role-title" class="header-role-title">Duyệt bài / Quản lý</h1>
+          <h1 id="header-role-title" class="header-role-title">Tòa Soạn / Quản Trị</h1>
         </div>
 
       </div>
     </header>
 
-    <!-- KHỐI 2: KHUNG NỘI DUNG CHÍNH (Nền ảnh làm mờ nhẹ, khối chào mừng nổi bật ở trung tâm) -->
+    <!-- KHỐI 2: KHUNG NỘI DUNG CHÍNH (Nền ảnh làm mờ nhẹ, thẻ chào mừng nổi bật ở trung tâm) -->
     <main id="main-wrapper" class="main-wrapper">
 
-      <!-- Khung kính Glassmorphism trung tâm -->
       <section id="content-container" class="content-container">
 
+        <!-- THẺ CHÀO MỪNG BAN ĐẦU -->
         <div id="welcome-card" class="welcome-card">
-          <!-- Huy hiệu nhỏ thanh lịch -->
           <div id="welcome-tag" class="welcome-tag">
             <span id="tag-dot" class="tag-dot"></span>
-            <span id="tag-text" class="tag-text">Không Gian Biên Tập Viên & Quản Trị</span>
+            <span id="tag-text" class="tag-text">Không Gian Tác Nghiệp & Quản Trị Tòa Soạn</span>
           </div>
 
-          <!-- Khối chữ trung tâm nghệ thuật: "Chào mừng đồng nghiệp?" -->
           <h2 id="welcome-headline" class="welcome-headline">
             Chào mừng đồng nghiệp?
           </h2>
 
-          <!-- Dòng giới thiệu mô tả thanh lịch (phần bỏ ngỏ sẵn sàng gắn form đăng bài/duyệt bài) -->
           <p id="welcome-subline" class="welcome-subline">
-            Hệ thống quản lý xuất bản tin tức, phê duyệt bài báo và kiểm duyệt nội dung của tòa soạn PTEWS.
+            Hệ thống quản lý xuất bản tin tức, phê duyệt bài báo và quản trị hệ thống tòa soạn PTEWS.
           </p>
 
-          <!-- Khu vực hành động chờ sẵn cho các tính năng tiếp theo -->
           <div id="welcome-actions" class="welcome-actions">
             <button type="button" id="btn-quick-entry" class="btn-quick-entry">
               Bắt đầu ca làm việc
@@ -79,6 +75,163 @@
     </main>
 
   </div>
+
+  <!-- MODAL ĐĂNG NHẬP CHUNG CHO CÁC PHÂN HỆ TÁC NGHIỆP & QUẢN TRỊ -->
+  <div id="login-modal" class="login-modal-overlay" style="display: none;">
+    <div class="login-modal-card">
+      <div class="login-modal-header">
+        <div class="modal-badge">Cổng Tác Nghiệp Tòa Soạn</div>
+        <h3 class="login-modal-title">Đăng Nhập Hệ Thống</h3>
+        <p class="login-modal-subtitle">Dành cho Quản trị viên, Người kiểm duyệt bài báo và Phóng viên / Nhà báo.</p>
+      </div>
+
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label for="login-username">Tên đăng nhập</label>
+          <input type="text" id="login-username" class="form-control" placeholder="Ví dụ: admin_a, btv_minh, pv_lan..." required
+            autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Mật khẩu</label>
+          <input type="password" id="login-password" class="form-control" placeholder="Nhập mật khẩu..." required
+            autocomplete="current-password">
+        </div>
+
+        <div id="login-error" class="login-error-msg"></div>
+
+        <div class="login-actions">
+          <button type="button" id="btn-close-login" class="btn-cancel">Hủy bỏ</button>
+          <button type="submit" id="btn-submit-login" class="btn-submit-login">Đăng nhập</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Script xử lý đăng nhập và điều hướng phân quyền -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnQuickEntry = document.getElementById('btn-quick-entry');
+      const loginModal = document.getElementById('login-modal');
+      const btnCloseLogin = document.getElementById('btn-close-login');
+      const loginForm = document.getElementById('login-form');
+      const loginError = document.getElementById('login-error');
+      const submitBtn = document.getElementById('btn-submit-login');
+
+      // Hàm điều hướng theo vai trò
+      function redirectByRole(vaiTro) {
+        if (vaiTro === 'AD') {
+          window.location.href = 'admin.html';
+        } else if (vaiTro === 'BT') {
+          window.location.href = 'editor.html';
+        } else if (vaiTro === 'NB') {
+          window.location.href = 'journalist.html';
+        } else {
+          if (loginError) loginError.textContent = 'Vai trò người dùng không hợp lệ!';
+        }
+      }
+
+      // Kiểm tra xem đã có phiên đăng nhập trước đó hay chưa
+      const savedUser = sessionStorage.getItem('current_user') || sessionStorage.getItem('admin_user');
+      if (savedUser) {
+        try {
+          const user = JSON.parse(savedUser);
+          if (user && user.VaiTro) {
+            // Thay đổi nút trên thẻ chào mừng thành "Tiếp tục ca làm việc"
+            if (btnQuickEntry) {
+              const roleName = user.VaiTro === 'AD' ? 'Admin' : (user.VaiTro === 'BT' ? 'Kiểm duyệt' : 'Nhà báo');
+              btnQuickEntry.textContent = `Tiếp tục ca làm việc (${roleName}: ${user.full_name || user.username}) →`;
+              btnQuickEntry.onclick = () => redirectByRole(user.VaiTro);
+              return;
+            }
+          }
+        } catch (e) {
+          sessionStorage.clear();
+        }
+      }
+
+      // Mở modal đăng nhập
+      if (btnQuickEntry) {
+        btnQuickEntry.addEventListener('click', () => {
+          if (loginModal) {
+            loginModal.style.display = 'flex';
+            const usernameInput = document.getElementById('login-username');
+            if (usernameInput) usernameInput.focus();
+          }
+        });
+      }
+
+      // Đóng modal đăng nhập
+      if (btnCloseLogin) {
+        btnCloseLogin.addEventListener('click', () => {
+          if (loginModal) {
+            loginModal.style.display = 'none';
+            if (loginError) loginError.textContent = '';
+          }
+        });
+      }
+
+      // Đóng khi click ngoài khung modal
+      window.addEventListener('click', (e) => {
+        if (e.target === loginModal) {
+          loginModal.style.display = 'none';
+          if (loginError) loginError.textContent = '';
+        }
+      });
+
+      // Xử lý gửi Form đăng nhập
+      if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (loginError) loginError.textContent = '';
+
+          const username = document.getElementById('login-username')?.value.trim();
+          const password = document.getElementById('login-password')?.value;
+
+          if (!username || !password) {
+            if (loginError) loginError.textContent = 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!';
+            return;
+          }
+
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Đang xác thực...';
+          }
+
+          try {
+            const response = await fetch('/api/admin/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+              if (loginError) loginError.textContent = data.message || 'Đăng nhập không thành công!';
+              return;
+            }
+
+            // Lưu phiên đăng nhập
+            sessionStorage.setItem('current_user', JSON.stringify(data.user));
+            sessionStorage.setItem('admin_user', JSON.stringify(data.user));
+
+            // Tự động chuyển hướng đến trang tương ứng với vai trò
+            redirectByRole(data.user.VaiTro);
+
+          } catch (err) {
+            console.error('Lỗi khi gửi yêu cầu đăng nhập:', err);
+            if (loginError) loginError.textContent = 'Không thể kết nối đến máy chủ backend!';
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Đăng nhập';
+            }
+          }
+        });
+      }
+    });
+  </script>
 
 </body>
 
