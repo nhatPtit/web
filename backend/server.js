@@ -7,12 +7,16 @@ const UPLOAD_PORT = 3001;
 // Cổng 3000: Dành riêng cho ReadPage
 const readApp = express();
 readApp.use(cors());
+readApp.use(express.json());
+readApp.use(express.urlencoded({ extended: true }));
 readApp.use('/Anh-BB', express.static(path.join(__dirname, '../ReadPage/Anh-BB')));
 readApp.use('/', express.static(path.join(__dirname, '../ReadPage')));
 
 // Cổng 3001: Dành riêng cho UploadPage
 const uploadApp = express();
 uploadApp.use(cors());
+uploadApp.use(express.json());
+uploadApp.use(express.urlencoded({ extended: true }));
 uploadApp.use('/Anh-BB', express.static(path.join(__dirname, '../ReadPage/Anh-BB')));
 uploadApp.use('/', express.static(path.join(__dirname, '../UploadPage')));
 
@@ -27,9 +31,12 @@ const chiTietRoute = require('./routes/chi-tiet');
 const theLoaiRoute = require('./routes/the-loai');
 const thoiTietRouter = require('./routes/thoiTiet');
 const timKiemRoute = require('./routes/tim-kiem');
+const authRoute = require('./routes/auth');
 
 // Gắn các API dùng chung cho cả 2 ứng dụng
 [readApp, uploadApp].forEach(instance => {
+  instance.use('/api/auth', authRoute);
+  instance.use('/api', authRoute); // Cho phép gọi trực tiếp /api/login
   instance.use('/api/gia-vang2', giaVang2Route);
   instance.use('/api/gia-Xang', giaXangRoute);
   instance.use('/api/lay-home-db', layHomeDBRoute);
