@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const sql = require('mssql');
+const crypto = require('crypto');
 const { connectDB } = require('../db');
+
+function hashSHA256(str) {
+    return crypto.createHash('sha256').update(str).digest('hex');
+}
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
@@ -65,6 +70,17 @@ router.post('/login', async (req, res) => {
                     VaiTro: 'BT',
                     ButDanh: null,
                     TrangThai: 'HoatDong'
+                },
+                'admin_a': {
+                    id: 1,
+                    username: 'admin_a',
+                    password: '123456',
+                    email: 'admin@ptitnews.vn',
+                    phone: '0988000001',
+                    full_name: 'Quản trị viên Hệ thống',
+                    VaiTro: 'AD',
+                    ButDanh: null,
+                    TrangThai: 'HoatDong'
                 }
             };
             user = fallbackUsers[username.trim()];
@@ -77,7 +93,8 @@ router.post('/login', async (req, res) => {
             });
         }
 
-        if (user.password !== password) {
+        const isPasswordMatch = (user.password === password) || (user.password === hashSHA256(password));
+        if (!isPasswordMatch) {
             return res.status(401).json({
                 success: false,
                 message: 'Mật khẩu không chính xác.'
@@ -99,8 +116,8 @@ router.post('/login', async (req, res) => {
             redirectUrl = 'Nguoi_kiem_duyet.html';
             roleName = 'Người kiểm duyệt';
         } else if (user.VaiTro === 'AD') {
-            redirectUrl = 'Nguoi_kiem_duyet.html';
-            roleName = 'Quản trị viên';
+            redirectUrl = 'admin.html';
+            roleName = 'Quản trị viên hệ thống';
         }
 
         return res.status(200).json({
@@ -110,7 +127,9 @@ router.post('/login', async (req, res) => {
                 id: user.id,
                 username: user.username,
                 fullName: user.full_name,
+                full_name: user.full_name,
                 role: user.VaiTro,
+                VaiTro: user.VaiTro,
                 roleName: roleName,
                 penName: user.ButDanh || user.full_name,
                 email: user.email,
@@ -140,6 +159,11 @@ router.get('/demo-accounts', (req, res) => {
             username: 'kiemduyet123',
             password: '123456',
             roleName: 'Người kiểm duyệt'
+        },
+        admin: {
+            username: 'admin_a',
+            password: '123456',
+            roleName: 'Quản trị viên'
         }
     });
 });

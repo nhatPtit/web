@@ -1,7 +1,7 @@
 // Logic điều khiển giao diện Admin trên UploadPage (admin.html)
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Kiểm tra phiên đăng nhập và quyền Admin (Auth Guard)
-    const savedUser = sessionStorage.getItem('current_user') || sessionStorage.getItem('admin_user');
+    const savedUser = sessionStorage.getItem('current_user') || sessionStorage.getItem('admin_user') || localStorage.getItem('ptews_user');
     if (!savedUser) {
         window.location.href = 'index.html';
         return;
