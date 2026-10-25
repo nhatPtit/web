@@ -30,7 +30,14 @@
 
     <div class="ad-background-wrapper"></div>
 
-    <div class="main-container" id="category-list" style="display: grid; gap: 20px; padding: 20px;">
+    <div class="main-container" style="padding: 20px;">
+        <div style="border-bottom: 2px solid var(--LinkColor, #bb0000); margin-bottom: 20px; padding-bottom: 8px;">
+            <h1 id="category-title" style="margin: 0; font-size: 24px; color: #111827; text-transform: uppercase;">
+                Đang tải...
+            </h1>
+        </div>
+        <div id="category-list" style="display: grid; gap: 20px;">
+        </div>
     </div>
     <div id="loading-spinner" style="text-align: center; display: none; padding: 20px;">
         <p style="color: gray;">Đang tải thêm bài báo...</p>
@@ -60,6 +67,26 @@
             // Lấy id_tl thay vì id bài viết
             const idTl = urlParams.get('id_tl');
             const container = document.getElementById('category-list');
+            const categoryTitle = document.getElementById('category-title');
+
+            const categoryNames = {
+                '1': 'Thời sự',
+                '2': 'Thể thao',
+                '3': 'Kinh doanh',
+                '4': 'Khoa học công nghệ',
+                '5': 'Góc nhìn',
+                '6': 'Bất động sản',
+                '7': 'Sức khỏe',
+                '8': 'Giải trí',
+                '9': 'Pháp luật',
+                '10': 'Giáo dục'
+            };
+
+            const currentCategoryName = categoryNames[idTl] || 'Thể loại';
+            if (categoryTitle) {
+                categoryTitle.textContent = currentCategoryName;
+            }
+            document.title = `${currentCategoryName} - PTEWS`;
             const loadingSpinner = document.getElementById('loading-spinner');
 
             if (!idTl) {

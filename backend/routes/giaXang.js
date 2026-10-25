@@ -12,6 +12,7 @@ router.get('/lich-su-gia-xang', async (req, res) => {
                 FORMAT([Date], 'dd/MM') AS [date],
                 [Price] AS [price]
             FROM [dbo].[N95III]
+            ORDER BY [dbo].[N95III].[Date] ASC
         `);
 
         res.status(200).json({

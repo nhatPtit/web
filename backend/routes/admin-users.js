@@ -265,14 +265,8 @@ router.post('/users', async (req, res) => {
                     message: 'Tài khoản Doanh nghiệp bắt buộc phải có Tên công ty/doanh nghiệp!'
                 });
             }
-            if (!contact_person || !contact_person.trim()) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Tài khoản Doanh nghiệp bắt buộc phải có Tên người liên hệ!'
-                });
-            }
             finalCompanyName = company_name.trim();
-            finalContactPerson = contact_person.trim();
+            finalContactPerson = cleanFullName;
         } else if (cleanRole === 'BT') {
             // Đối với BT: ButDanh, company_name, contact_person bắt buộc là NULL
             finalButDanh = null;
@@ -517,14 +511,8 @@ router.put('/users/:id', async (req, res) => {
                     message: 'Tài khoản Doanh nghiệp bắt buộc phải có Tên công ty / Doanh nghiệp!'
                 });
             }
-            if (!contact_person || !contact_person.trim()) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Tài khoản Doanh nghiệp bắt buộc phải có Tên người đại diện liên hệ!'
-                });
-            }
             finalCompanyName = company_name.trim();
-            finalContactPerson = contact_person.trim();
+            finalContactPerson = trimmedFullName;
         }
 
         // 3. Thực thi UPDATE

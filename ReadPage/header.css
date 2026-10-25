@@ -132,6 +132,71 @@ header div span a:hover {
     color: var(--LinkColor);
 }
 
+/* Định dạng các icon & link ở headRight */
+.headRight {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.headRight .nav-btn-link {
+    color: #4b5563;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.headRight .nav-btn-link:hover {
+    color: var(--LinkColor);
+    background-color: transparent;
+}
+
+.headRight .ad-contact-link:hover {
+    color: #2563eb;
+    background-color: transparent;
+}
+
+.headRight .social-icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 2px;
+    opacity: 0.75;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.headRight .social-icon-link:hover {
+    opacity: 1;
+}
+
+.headRight .header-icon-svg {
+    width: 17px;
+    height: 17px;
+    display: block;
+}
+
+/* Biểu tượng mặc định: màu xám mờ */
+.headRight .icon-shape {
+    fill: #4b5563;
+    transition: fill 0.2s ease;
+}
+
+/* Hover Youtube: chuyển màu đỏ thương hiệu #ff0000 */
+.headRight .youtube-link:hover .icon-shape {
+    fill: #ff0000;
+}
+
+/* Hover Facebook: chuyển màu xanh thương hiệu #1877f2 */
+.headRight .fb-link:hover .icon-shape {
+    fill: #1877f2;
+}
+
 .search-box {
     position: relative;
     display: flex;
@@ -171,6 +236,7 @@ header div span a:hover {
     display: flex;
     align-items: center;
     width: 100%;
+    height: 40px;
     background-color: #ffffff;
     border-bottom: 2px solid var(--LinkColor);
     padding: 0 35px;
