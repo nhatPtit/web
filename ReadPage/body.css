@@ -4,8 +4,10 @@
     /* Gradient nền dịu mắt hiện đại */
     background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #2563eb 100%);
     position: sticky;
-    top: 42px;
-    z-index: -1;
+    top: 40px;
+    background-size: cover;
+    background-position: center top;
+    z-index: 0;
 }
 
 /* Giữ nguyên viền đen theo yêu cầu */

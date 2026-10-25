@@ -137,7 +137,38 @@
                 container.innerHTML = '<p>Đã xảy ra lỗi khi kết nối với máy chủ!</p>';
             }
         });
-    </script>
+    
+        // Tải và hiển thị quảng cáo Vị trí 3 (In-article Background)
+        async function loadArticleAd() {
+            const defaultAd3 = 'AD_file/ad3-in-article-banner.svg';
+            const bgWrapper = document.querySelector('.ad-background-wrapper');
+            if (!bgWrapper) return;
+
+            let ad3Data = null;
+            try {
+                const response = await fetch('/api/auth-doanhnghiep/active-ads');
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success && result.data && result.data[3]) {
+                        ad3Data = result.data[3];
+                    }
+                }
+            } catch (err) {
+                console.warn('Không tải được quảng cáo vị trí 3, dùng ảnh mặc định:', err);
+            }
+
+            const adUrl = (ad3Data && ad3Data.media_url) ? ad3Data.media_url : defaultAd3;
+            bgWrapper.style.backgroundImage = `url('${adUrl}')`;
+            bgWrapper.style.backgroundRepeat = 'no-repeat';
+            bgWrapper.style.backgroundPosition = 'center top';
+            bgWrapper.style.backgroundSize = 'cover';
+
+            const adTarget = (ad3Data && ad3Data.target_url) ? ad3Data.target_url : 'connect-to-ad.html';
+            bgWrapper.style.cursor = 'pointer';
+            bgWrapper.onclick = () => window.open(adTarget, '_blank');
+        }
+        loadArticleAd();
+</script>
 
 </body>
 

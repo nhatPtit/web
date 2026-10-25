@@ -34,16 +34,24 @@
 *Đẩy code lên thật, bước cuối cùng rồi*
 - *Lệnh đầy đủ: git push origin brand_name  (origin là link repo, brand_name là tên nhánh)*
 - *`git push -u origin main` Nếu lần đầu push*
+
+
 ### Trường hợp máy bị thiếu commit so với github
+- add, commit trước
 - `git stash` Đưa code chưa commit vào vùng an toàn.
 - `git pull --rebase origin main`  Đặt commit sắp tới lưu trên máy sau commit thằng mới nhất trên github.
 - `git stash pop` Lấy code ra khỏi vùng an toàn sau đó chạy thử xem có xung đột không.
-
-Nếu tự tin code an toàn thì có thể:
-- `git add .`
-- `git commit -m ""` commit đã an toàn cho code của mình rồi.
-- `git pull --rebase origin main` tải về sau đó gộp và nối lịch sử commit trên máy sau lịch sử repo
 - `git push`
+Sau khi chạy git stash pop, nếu VS Code báo Conflict (màu đỏ/xanh), bạn chỉ cần mở file đó ra, chọn Accept Incoming Change (giữ code GitHub), Accept Current Change (giữ code của bạn), hoặc Accept Both Changes (giữ cả hai) là xong!
+
+
+#### Nếu xung đột tại pull --rebase:
+- file đánh dấu đỏ, mở ra đọc (Chỉ cần dòng khác nhau là nó báo lỗi)
+- sửa lại rồi
+- `git add backend/file_vua_sua.js`
+- `git rebase --continue` + `git push`
+- nếu không tiếp tục thì `git rebase --abort`
+
 > ## Các bước tải code về:
 
 #### `1.git pull`
@@ -64,13 +72,11 @@ Nếu tự tin code an toàn thì có thể:
 
 ### `git reflog`
 Xem lịch sử commit, thoát nhấn q
-### git bracnh
-- Liệt kê các nhánh, nhánh đang đứng màu xanh.
-- Học tiếp về branch:
-    - https://youtu.be/GuVpL2NtLoU?si=D5bZTwtowH9xAqed
-    - https://youtu.be/PtQCEZFk7OE?si=26Ui0h0XKK-jVSUY
-    - https://youtu.be/2kXtUnsjuVw?si=8W39X44WWU-fdoRK
 
+### `git reset --hard f8c24d2`
+Khôi phục commit cũ.
 
+### `git push origin main --force`
+Thao tác --force sẽ thay đổi lịch sử repo trên GitHub.
 
 

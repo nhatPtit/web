@@ -73,7 +73,7 @@ uploadApp.listen(UPLOAD_PORT, () => {
 });
 
 // 1. Tự động kiểm tra và cập nhật giá xăng PVOIL ngay khi vừa bật server
-// luuGiaXang();
+//luuGiaXang();
 
 // 2. Tự động kiểm tra và cào giá xăng mới định kỳ mỗi ngày (mỗi 6 giờ kiểm tra một lần)
 setInterval(() => {

@@ -338,7 +338,8 @@
             border-radius: 10px;
             padding: 16px;
             margin-bottom: 24px;
-            max-width: 480px; /* Thu gọn chiều rộng khung lịch */
+            max-width: 480px;
+            /* Thu gọn chiều rộng khung lịch */
         }
 
         .calendar-header {
@@ -391,10 +392,22 @@
             border: 1px solid transparent;
         }
 
-        .legend-box.available { background: #ffffff; border-color: #cbd5e1; }
-        .legend-box.selected { background: #0284c7; }
-        .legend-box.in-range { background: #bae6fd; }
-        .legend-box.booked { background: #94a3b8; }
+        .legend-box.available {
+            background: #ffffff;
+            border-color: #cbd5e1;
+        }
+
+        .legend-box.selected {
+            background: #0284c7;
+        }
+
+        .legend-box.in-range {
+            background: #bae6fd;
+        }
+
+        .legend-box.booked {
+            background: #94a3b8;
+        }
 
         .calendar-weekdays {
             display: grid;
@@ -538,6 +551,481 @@
         .btn-submit-order:disabled {
             background-color: #94a3b8;
             cursor: not-allowed;
+        }
+
+        /* Styles cho Tab Lịch sử Ad Requests */
+        .history-table-wrapper {
+            overflow-x: auto;
+            margin-top: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13.5px;
+            white-space: nowrap;
+        }
+
+        .history-table th {
+            background-color: #f8fafc;
+            color: #475569;
+            font-weight: 700;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 12.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .history-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        .history-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Badge Trạng thái */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        /* 1. Chưa duyệt */
+        .status-badge.chuaduyet,
+        .status-badge.cho_duyet {
+            background-color: #fef3c7;
+            color: #b45309;
+            border: 1px solid #fde68a;
+        }
+
+        /* 1.5. Chờ xác nhận thanh toán */
+        .status-badge.choxacnhan,
+        .status-badge.cho_xac_nhan {
+            background-color: #fef08a;
+            color: #854d0e;
+            border: 1px solid #fde047;
+        }
+
+        /* 2. Đã duyệt (chờ thanh toán) */
+        .status-badge.daduyet,
+        .status-badge.da_duyet,
+        .status-badge.approved {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+        }
+
+        /* 3. Đã thanh toán */
+        .status-badge.dathanhtoan,
+        .status-badge.da_thanh_toan,
+        .status-badge.active {
+            background-color: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* 4. Quá hạn */
+        .status-badge.quahan,
+        .status-badge.qua_han,
+        .status-badge.expired {
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* 5. Từ chối */
+        .status-badge.tuchoi,
+        .status-badge.tu_choi,
+        .status-badge.rejected {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        /* Nút hành động trong bảng */
+        .btn-pay-now {
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(22, 163, 74, 0.25);
+        }
+
+        .btn-pay-now:hover {
+            background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+            transform: translateY(-1px);
+        }
+
+        .btn-view-reason {
+            padding: 5px 10px;
+            background: #fff1f2;
+            color: #be123c;
+            border: 1px solid #fecdd3;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-view-reason:hover {
+            background: #ffe4e6;
+            color: #9f1239;
+        }
+
+        /* Thumbnail ảnh media */
+        .ad-media-thumb {
+            width: 70px;
+            height: 44px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: block;
+        }
+
+        .ad-media-thumb:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Link URL rút gọn */
+        .ad-target-link {
+            max-width: 180px;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .ad-target-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles cho QR Modal Thanh Toán */
+        .qr-card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .qr-img-box {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            margin: 14px 0;
+            display: inline-block;
+        }
+
+        .qr-code-image {
+            width: 250px;
+            height: 250px;
+            display: block;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .payment-info-box {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-top: 10px;
+            text-align: left;
+            font-size: 13.5px;
+            color: #334155;
+        }
+
+        .payment-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .payment-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .payment-notice-pill {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            font-size: 12.5px;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-top: 14px;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        /* MODAL POPUP ĐĂNG NHẬP / ĐĂNG KÝ DOANH NGHIỆP */
+        .auth-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .auth-modal-card {
+            background: #ffffff;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding: 28px 30px;
+            box-sizing: border-box;
+        }
+
+        .auth-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            color: #94a3b8;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: color 0.15s ease;
+        }
+
+        .auth-modal-close:hover {
+            color: #0f172a;
+            background: #f1f5f9;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 22px;
+            gap: 12px;
+        }
+
+        .auth-tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 16px;
+            font-size: 14.5px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            position: relative;
+            font-family: inherit;
+            transition: color 0.2s ease;
+        }
+
+        .auth-tab-btn:hover {
+            color: #1e293b;
+        }
+
+        .auth-tab-btn.active {
+            color: #2563eb;
+        }
+
+        .auth-tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #2563eb;
+            border-radius: 2px;
+        }
+
+        .auth-form-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .auth-form-sub {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .auth-input-group {
+            margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .auth-input-group label {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .auth-input-group label .req {
+            color: #dc2626;
+        }
+
+        .auth-input-group input {
+            padding: 9px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13.5px;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        .auth-input-group input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .auth-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .auth-col-full {
+            grid-column: 1 / -1;
+        }
+
+        .btn-auth-submit {
+            width: 100%;
+            padding: 11px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-auth-submit:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-auth-submit:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .auth-switch-prompt {
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 14px;
+        }
+
+        .auth-switch-prompt a {
+            color: #2563eb;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-switch-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-alert {
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .auth-alert.error {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .auth-alert.success {
+            background-color: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* Nút đăng nhập trên header portal khi chưa login */
+        .btn-portal-login {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            color: #ffffff;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-portal-login:hover {
+            background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%);
         }
     </style>
 </head>
@@ -1063,7 +1551,7 @@
             const storedUser = localStorage.getItem('ptews_advertiser');
             let user = null;
             if (storedUser) {
-                try { user = JSON.parse(storedUser); } catch (err) {}
+                try { user = JSON.parse(storedUser); } catch (err) { }
             }
 
             if (!user || !user.id) {
@@ -1121,7 +1609,7 @@
                     alertEl.style.background = '#dcfce7';
                     alertEl.style.color = '#15803d';
                     alertEl.innerText = `🎉 Yêu cầu đặt quảng cáo đã được gửi thành công! (Mã yêu cầu #${result.requestId}). Ban biên tập sẽ duyệt trong thời gian sớm nhất.`;
-                    
+
                     // Reset form
                     document.getElementById('ad-request-form').reset();
                     selectedStartDate = null;
@@ -1168,6 +1656,16 @@
                 return;
             }
 
+            if (tabKey === 'lich-su') {
+                loadHistoryTab();
+                return;
+            }
+
+            if (tabKey === 'thanh-toan') {
+                loadPaymentTab();
+                return;
+            }
+
             // Với các tab khác, tạm thời hiển thị khung welcome-box
             const contentEl = document.getElementById('tab-content');
             contentEl.className = 'welcome-box';
@@ -1190,7 +1688,514 @@
             `;
         }
 
-        // Tự động tải tab Bảng giá ngay khi vào trang
+        // ==========================================
+        // TAB LỊCH SỬ YÊU CẦU QUẢNG CÁO (AD REQUESTS)
+        // ==========================================
+        async function loadHistoryTab() {
+            const contentEl = document.getElementById('tab-content');
+            contentEl.className = 'content-card';
+            contentEl.innerHTML = `
+                <div class="content-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h2>Lịch Sử Yêu Cầu & Chiến Dịch Quảng Cáo</h2>
+                        <p>Theo dõi tiến trình xét duyệt, trạng thái thanh toán và lịch biểu các chiến dịch của doanh nghiệp.</p>
+                    </div>
+                    <button type="button" class="btn-order-direct" style="background-color: #0284c7;" onclick="loadHistoryTab()">
+                        🔄 Làm mới
+                    </button>
+                </div>
+                <div class="loading-text" id="history-loading">⏳ Đang tải dữ liệu lịch sử yêu cầu...</div>
+            `;
+
+            const storedUser = localStorage.getItem('ptews_advertiser');
+            let user = null;
+            if (storedUser) {
+                try { user = JSON.parse(storedUser); } catch (e) { }
+            }
+
+            if (!user || !user.id) {
+                contentEl.innerHTML = `
+                    <div style="padding: 30px; text-align: center; color: #dc2626;">
+                        ⚠️ Bạn cần đăng nhập để xem lịch sử yêu cầu quảng cáo!
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/auth-doanhnghiep/my-requests?advertiser_id=${user.id}`);
+                const resJson = await response.json();
+
+                if (!resJson.success) {
+                    throw new Error(resJson.message || 'Không thể tải lịch sử');
+                }
+
+                renderHistoryTable(resJson.data || []);
+
+            } catch (err) {
+                console.error('Lỗi khi tải lịch sử:', err);
+                const loadingEl = document.getElementById('history-loading');
+                if (loadingEl) {
+                    loadingEl.innerHTML = `<span style="color: #dc2626;">❌ Lỗi: ${err.message || 'Không thể kết nối máy chủ.'}</span>`;
+                }
+            }
+        }
+
+        // Định dạng và gắn nhãn cho Status
+        function formatStatusBadge(status) {
+            const s = (status || '').toLowerCase().trim();
+
+            if (s === 'choxacnhan' || s === 'cho_xac_nhan') {
+                return `<span class="status-badge choxacnhan">⏳ Chờ xác nhận</span>`;
+            }
+            if (s === 'daduyet' || s === 'da_duyet' || s === 'approved') {
+                return `<span class="status-badge daduyet">🔵 Chờ thanh toán</span>`;
+            }
+            if (s === 'chuaduyet' || s === 'cho_duyet' || s === 'pending') {
+                return `<span class="status-badge chuaduyet">🟡 Chờ duyệt</span>`;
+            }
+            if (s === 'dathanhtoan' || s === 'da_thanh_toan' || s === 'active' || s === 'hoat_dong') {
+                return `<span class="status-badge dathanhtoan">🟢 Đã thanh toán</span>`;
+            }
+            if (s === 'quahan' || s === 'qua_han' || s === 'expired') {
+                return `<span class="status-badge quahan">⚪ Quá hạn</span>`;
+            }
+            if (s === 'tuchoi' || s === 'tu_choi' || s === 'rejected') {
+                return `<span class="status-badge tuchoi">🔴 Bị từ chối</span>`;
+            }
+
+            return `<span class="status-badge quahan">${status || 'Không rõ'}</span>`;
+        }
+
+        function renderHistoryTable(requests) {
+            const contentEl = document.getElementById('tab-content');
+
+            if (!requests || requests.length === 0) {
+                contentEl.innerHTML = `
+                    <div class="content-card-header">
+                        <h2>Lịch Sử Yêu Cầu & Chiến Dịch Quảng Cáo</h2>
+                        <p>Theo dõi tiến trình xét duyệt, trạng thái thanh toán và lịch biểu các chiến dịch của doanh nghiệp.</p>
+                    </div>
+                    <div style="padding: 48px 20px; text-align: center; color: #64748b;">
+                        <p style="font-size: 16px; margin-bottom: 14px;">📭 Doanh nghiệp của bạn chưa có yêu cầu quảng cáo nào.</p>
+                        <button type="button" class="btn-order-direct" onclick="switchTab(document.querySelectorAll('.portal-sidebar .nav-btn')[1], 'tao-yeu-cau')">
+                            ➕ Tạo yêu cầu quảng cáo ngay
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let rowsHtml = '';
+            requests.forEach((req, idx) => {
+                const s = (req.status || '').toLowerCase().trim();
+                const totalFormatted = Number(req.total_amount || 0).toLocaleString('vi-VN');
+
+                // Xử lý nút Hành động
+                let actionHtml = '-';
+                if (s === 'daduyet' || s === 'da_duyet' || s === 'approved') {
+                    // Nếu được duyệt thì hiển thị nút thanh toán
+                    actionHtml = `
+                        <button type="button" class="btn-pay-now" onclick="proceedToPayment(${req.Id}, ${req.total_amount}, '${escapeJsString(req.position_name)}')">
+                            💳 Thanh toán ngay
+                        </button>
+                    `;
+                } else if (s === 'tuchoi' || s === 'tu_choi' || s === 'rejected') {
+                    // Nếu bị từ chối thì có thể xem lý do từ chối
+                    const reason = req.rejection_reason || 'Không có lý do cụ thể được đính kèm.';
+                    actionHtml = `
+                        <button type="button" class="btn-view-reason" onclick="viewRejectionReason(${req.Id}, '${escapeJsString(reason)}')">
+                            🔍 Xem lý do
+                        </button>
+                    `;
+                } else if (s === 'choxacnhan' || s === 'cho_xac_nhan') {
+                    actionHtml = `<span style="color: #ca8a04; font-weight: 600; font-size: 12.5px;">⏳ Chờ đối soát</span>`;
+                } else if (s === 'dathanhtoan' || s === 'da_thanh_toan' || s === 'active') {
+                    actionHtml = `<span style="color: #16a34a; font-weight: 600; font-size: 12.5px;">Đang hoạt động</span>`;
+                } else if (s === 'quahan' || s === 'qua_han') {
+                    actionHtml = `<span style="color: #94a3b8; font-size: 12.5px;">Hết hạn</span>`;
+                } else {
+                    actionHtml = `<span style="color: #d97706; font-size: 12.5px;">Đang kiểm duyệt</span>`;
+                }
+
+                // Render media preview
+                let mediaHtml = '-';
+                if (req.media_url) {
+                    const isVideo = req.media_url.endsWith('.mp4') || req.media_url.endsWith('.webm');
+                    if (isVideo) {
+                        mediaHtml = `
+                            <a href="${req.media_url}" target="_blank" style="font-size: 12px; color: #0284c7; text-decoration: underline;">
+                                🎬 Xem Video
+                            </a>
+                        `;
+                    } else {
+                        mediaHtml = `
+                            <a href="${req.media_url}" target="_blank" title="Bấm để xem ảnh gốc">
+                                <img src="${req.media_url}" alt="Banner" class="ad-media-thumb" onerror="this.onerror=null; this.src='img/AD-background.webp';">
+                            </a>
+                        `;
+                    }
+                }
+
+                // Target URL link
+                const targetHtml = req.target_url
+                    ? `<a href="${req.target_url}" target="_blank" class="ad-target-link" title="${req.target_url}">${req.target_url}</a>`
+                    : '-';
+
+                rowsHtml += `
+                    <tr>
+                        <td style="font-weight: 700; color: #0f172a; text-align: center;">
+                            #${req.Id}
+                        </td>
+                        <td style="font-weight: 700; color: #1e293b; text-align: center;">
+                            ${req.position_id}
+                        </td>
+                        <td style="text-align: center;">
+                            ${mediaHtml}
+                        </td>
+                        <td>
+                            ${targetHtml}
+                        </td>
+                        <td style="color: #334155; font-size: 13px;">
+                            ${req.start_date || '-'}
+                        </td>
+                        <td style="color: #334155; font-size: 13px;">
+                            ${req.end_date || '-'}
+                        </td>
+                        <td style="font-weight: 700; color: #0369a1;">
+                            ${totalFormatted} đ
+                        </td>
+                        <td style="text-align: center;">
+                            ${actionHtml}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            contentEl.innerHTML = `
+                <div class="content-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h2>Lịch Sử Yêu Cầu & Chiến Dịch Quảng Cáo</h2>
+                        <p>Theo dõi tiến trình xét duyệt, trạng thái thanh toán và lịch biểu các chiến dịch của doanh nghiệp.</p>
+                    </div>
+                    <button type="button" class="btn-order-direct" style="background-color: #0284c7;" onclick="loadHistoryTab()">
+                        🔄 Làm mới
+                    </button>
+                </div>
+
+                <div class="history-table-wrapper">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Mã</th>
+                                <th style="text-align: center;">Vị Trí</th>
+                                <th style="text-align: center;">Ảnh</th>
+                                <th>Link Điều Hướng</th>
+                                <th>Ngày Bắt Đầu</th>
+                                <th>Ngày Kết Thúc</th>
+                                <th>Tổng Tiền</th>
+                                <th style="text-align: center;">Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rowsHtml}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // Thoát ký tự đặc biệt cho JS inline onclick
+        function escapeJsString(str) {
+            if (!str) return '';
+            return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        // Xem popup lý do từ chối
+        function viewRejectionReason(reqId, reason) {
+            alert(`📌 LÝ DO TỪ CHỐI (Yêu cầu #${reqId}):\n\n"${reason}"\n\nBạn có thể chỉnh sửa và nộp lại yêu cầu mới nếu muốn.`);
+        }
+
+        // Nút chuyển sang thanh toán từ tab Lịch sử
+        function proceedToPayment(reqId, amount, posName) {
+            const payBtn = document.querySelectorAll('.portal-sidebar .nav-btn')[3];
+            if (payBtn) {
+                switchTab(payBtn, 'thanh-toan');
+                // Tự động mở QR thanh toán cho đơn này
+                setTimeout(() => {
+                    openPaymentQrModal(reqId, amount, posName);
+                }, 300);
+            }
+        }
+
+        // ==========================================
+        // TAB THANH TOÁN (CÁC ĐƠN ĐÃ ĐƯỢC DUYỆT)
+        // ==========================================
+        let cachedBankInfo = null;
+
+        async function fetchBankInfo() {
+            if (cachedBankInfo) return cachedBankInfo;
+            try {
+                const res = await fetch('/api/auth-doanhnghiep/payment-info');
+                const json = await res.json();
+                if (json.success && json.data) {
+                    cachedBankInfo = json.data;
+                    return cachedBankInfo;
+                }
+            } catch (e) {
+                console.error('Lỗi lấy thông tin ngân hàng:', e);
+            }
+            return {
+                bank_id: 'MB',
+                account_no: '0123456789',
+                account_name: 'TOA SOAN PTEWS',
+                template: 'compact2'
+            };
+        }
+
+        async function loadPaymentTab() {
+            const contentEl = document.getElementById('tab-content');
+            contentEl.className = 'content-card';
+            contentEl.innerHTML = `
+                <div class="content-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h2>Cổng Thanh Toán Hợp Đồng Quảng Cáo</h2>
+                        <p>Danh sách các chiến dịch đã được ban biên tập phê duyệt đang chờ thanh toán.</p>
+                    </div>
+                    <button type="button" class="btn-order-direct" style="background-color: #0284c7;" onclick="loadPaymentTab()">
+                        🔄 Làm mới
+                    </button>
+                </div>
+                <div class="loading-text" id="payment-loading">⏳ Đang tải các đơn cần thanh toán...</div>
+            `;
+
+            const storedUser = localStorage.getItem('ptews_advertiser');
+            let user = null;
+            if (storedUser) {
+                try { user = JSON.parse(storedUser); } catch (e) { }
+            }
+
+            if (!user || !user.id) {
+                contentEl.innerHTML = `
+                    <div style="padding: 30px; text-align: center; color: #dc2626;">
+                        ⚠️ Bạn cần đăng nhập để quản lý thanh toán!
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                // Tải lịch sử đơn của doanh nghiệp để lọc các đơn đã duyệt (daduyet)
+                const response = await fetch(`/api/auth-doanhnghiep/my-requests?advertiser_id=${user.id}`);
+                const resJson = await response.json();
+
+                if (!resJson.success) {
+                    throw new Error(resJson.message || 'Không thể tải danh sách đơn');
+                }
+
+                const allRequests = resJson.data || [];
+                // Lọc những đơn có trạng thái đã duyệt
+                const approvedRequests = allRequests.filter(r => {
+                    const s = (r.status || '').toLowerCase().trim();
+                    return s === 'daduyet' || s === 'da_duyet' || s === 'approved' || s === 'choxacnhan' || s === 'cho_xac_nhan';
+                });
+
+                renderPaymentTable(approvedRequests);
+
+            } catch (err) {
+                console.error('Lỗi khi tải trang thanh toán:', err);
+                const loadingEl = document.getElementById('payment-loading');
+                if (loadingEl) {
+                    loadingEl.innerHTML = `<span style="color: #dc2626;">❌ Lỗi: ${err.message || 'Không thể kết nối máy chủ.'}</span>`;
+                }
+            }
+        }
+
+        function renderPaymentTable(requests) {
+            const contentEl = document.getElementById('tab-content');
+
+            if (!requests || requests.length === 0) {
+                contentEl.innerHTML = `
+                    <div class="content-card-header">
+                        <h2>Cổng Thanh Toán Hợp Đồng Quảng Cáo</h2>
+                        <p>Danh sách các chiến dịch đã được ban biên tập phê duyệt đang chờ thanh toán.</p>
+                    </div>
+                    <div style="padding: 48px 20px; text-align: center; color: #64748b;">
+                        <p style="font-size: 16px; margin-bottom: 14px;">🎉 Hiện tại bạn không có đơn quảng cáo nào đang chờ thanh toán.</p>
+                        <p style="font-size: 13.5px; color: #94a3b8;">Các đơn sau khi được Ban biên tập phê duyệt sẽ tự động xuất hiện tại đây.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let rowsHtml = '';
+            requests.forEach(req => {
+                const s = (req.status || '').toLowerCase().trim();
+                const totalFormatted = Number(req.total_amount || 0).toLocaleString('vi-VN');
+
+                let mediaHtml = '-';
+                if (req.media_url) {
+                    const isVideo = req.media_url.endsWith('.mp4') || req.media_url.endsWith('.webm');
+                    if (isVideo) {
+                        mediaHtml = `<a href="${req.media_url}" target="_blank" style="font-size: 12px; color: #0284c7;">🎬 Video</a>`;
+                    } else {
+                        mediaHtml = `
+                            <a href="${req.media_url}" target="_blank">
+                                <img src="${req.media_url}" alt="Banner" class="ad-media-thumb" onerror="this.onerror=null; this.src='img/AD-background.webp';">
+                            </a>
+                        `;
+                    }
+                }
+
+                rowsHtml += `
+                    <tr>
+                        <td style="font-weight: 700; color: #0f172a; text-align: center;">
+                            #${req.Id}
+                        </td>
+                        <td style="font-weight: 700; color: #1e293b; text-align: center;">
+                            ${req.position_id}
+                        </td>
+                        <td style="text-align: center;">
+                            ${mediaHtml}
+                        </td>
+                        <td style="color: #334155; font-size: 13px;">
+                            ${req.start_date} ➔ ${req.end_date}
+                        </td>
+                        <td style="font-weight: 800; color: #b91c1c; font-size: 15px;">
+                            ${totalFormatted} đ
+                        </td>
+                        <td>
+                            ${s === 'choxacnhan' || s === 'cho_xac_nhan'
+                        ? '<span class="status-badge choxacnhan">⏳ Chờ xác nhận</span>'
+                        : '<span class="status-badge daduyet">🔵 Chờ thanh toán</span>'}
+                        </td>
+                        <td style="text-align: center;">
+                            ${s === 'choxacnhan' || s === 'cho_xac_nhan'
+                        ? '<button type="button" class="btn-pay-now" style="background: #eab308; color: #713f12;" onclick="openPaymentQrModal(' + req.Id + ', ' + req.total_amount + ', \'' + escapeJsString(req.position_name) + '\')">📱 Xem lại QR</button>'
+                        : '<button type="button" class="btn-pay-now" onclick="openPaymentQrModal(' + req.Id + ', ' + req.total_amount + ', \'' + escapeJsString(req.position_name) + '\')">📱 Lấy mã QR thanh toán</button>'}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            contentEl.innerHTML = `
+                <div class="content-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h2>Cổng Thanh Toán Hợp Đồng Quảng Cáo</h2>
+                        <p>Danh sách các chiến dịch đã được ban biên tập phê duyệt đang chờ thanh toán.</p>
+                    </div>
+                    <button type="button" class="btn-order-direct" style="background-color: #0284c7;" onclick="loadPaymentTab()">
+                        🔄 Làm mới
+                    </button>
+                </div>
+
+                <div class="history-table-wrapper">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Mã</th>
+                                <th style="text-align: center;">Vị Trí</th>
+                                <th style="text-align: center;">Ảnh</th>
+                                <th>Thời Gian Hiển Thị</th>
+                                <th>Số Tiền</th>
+                                <th>Trạng Thái</th>
+                                <th style="text-align: center;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rowsHtml}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // Mở Modal Mã QR Thanh toán VietQR
+        let currentPayingReqId = null;
+
+        async function openPaymentQrModal(reqId, amount, posName) {
+            currentPayingReqId = reqId;
+            const modal = document.getElementById('payment-qr-modal');
+            const qrImg = document.getElementById('payment-qr-img');
+            const amountEl = document.getElementById('qr-display-amount');
+            const contentNoteEl = document.getElementById('qr-display-content');
+            const bankNameEl = document.getElementById('qr-display-bank');
+            const accountNoEl = document.getElementById('qr-display-account');
+            const accountNameEl = document.getElementById('qr-display-name');
+
+            const bankInfo = await fetchBankInfo();
+            const transferContent = `PTEWS QC ${reqId}`;
+
+            // Tạo link VietQR QuickLink tiêu chuẩn
+            // https://img.vietqr.io/image/<BANK_ID>-<ACCOUNT_NO>-<TEMPLATE>.png?amount=<AMOUNT>&addInfo=<DESCRIPTION>&accountName=<ACCOUNT_NAME>
+            const qrUrl = `https://img.vietqr.io/image/${bankInfo.bank_id}-${bankInfo.account_no}-${bankInfo.template}.png?amount=${Math.round(amount)}&addInfo=${encodeURIComponent(transferContent)}&accountName=${encodeURIComponent(bankInfo.account_name)}`;
+
+            qrImg.src = qrUrl;
+            amountEl.innerText = Number(amount).toLocaleString('vi-VN') + ' đ';
+            contentNoteEl.innerText = transferContent;
+            bankNameEl.innerText = bankInfo.bank_id;
+            accountNoEl.innerText = bankInfo.account_no;
+            accountNameEl.innerText = bankInfo.account_name;
+
+            modal.style.display = 'flex';
+        }
+
+        function closePaymentQrModal() {
+            const modal = document.getElementById('payment-qr-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        async function confirmPaymentDone() {
+            if (!currentPayingReqId) {
+                closePaymentQrModal();
+                return;
+            }
+
+            const btn = document.getElementById('btn-confirm-payment-action');
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = '⏳ Đang gửi xác nhận...';
+            }
+
+            try {
+                const storedUser = localStorage.getItem('ptews_advertiser');
+                let user = null;
+                if (storedUser) {
+                    try { user = JSON.parse(storedUser); } catch (e) { }
+                }
+
+                const response = await fetch('/api/auth-doanhnghiep/confirm-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        request_id: currentPayingReqId,
+                        advertiser_id: user ? user.id : null
+                    })
+                });
+
+                const resJson = await response.json();
+                if (!response.ok || !resJson.success) {
+                    throw new Error(resJson.message || 'Không thể cập nhật trạng thái');
+                }
+
+                alert('✓ ' + (resJson.message || 'Đã chuyển trạng thái sang Chờ xác nhận!'));
+                closePaymentQrModal();
+
+                // Tải lại tab thanh toán để cập nhật trạng thái ngay
+                loadPaymentTab();
+
+            } catch (err) {
+                console.error('Lỗi khi gửi xác nhận thanh toán:', err);
+                alert('⚠️ Lỗi: ' + err.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = '✓ Tôi đã hoàn tất thanh toán';
+                }
+            }
+        }
+
+        // Tự động tải tab Bảng giá ngay khi vào trang, nếu chưa đăng nhập thì hiện luôn form đăng nhập
         window.addEventListener('DOMContentLoaded', () => {
             const firstBtn = document.querySelector('.portal-sidebar .nav-btn');
             if (firstBtn) {
@@ -1203,6 +2208,155 @@
             window.location.href = 'connect-to-ad.html';
         }
     </script>
+
+    <!-- MODAL POPUP ĐĂNG NHẬP / ĐĂNG KÝ DOANH NGHIỆP -->
+    <div id="auth-modal" class="auth-modal-overlay" style="display: none;">
+        <div class="auth-modal-card">
+            <button type="button" class="auth-modal-close" onclick="closeAuthModal()" title="Đóng">&times;</button>
+
+            <!-- Tabs chọn Đăng nhập hoặc Đăng ký -->
+            <div class="auth-tabs">
+                <button type="button" id="tab-login" class="auth-tab-btn active" onclick="switchAuthTab('login')">
+                    Đăng nhập
+                </button>
+                <button type="button" id="tab-register" class="auth-tab-btn" onclick="switchAuthTab('register')">
+                    Đăng ký
+                </button>
+            </div>
+
+            <!-- 1. FORM ĐĂNG NHẬP -->
+            <form id="form-login" class="auth-form" onsubmit="handleLoginSubmit(event)">
+                <div class="auth-form-title">Đăng nhập</div>
+                <p class="auth-form-sub">Dành cho đối tác quảng cáo có đăng ký thông tin doanh nghiệp tại PTEWS</p>
+
+                <div id="login-alert" class="auth-alert" style="display: none;"></div>
+
+                <div class="auth-input-group">
+                    <label for="login-username">Tên đăng nhập<span class="req">*</span></label>
+                    <input type="text" id="login-username" required placeholder="Nhập tên đăng nhập">
+                </div>
+
+                <div class="auth-input-group">
+                    <label for="login-password">Mật khẩu <span class="req">*</span></label>
+                    <input type="password" id="login-password" required placeholder="Nhập mật khẩu">
+                </div>
+
+                <button type="submit" id="btn-submit-login" class="btn-auth-submit">
+                    Đăng nhập
+                </button>
+
+                <div class="auth-switch-prompt">
+                    Chưa có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('register')">Đăng ký</a>
+                </div>
+            </form>
+
+            <!-- 2. FORM ĐĂNG KÝ -->
+            <form id="form-register" class="auth-form" style="display: none;" onsubmit="handleRegisterSubmit(event)">
+                <div class="auth-form-title">Đăng ký</div>
+                <p class="auth-form-sub">Vui lòng điền đầy đủ các thông tin để khởi tạo hồ sơ</p>
+
+                <div id="register-alert" class="auth-alert" style="display: none;"></div>
+
+                <div class="auth-form-grid">
+                    <div class="auth-input-group auth-col-full">
+                        <label for="reg-company-name">Tên Công ty / Doanh nghiệp <span class="req">*</span></label>
+                        <input type="text" id="reg-company-name" required
+                            placeholder="VD: Công ty Cổ phần Công nghệ ABC">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-chucdanh">Chức vụ <span class="req">*</span></label>
+                        <input type="text" id="reg-chucdanh" required
+                            placeholder="VD: Trưởng phòng Marketing, Giám đốc...">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-full-name">Họ và tên người đại diện <span class="req">*</span></label>
+                        <input type="text" id="reg-full-name" required placeholder="VD: Nguyễn Văn Nam">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-phone">Số điện thoại người đại diện <span class="req">*</span></label>
+                        <input type="tel" id="reg-phone" required placeholder="VD: 0912345678">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-email">Email người đại diện <span class="req">*</span></label>
+                        <input type="email" id="reg-email" required placeholder="VD: contact@doanhnghiep.vn">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-username">Tên đăng nhập <span class="req">*</span></label>
+                        <input type="text" id="reg-username" required placeholder="Tối thiểu 3 ký tự">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-password">Mật khẩu <span class="req">*</span></label>
+                        <input type="password" id="reg-password" required placeholder="Tối thiểu 6 ký tự">
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit-register" class="btn-auth-submit" style="margin-top: 14px;">
+                    Tạo tài khoản Doanh nghiệp
+                </button>
+
+                <div class="auth-switch-prompt">
+                    Đã có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('login')">Quay lại Đăng
+                        nhập</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL POPUP MÃ QR THANH TOÁN (VIETQR) -->
+    <div id="payment-qr-modal" class="auth-modal-overlay" style="display: none;">
+        <div class="auth-modal-card" style="max-width: 440px;">
+            <button type="button" class="auth-modal-close" onclick="closePaymentQrModal()" title="Đóng">&times;</button>
+            <div class="qr-card-container">
+                <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 4px;">Quét Mã QR Để Thanh
+                    Toán</h3>
+                <p style="font-size: 13px; color: #64748b;">Mở ứng dụng Ngân hàng hoặc ví điện tử bất kỳ để quét mã</p>
+
+                <div class="qr-img-box">
+                    <img id="payment-qr-img" class="qr-code-image" src="" alt="Mã VietQR Thanh Toán">
+                </div>
+
+                <div class="payment-info-box">
+                    <div class="payment-info-row">
+                        <span>Số tiền cần thanh toán:</span>
+                        <strong id="qr-display-amount" style="color: #b91c1c; font-size: 16px;">0 đ</strong>
+                    </div>
+                    <div class="payment-info-row">
+                        <span>Nội dung chuyển khoản:</span>
+                        <strong id="qr-display-content" style="color: #0369a1; letter-spacing: 0.5px;">PTEWS QC
+                            ...</strong>
+                    </div>
+                    <div class="payment-info-row">
+                        <span>Ngân hàng:</span>
+                        <strong id="qr-display-bank">MB Bank</strong>
+                    </div>
+                    <div class="payment-info-row">
+                        <span>Số tài khoản:</span>
+                        <strong id="qr-display-account">...</strong>
+                    </div>
+                    <div class="payment-info-row">
+                        <span>Chủ tài khoản:</span>
+                        <strong id="qr-display-name">TOA SOAN PTEWS</strong>
+                    </div>
+                </div>
+
+                <div class="payment-notice-pill">
+                    💡 <strong>Lưu ý:</strong> Vui lòng giữ nguyên nội dung chuyển khoản để ban quản trị đối soát. Sau
+                    khi bạn chuyển khoản thành công, người kiểm duyệt sẽ kiểm tra và xác nhận thanh toán thủ công.
+                </div>
+
+                <button type="button" id="btn-confirm-payment-action" class="btn-auth-submit"
+                    style="margin-top: 16px; width: 100%; background: #16a34a;" onclick="confirmPaymentDone()">
+                    Xác nhận đã thanh toán
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

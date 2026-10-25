@@ -385,7 +385,54 @@
         }
 
 
-    </script>
+    
+        // Tải và hiển thị quảng cáo vị trí 1 (Nền trang chủ) và vị trí 2 (Sidebar)
+        async function loadHomeAds() {
+            const defaultBgAd = 'AD_file/ad1-background-takeover.svg';
+            const defaultSidebarAd = 'AD_file/ad2-top-sidebar-banner.svg';
+
+            let activeAds = {};
+            try {
+                const response = await fetch('/api/auth-doanhnghiep/active-ads');
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success && result.data) {
+                        activeAds = result.data;
+                    }
+                }
+            } catch (err) {
+                console.warn('Không tải được quảng cáo từ API, sử dụng mặc định:', err);
+            }
+
+            // 1. Vị trí 1: Nền trang chủ (ad-background-wrapper)
+            const bgWrapper = document.querySelector('#body-placeholder .ad-background-wrapper') || document.querySelector('.ad-background-wrapper');
+            if (bgWrapper) {
+                const ad1 = activeAds[1];
+                const ad1Url = (ad1 && ad1.media_url) ? ad1.media_url : defaultBgAd;
+                bgWrapper.style.backgroundImage = `url('${ad1Url}')`;
+                bgWrapper.style.backgroundRepeat = 'no-repeat';
+                bgWrapper.style.backgroundPosition = 'center top';
+                bgWrapper.style.backgroundSize = 'cover';
+                const ad1Target = (ad1 && ad1.target_url) ? ad1.target_url : 'connect-to-ad.html';
+                bgWrapper.style.cursor = 'pointer';
+                bgWrapper.onclick = () => window.open(ad1Target, '_blank');
+            }
+
+            // 2. Vị trí 2: Top Sidebar Banner (top-sidebar-ad)
+            const sidebarAdEl = document.getElementById('top-sidebar-ad') || document.querySelector('.top-body .item2');
+            if (sidebarAdEl) {
+                const ad2 = activeAds[2];
+                const ad2Img = (ad2 && ad2.media_url) ? ad2.media_url : defaultSidebarAd;
+                const ad2Link = (ad2 && ad2.target_url) ? ad2.target_url : 'connect-to-ad.html';
+
+                sidebarAdEl.innerHTML = `
+                    <a href="${ad2Link}" target="_blank" title="Quảng cáo PTEWS">
+                        <img src="${ad2Img}" alt="Quảng cáo PTEWS">
+                    </a>
+                `;
+            }
+        }
+</script>
 
 </body>
 
