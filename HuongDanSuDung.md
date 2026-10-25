@@ -73,7 +73,6 @@ Nếu xung đột code vào phần git chọn changes trên vscode để chọn 
 ### Xóa commit vừa tạo
 - `git reset HEAD~1`
 
-
 ### `git reflog`
 Xem lịch sử commit, thoát nhấn q
 
