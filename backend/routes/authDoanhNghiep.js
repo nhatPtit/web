@@ -130,17 +130,17 @@ router.post('/register', async (req, res) => {
             return res.status(409).json({ success: false, message: `Doanh nghiệp "${trimmedCompany}" đã tồn tại trên hệ thống!` });
         }
 
-        // 4. Thực hiện thêm mới người dùng doanh nghiệp (VaiTro = 'DN', ButDanh = NULL, contact_person = full_name)
+        // 4. Thực hiện thêm mới người dùng doanh nghiệp (VaiTro = 'DN', ButDanh = NULL)
         const insertQuery = `
             INSERT INTO dbo.users (
                 username, password, email, phone, full_name,
                 VaiTro, ButDanh, TrangThai, company_name, chucdanh,
-                contact_person, violation_count, created_at
+                violation_count, created_at
             )
             VALUES (
                 @username, @password, @email, @phone, @full_name,
                 'DN', NULL, 'HoatDong', @company_name, @chucdanh,
-                @contact_person, 0, SYSDATETIME()
+                0, SYSDATETIME()
             );
 
             SELECT SCOPE_IDENTITY() AS new_id;
@@ -154,7 +154,6 @@ router.post('/register', async (req, res) => {
             .input('full_name', sql.NVarChar(100), trimmedFullName)
             .input('company_name', sql.NVarChar(150), trimmedCompany)
             .input('chucdanh', sql.NVarChar(100), trimmedChucDanh)
-            .input('contact_person', sql.NVarChar(100), trimmedFullName)
             .query(insertQuery);
 
         const newId = insertResult.recordset[0]?.new_id;
@@ -304,7 +303,7 @@ router.post('/create-request', upload.single('media_file'), async (req, res) => 
             .input('start_date', sql.Date, start_date)
             .input('end_date', sql.Date, end_date)
             .input('total_amount', sql.Decimal(18, 2), parseFloat(total_amount) || 0)
-            .input('status', sql.VarChar(30), 'chuaduyet')
+            .input('status', sql.VarChar(30), 'cho_duyet')
             .input('views_count', sql.Int, 0)
             .query(`
                 INSERT INTO dbo.ad_requests 
@@ -331,127 +330,6 @@ router.post('/create-request', upload.single('media_file'), async (req, res) => 
     }
 });
 
-// 6. API LẤY QUẢNG CÁO ĐANG HOẠT ĐỘNG THEO VỊ TRÍ (Active Ads cho ReadPage): GET /api/auth-doanhnghiep/active-ads
-router.get('/active-ads', async (req, res) => {
-    try {
-        const pool = await connectDB();
-        const query = `
-            WITH RankedAds AS (
-                SELECT 
-                    r.Id,
-                    r.position_id,
-                    r.media_url,
-                    r.target_url,
-                    r.start_date,
-                    r.end_date,
-                    r.status,
-                    ROW_NUMBER() OVER (
-                        PARTITION BY r.position_id 
-                        ORDER BY r.created_at DESC, r.Id DESC
-                    ) AS rn
-                FROM dbo.ad_requests r
-                WHERE (r.status IN ('da_duyet', 'active', 'approved', 'da_thanh_toan', 'hoat_dong') 
-                       OR r.status = 'Active')
-                  AND CAST(SYSDATETIME() AS DATE) BETWEEN r.start_date AND r.end_date
-            )
-            SELECT position_id, media_url, target_url, start_date, end_date
-            FROM RankedAds
-            WHERE rn = 1;
-        `;
-
-        const result = await pool.request().query(query);
-
-        // Trả về dạng map { 1: { media_url, target_url }, 2: { ... }, 3: { ... } }
-        const adsMap = {};
-        result.recordset.forEach(ad => {
-            adsMap[ad.position_id] = {
-                media_url: ad.media_url,
-                target_url: ad.target_url
-            };
-        });
-
-        return res.status(200).json({
-            success: true,
-            data: adsMap
-        });
-    } catch (err) {
-        console.error('Lỗi khi lấy quảng cáo đang hoạt động:', err);
-        return res.status(500).json({
-            success: false,
-            message: 'Lỗi server khi lấy dữ liệu quảng cáo',
-            data: {}
-        });
-    }
-});
-
-// 7. API LẤY LỊCH SỬ YÊU CẦU QUẢNG CÁO THEO DOANH NGHIỆP: GET /api/auth-doanhnghiep/my-requests
-router.get('/my-requests', async (req, res) => {
-    try {
-        const { advertiser_id } = req.query;
-
-        if (!advertiser_id || isNaN(parseInt(advertiser_id, 10))) {
-            return res.status(400).json({
-                success: false,
-                message: 'Thiếu hoặc không hợp lệ mã doanh nghiệp (advertiser_id)!'
-            });
-        }
-
-        const pool = await connectDB();
-
-        // 1. Tự động cập nhật các yêu cầu chưa thanh toán/chưa duyệt mà ngày bắt đầu hoặc kết thúc đã qua hạn
-        // Điều kiện quá hạn: nếu status là 'chuaduyet' hoặc 'daduyet' mà ngày hiện tại > start_date thì chuyển thành 'quahan'
-        await pool.request()
-            .input('adv_id', sql.Int, parseInt(advertiser_id, 10))
-            .query(`
-                UPDATE dbo.ad_requests
-                SET status = 'quahan'
-                WHERE advertiser_id = @adv_id
-                  AND status IN ('chuaduyet', 'daduyet', 'cho_duyet')
-                  AND CAST(SYSDATETIME() AS DATE) > start_date;
-            `);
-
-        // 2. Truy vấn danh sách lịch sử yêu cầu của doanh nghiệp
-        const query = `
-            SELECT 
-                r.Id,
-                r.advertiser_id,
-                r.position_id,
-                p.Name AS position_name,
-                r.media_url,
-                r.target_url,
-                CONVERT(VARCHAR(10), r.start_date, 23) AS start_date,
-                CONVERT(VARCHAR(10), r.end_date, 23) AS end_date,
-                r.total_amount,
-                r.status,
-                r.rejection_reason,
-                r.views_count,
-                r.created_at
-            FROM dbo.ad_requests r
-            JOIN dbo.ad_positions p ON r.position_id = p.Id
-            WHERE r.advertiser_id = @adv_id
-            ORDER BY r.created_at DESC, r.Id DESC;
-        `;
-
-        const result = await pool.request()
-            .input('adv_id', sql.Int, parseInt(advertiser_id, 10))
-            .query(query);
-
-        return res.status(200).json({
-            success: true,
-            message: 'Tải lịch sử yêu cầu quảng cáo thành công!',
-            data: result.recordset
-        });
-
-    } catch (err) {
-        console.error('Lỗi khi lấy lịch sử yêu cầu quảng cáo:', err);
-        return res.status(500).json({
-            success: false,
-            message: 'Lỗi server khi lấy lịch sử quảng cáo: ' + err.message
-        });
-    }
-});
-
 module.exports = router;
-
 
 

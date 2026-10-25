@@ -435,6 +435,224 @@
             text-decoration: underline;
         }
 
+        /* MODAL POPUP ĐĂNG NHẬP / ĐĂNG KÝ */
+        .auth-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .auth-modal-card {
+            background: #ffffff;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding: 28px 30px;
+            box-sizing: border-box;
+        }
+
+        .auth-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            color: #94a3b8;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: color 0.15s ease;
+        }
+
+        .auth-modal-close:hover {
+            color: #0f172a;
+            background: #f1f5f9;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 22px;
+            gap: 12px;
+        }
+
+        .auth-tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 16px;
+            font-size: 14.5px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            position: relative;
+            font-family: inherit;
+            transition: color 0.2s ease;
+        }
+
+        .auth-tab-btn:hover {
+            color: #1e293b;
+        }
+
+        .auth-tab-btn.active {
+            color: #2563eb;
+        }
+
+        .auth-tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #2563eb;
+            border-radius: 2px;
+        }
+
+        .auth-form-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .auth-form-sub {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .auth-input-group {
+            margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .auth-input-group label {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .auth-input-group label .req {
+            color: #dc2626;
+        }
+
+        .auth-input-group input {
+            padding: 9px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13.5px;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        .auth-input-group input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .auth-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .auth-col-full {
+            grid-column: 1 / -1;
+        }
+
+        .btn-auth-submit {
+            width: 100%;
+            padding: 11px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-auth-submit:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-auth-submit:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .auth-switch-prompt {
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 14px;
+        }
+
+        .auth-switch-prompt a {
+            color: #2563eb;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-switch-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hộp cảnh báo lỗi / thành công */
+        .auth-alert {
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .auth-alert.error {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .auth-alert.success {
+            background-color: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
     </style>
     <script src="js/amlich.js"></script>
     <script src="js/header.js"></script>
@@ -454,9 +672,9 @@
             <div class="ad-top-header">
                 <h1>Đặt quảng cáo tại PTEWS</h1>
                 <div id="auth-header-action">
-                    <a href="portal-doanhnghiep.html" class="btn-auth-trigger" style="text-decoration: none;">
+                    <button type="button" class="btn-auth-trigger" onclick="openAuthModal('login')">
                         🔐 Đăng ký / Đăng nhập
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -717,8 +935,10 @@
         }
 
         // ==========================================
-        // LOGIC XÁC THỰC DOANH NGHIỆP (ĐIỀU HƯỚNG SANG PORTAL)
+        // LOGIC XÁC THỰC DOANH NGHIỆP (LOGIN / REGISTER)
         // ==========================================
+        const API_AUTH_BASE = window.location.port === '3000' ? '' : 'http://localhost:3000';
+
         function checkCurrentAuth() {
             const container = document.getElementById('auth-header-action');
             if (!container) return;
@@ -743,9 +963,9 @@
             }
 
             container.innerHTML = `
-                <a href="portal-doanhnghiep.html" class="btn-auth-trigger" style="text-decoration: none;">
+                <button type="button" class="btn-auth-trigger" onclick="openAuthModal('login')">
                     🔐 Đăng ký / Đăng nhập
-                </a>
+                </button>
             `;
         }
 
@@ -754,9 +974,276 @@
             checkCurrentAuth();
         }
 
+        function openAuthModal(tab = 'login') {
+            const modal = document.getElementById('auth-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                switchAuthTab(tab);
+            }
+        }
+
+        function closeAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                clearAuthAlerts();
+            }
+        }
+
+        function switchAuthTab(tab) {
+            const tabLogin = document.getElementById('tab-login');
+            const tabReg = document.getElementById('tab-register');
+            const formLogin = document.getElementById('form-login');
+            const formReg = document.getElementById('form-register');
+
+            clearAuthAlerts();
+
+            if (tab === 'login') {
+                tabLogin.classList.add('active');
+                tabReg.classList.remove('active');
+                formLogin.style.display = 'block';
+                formReg.style.display = 'none';
+            } else {
+                tabReg.classList.add('active');
+                tabLogin.classList.remove('active');
+                formReg.style.display = 'block';
+                formLogin.style.display = 'none';
+            }
+        }
+
+        function clearAuthAlerts() {
+            const loginAlert = document.getElementById('login-alert');
+            const regAlert = document.getElementById('register-alert');
+            if (loginAlert) { loginAlert.style.display = 'none'; loginAlert.innerText = ''; }
+            if (regAlert) { regAlert.style.display = 'none'; regAlert.innerText = ''; }
+        }
+
+        function showAlert(alertId, message, type = 'error') {
+            const el = document.getElementById(alertId);
+            if (!el) return;
+            el.className = `auth-alert ${type}`;
+            el.innerText = message;
+            el.style.display = 'block';
+        }
+
+        // Xử lý gửi form Đăng nhập
+        async function handleLoginSubmit(event) {
+            event.preventDefault();
+            clearAuthAlerts();
+
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            const submitBtn = document.getElementById('btn-submit-login');
+
+            if (!username || !password) {
+                showAlert('login-alert', 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Đang kiểm tra...';
+
+            try {
+                const response = await fetch(`${API_AUTH_BASE}/api/auth-doanhnghiep/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showAlert('login-alert', data.message || 'Đăng nhập không thành công. Vui lòng thử lại!');
+                    return;
+                }
+
+                // Đăng nhập thành công -> lưu thông tin và chuyển hướng sang giao diện mới
+                localStorage.setItem('ptews_advertiser', JSON.stringify(data.user));
+                showAlert('login-alert', 'Đăng nhập thành công! Đang chuyển hướng...', 'success');
+
+                setTimeout(() => {
+                    window.location.href = data.redirectUrl || 'portal-doanhnghiep.html';
+                }, 600);
+
+            } catch (err) {
+                console.error('Lỗi đăng nhập:', err);
+                showAlert('login-alert', 'Không thể kết nối máy chủ backend. Vui lòng kiểm tra lại server!');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Đăng nhập';
+            }
+        }
+
+        // Xử lý gửi form Đăng ký Doanh nghiệp
+        async function handleRegisterSubmit(event) {
+            event.preventDefault();
+            clearAuthAlerts();
+
+            const payload = {
+                company_name: document.getElementById('reg-company-name').value.trim(),
+                chucdanh: document.getElementById('reg-chucdanh').value.trim(),
+                full_name: document.getElementById('reg-full-name').value.trim(),
+                phone: document.getElementById('reg-phone').value.trim(),
+                email: document.getElementById('reg-email').value.trim(),
+                username: document.getElementById('reg-username').value.trim(),
+                password: document.getElementById('reg-password').value
+            };
+
+            const submitBtn = document.getElementById('btn-submit-register');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Đang khởi tạo tài khoản...';
+
+            try {
+                const response = await fetch(`${API_AUTH_BASE}/api/auth-doanhnghiep/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showAlert('register-alert', data.message || 'Đăng ký không thành công. Vui lòng kiểm tra lại!');
+                    return;
+                }
+
+                // Đăng ký thành công -> báo xanh và tự động chuyển sang tab đăng nhập
+                showAlert('register-alert', data.message || 'Đăng ký thành công!', 'success');
+
+                setTimeout(() => {
+                    document.getElementById('form-register').reset();
+                    switchAuthTab('login');
+                    document.getElementById('login-username').value = payload.username;
+                    showAlert('login-alert', 'Đăng ký thành công! Hãy nhập mật khẩu để đăng nhập.', 'success');
+                }, 1400);
+
+            } catch (err) {
+                console.error('Lỗi đăng ký:', err);
+                showAlert('register-alert', 'Không thể kết nối máy chủ backend. Vui lòng thử lại!');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Đăng ký tài khoản Doanh nghiệp';
+            }
+        }
+
+        // Đóng modal khi bấm ra ngoài nền tối
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('auth-modal');
+            if (e.target === modal) {
+                closeAuthModal();
+            }
+        });
+
+        // Đóng modal khi bấm phím ESC
+        window.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeAuthModal();
+            }
+        });
+
         // Kiểm tra phiên đăng nhập ngay khi tải trang
         checkCurrentAuth();
     </script>
+
+    <!-- MODAL POPUP ĐĂNG NHẬP / ĐĂNG KÝ DOANH NGHIỆP -->
+    <div id="auth-modal" class="auth-modal-overlay" style="display: none;">
+        <div class="auth-modal-card">
+            <button type="button" class="auth-modal-close" onclick="closeAuthModal()" title="Đóng">&times;</button>
+
+            <!-- Tabs chọn Đăng nhập hoặc Đăng ký -->
+            <div class="auth-tabs">
+                <button type="button" id="tab-login" class="auth-tab-btn active" onclick="switchAuthTab('login')">
+                    Đăng nhập
+                </button>
+                <button type="button" id="tab-register" class="auth-tab-btn" onclick="switchAuthTab('register')">
+                    Đăng ký
+                </button>
+            </div>
+
+            <!-- 1. FORM ĐĂNG NHẬP -->
+            <form id="form-login" class="auth-form" onsubmit="handleLoginSubmit(event)">
+                <div class="auth-form-title">Đăng nhập</div>
+                <p class="auth-form-sub">Dành cho đối tác quảng cáo có đăng ký thông tin doanh nghiệp tại PTEWS</p>
+
+                <div id="login-alert" class="auth-alert" style="display: none;"></div>
+
+                <div class="auth-input-group">
+                    <label for="login-username">Tên đăng nhập<span class="req">*</span></label>
+                    <input type="text" id="login-username" required placeholder="Nhập tên đăng nhập">
+                </div>
+
+                <div class="auth-input-group">
+                    <label for="login-password">Mật khẩu <span class="req">*</span></label>
+                    <input type="password" id="login-password" required placeholder="Nhập mật khẩu">
+                </div>
+
+                <button type="submit" id="btn-submit-login" class="btn-auth-submit">
+                    Đăng nhập
+                </button>
+
+                <div class="auth-switch-prompt">
+                    Chưa có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('register')">Đăng ký</a>
+                </div>
+            </form>
+
+            <!-- 2. FORM ĐĂNG KÝ -->
+            <form id="form-register" class="auth-form" style="display: none;" onsubmit="handleRegisterSubmit(event)">
+                <div class="auth-form-title">Đăng ký</div>
+                <p class="auth-form-sub">Vui lòng điền đầy đủ các thông tin để khởi tạo hồ sơ</p>
+
+                <div id="register-alert" class="auth-alert" style="display: none;"></div>
+
+                <div class="auth-form-grid">
+                    <div class="auth-input-group auth-col-full">
+                        <label for="reg-company-name">Tên Công ty / Doanh nghiệp <span class="req">*</span></label>
+                        <input type="text" id="reg-company-name" required
+                            placeholder="VD: Công ty Cổ phần Công nghệ ABC">
+                    </div>
+
+
+                    <div class="auth-input-group">
+                        <label for="reg-chucdanh">Chức vụ <span class="req">*</span></label>
+                        <input type="text" id="reg-chucdanh" required placeholder="VD: Trưởng phòng Marketing, Giám đốc...">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-full-name">Họ và tên người đại diện <span class="req">*</span></label>
+                        <input type="text" id="reg-full-name" required placeholder="VD: Nguyễn Văn Nam">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-phone">Số điện thoại người đại diện <span class="req">*</span></label>
+                        <input type="tel" id="reg-phone" required placeholder="VD: 0912345678">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-email">Email người đại diện <span class="req">*</span></label>
+                        <input type="email" id="reg-email" required placeholder="VD: contact@doanhnghiep.vn">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-username">Tên đăng nhập <span class="req">*</span></label>
+                        <input type="text" id="reg-username" required placeholder="Tối thiểu 3 ký tự">
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="reg-password">Mật khẩu <span class="req">*</span></label>
+                        <input type="password" id="reg-password" required placeholder="Tối thiểu 6 ký tự">
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit-register" class="btn-auth-submit" style="margin-top: 14px;">
+                    Tạo tài khoản Doanh nghiệp
+                </button>
+
+                <div class="auth-switch-prompt">
+                    Đã có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('login')">Quay lại Đăng
+                        nhập</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>

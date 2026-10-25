@@ -15,23 +15,11 @@ router.get('/', async (req, res) => {
 
         const pool = await connectDB();
 
-        // Chạy đồng thời các câu lệnh truy vấn:
-        // 1. Tăng lượt xem (views_count)
-        // 2. Lấy chi tiết bài báo (chỉ lấy bài đã published)
-        // 3. Lấy tất cả ảnh thuộc bài báo
-        // Kiểm tra cờ count_view từ client: chỉ tăng view nếu là lần đọc đầu tiên trong phiên
-        const shouldCountView = req.query.count_view === '1';
-
-        const updateViewSql = shouldCountView
-            ? "UPDATE dbo.BaiViet SET views_count = ISNULL(views_count, 0) + 1 WHERE Id = @id_bb AND status = 'published';"
-            : "";
-
+        // Chạy đồng thời 2 câu lệnh truy vấn để lấy Bài Báo và Ảnh
         const result = await pool.request()
             .input('id_bb', sql.Int, articleId)
             .query(`
-                ${updateViewSql}
-
-                -- Truy vấn 1: Lấy chi tiết bài báo (chỉ lấy bài có status = 'published')
+                -- Truy vấn 1: Lấy chi tiết bài báo
                 SELECT 
                     b.Id AS ID_BB,
                     b.Id,
@@ -45,7 +33,7 @@ router.get('/', async (req, res) => {
                     b.status,
                     b.views_count
                 FROM dbo.BaiViet b
-                WHERE b.Id = @id_bb AND b.status = 'published';
+                WHERE b.Id = @id_bb;
 
                 -- Truy vấn 2: Lấy tất cả ảnh thuộc bài báo này
                 SELECT 

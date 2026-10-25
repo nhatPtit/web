@@ -25,7 +25,7 @@ async function fetchWeather(city = 'Hanoi') {
     if (aqiEl) aqiEl.textContent = 'AQI: Đang tải...';
 
     try {
-        const response = await fetch(`/api/thoi-tiet?tinh=${encodeURIComponent(city)}`);
+        const response = await fetch(`http://localhost:3000/api/thoi-tiet?tinh=${encodeURIComponent(city)}`);
         if (!response.ok) throw new Error('Không lấy được thời tiết');
         const data = await response.json();
 

@@ -52,7 +52,7 @@ function vPost() {
   function hasFiles(e) { return e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types || [], "Files") > -1 }
   bd.addEventListener("dragover", function (e) { if (hasFiles(e)) { e.preventDefault(); bd.classList.add("over") } });
   bd.addEventListener("dragleave", function () { bd.classList.remove("over") });
-  bd.addEventListener("drop", function (e) { bd.classList.remove("over"); if (!hasFiles(e)) return; e.preventDefault(); var r = null; if (document.caretRangeFromPoint) r = document.caretRangeFromPoint(e.clientX, e.clientY); else if (document.caretPositionFromPoint) { var cp = document.caretPositionFromPoint(e.clientX, e.clientY); if (cp) { r = document.createRange(); r.setStart(cp.offsetNode, cp.offset) } } bd.focus(); if (r && bd.contains(r.startContainer)) { var sl = window.getSelection(); sl.removeAllRanges(); sl.addRange(r) } addFiles(e.dataTransfer.files, true); });
+  bd.addEventListener("drop", function (e) { bd.classList.remove("over"); if (!hasFiles(e)) return; e.preventDefault(); var r = null; if (document.caretRangeFromPoint) r = document.caretRangeFromPoint(e.clientX, e.clientY); else if (document.caretPositionFromPoint) { var cp = document.caretPositionFromPoint(e.clientX, e.clientY); if (cp) { r = document.createRange(); r.setStart(cp.offsetNode, cp.offset) } } bd.focus(); if (r && bd.contains(r.startContainer)) { var sl = window.getSelection(); sl.removeAllRanges(); sl.addRange(r) } addFiles(e.dataTransfer.files, true) };
   il.addEventListener("dragover", function (e) { if (hasFiles(e)) { e.preventDefault(); il.classList.add("over") } });
   il.addEventListener("dragleave", function () { il.classList.remove("over") });
   il.addEventListener("drop", function (e) { if (hasFiles(e)) { e.preventDefault(); il.classList.remove("over"); addFiles(e.dataTransfer.files) } });
@@ -185,3 +185,4 @@ function ent(n) { return f.imgs[n] || {} }
 function setLink(n, u) { if (f.imgs[n]) { f.imgs[n].url = u; dbv(); pvr() } }
 function setFile(n, file) { if (f.imgs[n]) { f.imgs[n].url = URL.createObjectURL(file); dbv(); pvr() } }
 function frameDoc(p) { return '<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>' + (p.body || '') + '</body></html>'; }
+</script >

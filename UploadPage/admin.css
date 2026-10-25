@@ -218,15 +218,15 @@ body {
 .admin-nav-btn {
   width: 100%;
   padding: 12px 14px;
-  background: #f1f5f9;
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px);
-  border: 1px solid transparent;
+  border: 2px solid #fdba74;
   /* Viền màu cam/đỏ theo wireframe */
-  border-radius: 8px;
-  color: #334155;
+  border-radius: 12px;
+  color: #1e293b;
   font-family: var(--FontBody);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13.5px;
+  font-weight: 600;
   line-height: 1.4;
   text-align: center;
   cursor: pointer;
@@ -239,26 +239,24 @@ body {
 }
 
 .admin-nav-btn:hover {
-  background-color: var(--BrandColor);
-  color: #ffffff;
   border-color: var(--BrandColor);
   transform: translateY(-1px);
 }
 
 .admin-nav-btn.active {
-  background: #fef2f2;
-  border: 1px solid rgba(187, 0, 0, 0.25);
+  background: #ffffff;
+  border: 2px solid #22c55e;
   /* Màu xanh lá nổi bật theo wireframe */
-  color: var(--BrandColor);
+  color: #15803d;
   font-weight: 700;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
 }
 
 /* CỘT 2: VÙNG GIỮA - DANH SÁCH & BỘ LỌC */
 .admin-main-col {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
-  border: 1px solid #e2e8f0;
+  border: 2px solid #fdba74;
   /* Viền theo wireframe */
   border-radius: 14px;
   padding: 16px;
@@ -288,7 +286,7 @@ body {
 .admin-search-input {
   flex: 1;
   padding: 10px 14px;
-  border: 1px solid #cbd5e1;
+  border: 2px solid #22c55e;
   /* Viền xanh theo wireframe tìm kiếm */
   border-radius: 10px;
   font-family: var(--FontBody);
@@ -374,15 +372,14 @@ body {
   gap: 12px;
   padding: 12px 14px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 2px solid #22c55e;
   /* Khung bo xanh viền nổi bật như wireframe */
-  border-radius: 8px;
+  border-radius: 10px;
   transition: all 0.2s;
 }
 
 .user-row-card:hover {
-  border-color: #cbd5e1;
-  background-color: #f8fafc;
+  border-color: #7c3aed;
   /* Điểm nhấn tím như trạng thái focus trên wireframe */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
@@ -498,9 +495,9 @@ body {
 
 .btn-row-action {
   padding: 8px 14px;
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
-  color: #334155;
+  border: 2px solid #22c55e;
+  background: #ffffff;
+  color: #15803d;
   border-radius: 8px;
   font-family: var(--FontBody);
   font-size: 13px;
@@ -528,7 +525,7 @@ body {
 .action-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  border: 1px solid #e2e8f0;
+  border: 2px solid #fdba74;
   border-radius: 12px;
   padding: 14px 14px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
@@ -541,16 +538,14 @@ body {
 
 .action-card:hover {
   border-color: var(--BrandColor);
-  box-shadow: 0 4px 14px rgba(187, 0, 0, 0.08);
 }
 
 .action-card.active {
-  border: 1px solid var(--BrandColor);
-  background: #fef2f2;
+  border: 2px solid #22c55e;
 }
 
 .action-card-clickable {
-  border: 1px dashed #fca5a5;
+  border: 2px dashed #f97316;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 242, 242, 0.9) 100%);
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -559,7 +554,7 @@ body {
 }
 
 .action-card-clickable:hover {
-  border: 1px solid var(--BrandColor);
+  border: 2px solid var(--BrandColor);
   background: #ffffff;
   box-shadow: 0 8px 24px rgba(187, 0, 0, 0.16);
   transform: translateY(-2px);
@@ -799,7 +794,7 @@ body {
   font-size: 14.5px;
   font-weight: 600;
   color: #0f172a;
-  border: 1px solid #cbd5e1;
+  border: 2px solid #22c55e;
   border-radius: 8px;
   background: #f0fdf4;
 }
@@ -952,7 +947,7 @@ body {
 }
 .btn-action-edit:hover {
   background: #dcfce7;
-  border-color: #15803d;
+  border-color: #22c55e;
 }
 
 .btn-action-status {
@@ -973,7 +968,7 @@ body {
 }
 .btn-action-violation:hover {
   background: #ffedd5;
-  border-color: #cbd5e1;
+  border-color: #f97316;
 }
 
 .btn-action-delete {
@@ -1075,7 +1070,7 @@ body {
 
 .ad-pos-card {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 2px solid #fdba74;
   border-radius: 12px;
   padding: 18px;
   display: flex;
@@ -1282,4 +1277,3 @@ body {
   border-color: #ef4444 !important;
   color: #dc2626 !important;
 }
-
