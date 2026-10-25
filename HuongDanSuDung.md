@@ -42,9 +42,9 @@
 - `git pull --rebase origin main`  Đặt commit sắp tới lưu trên máy sau commit thằng mới nhất trên github.
 - `git stash pop` Lấy code ra khỏi vùng an toàn sau đó chạy thử xem có xung đột không.
 - `git push`
-Sau khi chạy git stash pop, nếu VS Code báo Conflict (màu đỏ/xanh), bạn chỉ cần mở file đó ra, chọn Accept Incoming Change (giữ code GitHub), Accept Current Change (giữ code của bạn), hoặc Accept Both Changes (giữ cả hai) là xong!
+*Sau khi chạy git stash pop, nếu VS Code báo Conflict (màu đỏ/xanh), bạn chỉ cần mở file đó ra, chọn Accept Incoming Change (giữ code GitHub), Accept Current Change (giữ code của bạn), hoặc Accept Both Changes (giữ cả hai) là xong!*
 
-
+Nếu xung đột code vào phần git chọn changes trên vscode để chọn cái nào giữ lại.
 #### Nếu xung đột tại pull --rebase:
 - file đánh dấu đỏ, mở ra đọc (Chỉ cần dòng khác nhau là nó báo lỗi)
 - sửa lại rồi
@@ -66,9 +66,13 @@ Sau khi chạy git stash pop, nếu VS Code báo Conflict (màu đỏ/xanh), b�
 - Nguyên một dự án hoàn toàn mới, chỉ nên dùng lần đầu vì nó không đồng bộ dự án đang chạy.
 
 ### Xóa trên git
-`git rm -r --cached Ten_Folder` xóa mạnh hơn: git rm -r --cached -f node_modules
-`git commit -m "Remove folder"` 
-`git push origin <ten_branch>`
+- `git rm -r --cached Ten_Folder` xóa mạnh hơn: git rm -r --cached -f node_modules
+- `git commit -m "Remove folder"` 
+- `git push origin <ten_branch>`
+
+### Xóa commit vừa tạo
+- `git reset HEAD~1`
+
 
 ### `git reflog`
 Xem lịch sử commit, thoát nhấn q
