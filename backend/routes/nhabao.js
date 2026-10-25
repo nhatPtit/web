@@ -67,6 +67,39 @@ router.get('/categories', async (req, res) => {
     }
 });
 
+// 2b. API kiểm tra trạng thái tài khoản nhà báo từ CSDL: GET /api/nhabao/user-status?author_id=...
+router.get('/user-status', async (req, res) => {
+    try {
+        const authorId = parseInt(req.query.author_id, 10);
+        if (!authorId || isNaN(authorId)) {
+            return res.status(400).json({ success: false, message: 'Thiếu author_id hợp lệ.' });
+        }
+        const pool = await connectDB();
+        const userRes = await pool.request()
+            .input('id', sql.Int, authorId)
+            .query('SELECT TOP 1 id, username, full_name, ButDanh, TrangThai, VaiTro FROM dbo.users WHERE id = @id;');
+        
+        if (!userRes.recordset || userRes.recordset.length === 0) {
+            return res.status(404).json({ success: false, message: 'Không tìm thấy tài khoản.' });
+        }
+        const u = userRes.recordset[0];
+        return res.status(200).json({
+            success: true,
+            user: {
+                id: u.id,
+                username: u.username,
+                fullName: u.full_name,
+                penName: u.ButDanh || u.full_name,
+                TrangThai: u.TrangThai || 'HoatDong',
+                VaiTro: u.VaiTro
+            }
+        });
+    } catch (err) {
+        console.error('Lỗi lấy trạng thái nhà báo:', err);
+        return res.status(500).json({ success: false, message: 'Lỗi máy chủ khi kiểm tra trạng thái.' });
+    }
+});
+
 // Helper chuyển status DB sang code số cho FE
 function mapStatusToCode(status) {
     if (!status) return 0;

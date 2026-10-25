@@ -398,16 +398,33 @@ router.get('/my-requests', async (req, res) => {
 
         const pool = await connectDB();
 
-        // 1. Tự động cập nhật các yêu cầu chưa thanh toán/chưa duyệt mà ngày bắt đầu hoặc kết thúc đã qua hạn
-        // Điều kiện quá hạn: nếu status là 'chuaduyet' hoặc 'daduyet' mà ngày hiện tại > start_date thì chuyển thành 'quahan'
+        // 1. Tự động cập nhật các đơn quảng cáo quá hạn theo các luồng quy định:
+        // Luồng 1: chuaduyet -> daduyet -> choxacnhan -> dathanhtoan -> quahan (hết hạn ngày chạy)
+        // Luồng 2: Chuaduyet -> tuchoi -> quahan (bị từ chối và qua ngày kết thúc)
+        // Luồng 3: chuaduyet -> daduyet -> quahan (duyệt rồi nhưng không thanh toán, qua ngày bắt đầu)
         await pool.request()
             .input('adv_id', sql.Int, parseInt(advertiser_id, 10))
             .query(`
+                -- Đơn đã thanh toán/đang chạy hết thời gian hiển thị
                 UPDATE dbo.ad_requests
                 SET status = 'quahan'
                 WHERE advertiser_id = @adv_id
-                  AND status IN ('chuaduyet', 'daduyet', 'cho_duyet')
+                  AND status IN ('dathanhtoan', 'Active', 'active')
+                  AND CAST(SYSDATETIME() AS DATE) > end_date;
+
+                -- Đơn đã duyệt nhưng không thanh toán, để qua ngày bắt đầu
+                UPDATE dbo.ad_requests
+                SET status = 'quahan'
+                WHERE advertiser_id = @adv_id
+                  AND status IN ('daduyet')
                   AND CAST(SYSDATETIME() AS DATE) > start_date;
+
+                -- Đơn bị từ chối mẫu hoặc chờ duyệt mà đã qua ngày kết thúc
+                UPDATE dbo.ad_requests
+                SET status = 'quahan'
+                WHERE advertiser_id = @adv_id
+                  AND status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending')
+                  AND CAST(SYSDATETIME() AS DATE) > end_date;
             `);
 
         // 2. Truy vấn danh sách lịch sử yêu cầu của doanh nghiệp

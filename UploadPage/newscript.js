@@ -40,8 +40,8 @@ function vPost() {
   document.querySelectorAll(".tools button").forEach(function (b) { b.onmousedown = function (e) { e.preventDefault(); var a = b.dataset.c.split(":"); if (a[0] === "img") { var u = usedNums(), n = 1; while (u.indexOf(n) > -1 && n <= f.imgs.length) n++; document.execCommand("insertText", false, "[Ảnh " + n + "]"); bd.oninput(); return } document.execCommand(a[0], false, a[1] || null) } });
   $("#pvb").onclick = function () { var pv = $("#pv"); pv.hidden = !pv.hidden; $("#pvb").textContent = pv.hidden ? "Xem trước bài" : "Ẩn xem trước"; pvr() };
   if ($("#sd")) $("#sd").onclick = function () { save(0) }; $("#sb").onclick = function () { save(1) };
-  var dz = $("#dz"); dz.ondragover = function (e) { e.preventDefault(); dz.classList.add("over") }; dz.ondragleave = function () { dz.classList.remove("over") }; dz.ondrop = function (e) { e.preventDefault(); dz.classList.remove("over"); addFiles(e.dataTransfer.files) };
-  $("#mf").onchange = function (e) { addFiles(e.target.files); e.target.value = "" };
+  var dz = $("#dz"); if (dz) { dz.ondragover = function (e) { e.preventDefault(); dz.classList.add("over") }; dz.ondragleave = function () { dz.classList.remove("over") }; dz.ondrop = function (e) { e.preventDefault(); dz.classList.remove("over"); addFiles(e.dataTransfer.files) }; }
+  var mf = $("#mf"); if (mf) { mf.onchange = function (e) { addFiles(e.target.files); e.target.value = "" }; }
   var il = $("#il");
   il.onclick = function (e) { var b = e.target.closest("[data-a]"); if (!b) return; var i = +b.dataset.i, a = b.dataset.a, j = a === "up" ? i - 1 : i + 1; if (a === "rm") f.imgs.splice(i, 1); else if (j >= 0 && j < f.imgs.length) { var m = f.imgs[i]; f.imgs[i] = f.imgs[j]; f.imgs[j] = m } chg() };
   il.oninput = function (e) { if (e.target.classList.contains("cp")) { f.imgs[+e.target.dataset.i].cap = e.target.value; var sc = document.querySelector('.slot[data-n="' + (+e.target.dataset.i + 1) + '"] .cp2'); if (sc) sc.value = e.target.value; dbv(); pvr() } };
@@ -98,8 +98,18 @@ function frame() {
   var p = find(sel), fr = $("#fr"); if (!fr) return;
   if (!p) { fr.innerHTML = '<div class="msg">Chọn một bài ở danh sách bên trái.</div>'; return }
   var h = '<div class="fh"><div><div class="t">' + esc(p.t) + '</div><div class="m">ID ' + p.id + '</div></div>' + st(p.s) + '</div>';
-  if (p.s === 2) h += '<iframe title="Trang báo" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
-  else h += '<div class="msg"><div><b>Bài chưa được duyệt.</b><br>' + (p.s === 1 ? "Trang báo sẽ hiện ở đây sau khi biên tập viên duyệt." : p.s === 3 ? "Biên tập viên đã trả bài. Lý do: " + esc(p.why || "") : "Bài còn là bản nháp, chưa gửi duyệt.") + '</div></div>';
+  if (p.s === 1) {
+    h += '<div class="msg" style="padding:10px 16px;background:var(--soft);color:var(--s1);font-size:0.88rem;"><b>Trạng thái: Chờ duyệt.</b> Bài đang chờ kiểm duyệt viên phê duyệt xuất bản. Dưới đây là bản xem trước:</div>' +
+         '<iframe title="Trang báo xem trước" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
+  } else if (p.s === 3) {
+    h += '<div class="msg" style="padding:10px 16px;background:rgba(180,49,47,0.08);color:var(--s3);font-size:0.88rem;"><b>Yêu cầu sửa:</b> ' + esc(p.why || "Kiểm duyệt viên yêu cầu sửa bài.") + '</div>' +
+         '<iframe title="Trang báo xem trước" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
+  } else if (p.s === 0) {
+    h += '<div class="msg" style="padding:10px 16px;background:var(--soft);color:var(--mute);font-size:0.88rem;"><b>Bản nháp:</b> Dưới đây là bản xem trước bài viết:</div>' +
+         '<iframe title="Trang báo xem trước" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
+  } else {
+    h += '<iframe title="Trang báo" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
+  }
   h += '<div class="fa"><button class="btn" id="ed">Chỉnh sửa bài này</button></div>';
   fr.innerHTML = h; $("#ed").onclick = function () { loadEdit(p.id) }
 }

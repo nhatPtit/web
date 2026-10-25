@@ -579,13 +579,14 @@ router.patch('/users/:id/status', async (req, res) => {
             });
         }
 
-        const validStatuses = ['HoatDong', 'HanChe', 'Cam'];
+        const validStatuses = ['HoatDong', 'CanhCao', 'Cam', 'HanChe'];
         if (!validStatuses.includes(status)) {
             return res.status(400).json({
                 success: false,
-                message: `Trạng thái không hợp lệ! Chỉ chấp nhận: ${validStatuses.join(', ')}.`
+                message: `Trạng thái không hợp lệ! Chỉ chấp nhận: HoatDong, CanhCao, Cam.`
             });
         }
+        if (status === 'HanChe') status = 'CanhCao';
 
         const pool = await connectDB();
         if (!pool) {
@@ -627,7 +628,8 @@ router.patch('/users/:id/status', async (req, res) => {
         const updated = updateRes.recordset[0];
         const statusMap = {
             'HoatDong': 'Hoạt động',
-            'HanChe': 'Hạn chế',
+            'CanhCao': 'Cảnh cáo',
+            'HanChe': 'Cảnh cáo',
             'Cam': 'Bị cấm'
         };
 
@@ -716,7 +718,7 @@ router.patch('/users/:id/violations', async (req, res) => {
         let newStatus = user.TrangThai;
 
         if (newCount >= 3 && user.TrangThai === 'HoatDong') {
-            newStatus = 'HanChe';
+            newStatus = 'CanhCao';
             autoRestricted = true;
         } else if (newCount >= 5 && user.TrangThai !== 'Cam') {
             newStatus = 'Cam';
@@ -744,7 +746,7 @@ router.patch('/users/:id/violations', async (req, res) => {
         const updated = updateRes.recordset[0];
         let message = `Đã cập nhật số lần vi phạm của "${updated.company_name || updated.username}" thành ${newCount}.`;
         if (autoRestricted) {
-            message += ` Do vi phạm từ 3 lần trở lên, hệ thống đã tự động chuyển tài khoản sang trạng thái [${newStatus === 'HanChe' ? 'Hạn chế' : 'Bị cấm'}]!`;
+            message += ` Do vi phạm từ 3 lần trở lên, hệ thống đã tự động chuyển tài khoản sang trạng thái [${newStatus === 'CanhCao' ? 'Cảnh cáo' : 'Bị cấm'}]!`;
         }
 
         return res.status(200).json({

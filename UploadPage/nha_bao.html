@@ -957,9 +957,36 @@
       window.location.replace("login.html");
     }
 
-    if (currentUser && currentUser.fullName) {
+    // Cập nhật thông tin & trạng thái tài khoản trên Header
+    function updateHeaderStatus(status) {
       var roleEl = document.querySelector(".role");
-      if (roleEl) roleEl.textContent = "Nhà báo: " + (currentUser.penName || currentUser.fullName);
+      if (!roleEl || !currentUser) return;
+      var name = (currentUser.penName || currentUser.fullName || currentUser.username || "Nhà báo");
+      var st = status || currentUser.TrangThai || currentUser.status || "HoatDong";
+      if (st === "CanhCao" || st === "HanChe") {
+        roleEl.innerHTML = 'Nhà báo: <b style="color:#f97316;">' + esc(name) + '</b> <span style="color:#f97316;font-weight:700;margin-left:8px;background:rgba(249,115,22,0.12);padding:2px 8px;border-radius:999px;border:1px solid rgba(249,115,22,0.35);font-size:0.85em;">⚠️ Diện Cảnh cáo</span>';
+        roleEl.style.color = "#f97316";
+      } else if (st === "Cam") {
+        roleEl.innerHTML = 'Nhà báo: <b style="color:#ef4444;">' + esc(name) + '</b> <span style="color:#ef4444;font-weight:700;margin-left:8px;background:rgba(239,68,68,0.12);padding:2px 8px;border-radius:999px;border:1px solid rgba(239,68,68,0.35);font-size:0.85em;">🚫 Bị cấm</span>';
+        roleEl.style.color = "#ef4444";
+      } else {
+        roleEl.innerHTML = 'Nhà báo: <b>' + esc(name) + '</b> <span style="color:#16a34a;font-weight:600;margin-left:8px;font-size:0.85em;">(🟢 Hoạt động)</span>';
+        roleEl.style.color = "";
+      }
+    }
+    updateHeaderStatus();
+
+    // Đồng bộ trực tiếp trạng thái tài khoản thời gian thực từ Database SQL Server
+    if (currentUser && currentUser.id) {
+      fetch('/api/nhabao/user-status?author_id=' + currentUser.id)
+        .then(function (r) { return r.json() })
+        .then(function (d) {
+          if (d && d.success && d.user) {
+            currentUser.TrangThai = d.user.TrangThai;
+            try { localStorage.setItem("ptews_user", JSON.stringify(currentUser)) } catch (e) { }
+            updateHeaderStatus(d.user.TrangThai);
+          }
+        }).catch(function (e) { console.warn("Lỗi kiểm tra trạng thái từ CSDL:", e) });
     }
 
     function esc(s) { return String(s || "").replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] }) }
@@ -1357,7 +1384,7 @@
       h += '<div class="tools"><button data-c="bold"><b>B</b></button><button data-c="italic"><i>I</i></button><button data-c="formatBlock:h3">Tiêu đề phụ</button><button data-c="formatBlock:blockquote">Trích dẫn</button><button data-c="img">Chèn [Ảnh x]</button></div>';
       h += '<div id="body" contenteditable="true" data-ph="Nội dung bài viết. Muốn chèn ảnh vào chỗ nào thì bấm Chèn [Ảnh x] hoặc gõ [Ảnh 1], [Ảnh 2]... Bạn cũng có thể kéo ảnh thả thẳng vào đây.">' + (f.body || "") + '</div><div class="foot"><span id="wc">0 từ</span><button class="btn" id="pvb">Xem trước bài</button></div><div id="pv" class="pv" hidden></div>';
       h += '<div class="acts">' + ((!ed || p.s === 0 || p.s === 3) ? '<button class="btn" id="sd">Lưu nháp</button>' : '') + '<button class="btn pri" id="sb">' + (ed ? "Lưu và gửi duyệt lại" : "Đăng bài") + '</button></div></div>';
-      h += '<div><div class="card"><h3>Thông tin bài</h3><label class="fld"><span>Chuyên mục</span><select id="c">' + CATS.map(function (c) { return '<option' + (c === (f.c || "Thời sự") ? " selected" : "") + '>' + esc(c) + '</option>' }).join("") + '</select></label><div class="m">Tác giả: <b>' + esc(currentUser.penName || currentUser.fullName) + '</b></div></div><div class="card"><h3>Ảnh trong bài</h3><div class="m" style="margin-bottom:10px">Gõ [Ảnh 1], [Ảnh 2]... vào nội dung. Mỗi dấu sẽ có một ô tương ứng bên dưới để tải ảnh trực tiếp từ máy tính.</div><div id="slots"></div></div><div class="card"><h3>Tải ảnh lên hệ thống</h3><label class="drop" id="dz">Kéo ảnh vào đây hoặc bấm để chọn<small>Chấp nhận các định dạng ảnh, tối đa 10 MB mỗi ảnh. Bạn cũng có thể kéo thả ảnh thẳng vào bài viết.</small><input id="mf" type="file" accept="image/*" multiple hidden></label></div>';
+      h += '<div><div class="card"><h3>Thông tin bài</h3><label class="fld"><span>Chuyên mục</span><select id="c">' + CATS.map(function (c) { return '<option' + (c === (f.c || "Thời sự") ? " selected" : "") + '>' + esc(c) + '</option>' }).join("") + '</select></label><div class="m">Tác giả: <b>' + esc(currentUser.penName || currentUser.fullName) + '</b></div></div><div class="card"><h3>Ảnh trong bài</h3><div class="m" style="margin-bottom:10px">Gõ [Ảnh 1], [Ảnh 2]... vào nội dung. Mỗi dấu sẽ có một ô tương ứng bên dưới để tải ảnh trực tiếp từ máy tính.</div><div id="slots"></div></div>';
       h += '<div class="card"><h3>Thứ tự của ảnh</h3><div class="m" style="margin-bottom:10px">Kéo để đổi thứ tự, hoặc dùng nút mũi tên. Ảnh thứ x sẽ hiện ở chỗ đánh dấu [Ảnh x] trong bài.</div><div id="il"></div><details><summary>Dữ liệu sẽ lưu vào dbo.AnhBaiViet</summary><div id="dbv"></div></details></div></div></div>';
       $("#main").innerHTML = h;
       bd = $("#body");
@@ -1394,10 +1421,15 @@
       $("#sb").onclick = function () { save(1) };
 
       var dz = $("#dz");
-      dz.ondragover = function (e) { e.preventDefault(); dz.classList.add("over") };
-      dz.ondragleave = function () { dz.classList.remove("over") };
-      dz.ondrop = function (e) { e.preventDefault(); dz.classList.remove("over"); addFiles(e.dataTransfer.files) };
-      $("#mf").onchange = function (e) { addFiles(e.target.files); e.target.value = "" };
+      if (dz) {
+        dz.ondragover = function (e) { e.preventDefault(); dz.classList.add("over") };
+        dz.ondragleave = function () { dz.classList.remove("over") };
+        dz.ondrop = function (e) { e.preventDefault(); dz.classList.remove("over"); addFiles(e.dataTransfer.files) };
+      }
+      var mf = $("#mf");
+      if (mf) {
+        mf.onchange = function (e) { addFiles(e.target.files); e.target.value = "" };
+      }
 
       var il = $("#il");
       il.onclick = function (e) {
@@ -1519,14 +1551,23 @@
         return;
       }
       var h = '<div class="fh"><div><div class="t">' + esc(p.t) + '</div><div class="m">ID ' + p.id + ', ' + p.d + ' &bull; ' + esc(p.c || "Thời sự") + '</div></div>' + st(p.s) + '</div>';
-      if (p.s === 2) {
-        h += '<iframe title="Trang báo" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
+      if (p.s === 1) {
+        h += '<div class="status-preview-banner" style="padding:10px 16px;background:var(--soft);border-bottom:1px solid var(--line);font-size:0.88rem;color:var(--s1);display:flex;align-items:center;gap:8px;">' +
+             '<span>⏳</span> <span><b>Trạng thái: Chờ duyệt.</b> Bài đã gửi lên hệ thống và đang chờ kiểm duyệt viên phê duyệt xuất bản. Dưới đây là bản xem trước:</span>' +
+             '</div>' +
+             '<iframe title="Trang báo xem trước" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
+      } else if (p.s === 3) {
+        h += '<div class="status-preview-banner" style="padding:10px 16px;background:rgba(180,49,47,0.08);border-bottom:1px solid var(--line);font-size:0.88rem;color:var(--s3);">' +
+             '<b>⚠️ Yêu cầu sửa:</b> ' + esc(p.why || "Kiểm duyệt viên đã yêu cầu chỉnh sửa bài viết.") +
+             '</div>' +
+             '<iframe title="Trang báo xem trước" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
+      } else if (p.s === 0) {
+        h += '<div class="status-preview-banner" style="padding:10px 16px;background:var(--soft);border-bottom:1px solid var(--line);font-size:0.88rem;color:var(--mute);">' +
+             '<span>📝</span> <b>Bản nháp:</b> Bài chưa gửi duyệt. Dưới đây là bản xem trước bài viết:' +
+             '</div>' +
+             '<iframe title="Trang báo xem trước" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
       } else {
-        h += '<div class="msg"><div><b>Trạng thái: ' + ST[p.s] + '</b><br>' +
-          (p.s === 1 ? "Bài đã gửi lên CSDL và đang chờ biên tập viên duyệt." :
-           p.s === 3 ? "Kiểm duyệt viên đã yêu cầu sửa bài. <br><span style='color:var(--s3)'>Lý do: " + esc(p.why || "Chưa có ghi chú cụ thể") + "</span>" :
-           "Bài viết hiện đang lưu ở dạng Bản nháp, chưa gửi duyệt.") +
-          '</div></div>';
+        h += '<iframe title="Trang báo" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
       }
       h += '<div class="fa"><button class="btn" id="ed">Chỉnh sửa bài này</button></div>';
       fr.innerHTML = h;

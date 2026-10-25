@@ -146,8 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let statusBadge = '';
         if (u.TrangThai === 'HoatDong') {
             statusBadge = '<span class="badge-status active">Hoạt động</span>';
-        } else if (u.TrangThai === 'HanChe') {
-            statusBadge = '<span class="badge-status restricted">Hạn chế</span>';
+        } else if (u.TrangThai === 'CanhCao' || u.TrangThai === 'HanChe') {
+            statusBadge = '<span class="badge-status restricted" style="background:#fff7ed;color:#ea580c;border:1px solid #fdba74;">Cảnh cáo</span>';
         } else {
             statusBadge = '<span class="badge-status banned">Bị cấm</span>';
         }

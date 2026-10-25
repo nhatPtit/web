@@ -18,6 +18,10 @@ uploadApp.use(cors());
 uploadApp.use(express.json());
 uploadApp.use(express.urlencoded({ extended: true }));
 uploadApp.use('/Anh-BB', express.static(path.join(__dirname, '../ReadPage/Anh-BB')));
+uploadApp.use('/AD_file', express.static(path.join(__dirname, '../ReadPage/AD_file')));
+uploadApp.use('/portal-doanhnghiep.html', (req, res) => res.sendFile(path.join(__dirname, '../ReadPage/portal-doanhnghiep.html')));
+uploadApp.use('/connect-to-ad.html', (req, res) => res.sendFile(path.join(__dirname, '../ReadPage/connect-to-ad.html')));
+uploadApp.use('/preview-ad.html', (req, res) => res.sendFile(path.join(__dirname, '../ReadPage/preview-ad.html')));
 uploadApp.use('/', express.static(path.join(__dirname, '../UploadPage')));
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });

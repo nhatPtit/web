@@ -19,7 +19,25 @@ router.get('/', async (req, res) => {
         const result = await pool.request()
             .input('id_bb', sql.Int, articleId)
             .query(`
-                -- Truy vấn 1: Lấy chi tiết bài báo
+                -- Chỉ tăng lượt xem khi bài viết đã được xuất bản (dành cho độc giả đọc tin)
+                UPDATE dbo.BaiViet 
+                SET views_count = COALESCE(views_count, 0) + 1 
+                WHERE Id = @id_bb AND status IN ('published', 'daduyet');
+
+                -- Ghi nhận lượt xem ngày hôm nay vào dbo.daily_views
+                IF EXISTS (SELECT 1 FROM dbo.BaiViet WHERE Id = @id_bb AND status IN ('published', 'daduyet'))
+                BEGIN
+                    MERGE dbo.daily_views AS target
+                    USING (SELECT CAST(SYSDATETIME() AS DATE) AS today) AS source
+                    ON (target.view_date = source.today)
+                    WHEN MATCHED THEN
+                        UPDATE SET target.views_count = target.views_count + 1
+                    WHEN NOT MATCHED THEN
+                        INSERT (view_date, views_count, articles_viewed)
+                        VALUES (source.today, 1, 1);
+                END
+
+                -- Truy vấn 1: Lấy chi tiết bài báo (đã được cộng 1 lượt xem)
                 SELECT 
                     b.Id AS ID_BB,
                     b.Id,

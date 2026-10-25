@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
                 const result = await pool.request()
                     .input('username', sql.VarChar, username.trim())
                     .query(`
-                        SELECT id, username, password, email, phone, full_name, VaiTro, ButDanh, TrangThai
+                        SELECT id, username, password, email, phone, full_name, VaiTro, ButDanh, TrangThai, company_name, chucdanh
                         FROM dbo.users
                         WHERE username = @username
                     `);
@@ -124,10 +124,10 @@ router.post('/login', async (req, res) => {
             });
         }
 
-        if (user.TrangThai && user.TrangThai !== 'HoatDong') {
+        if (user.TrangThai === 'Cam') {
             return res.status(403).json({
                 success: false,
-                message: `Tài khoản của bạn đang ở trạng thái "${user.TrangThai}". Không thể đăng nhập!`
+                message: 'Tài khoản của bạn đã bị CẤM hoạt động trên hệ thống. Vui lòng liên hệ Quản trị viên để được hỗ trợ!'
             });
         }
 
@@ -143,7 +143,7 @@ router.post('/login', async (req, res) => {
             redirectUrl = 'admin.html';
             roleName = 'Quản trị viên hệ thống';
         } else if (cleanRole === 'DN') {
-            redirectUrl = 'portal-doanhnghiep.html';
+            redirectUrl = 'http://localhost:3000/portal-doanhnghiep.html';
             roleName = 'Doanh nghiệp quảng cáo';
         }
 
@@ -159,8 +159,12 @@ router.post('/login', async (req, res) => {
                 VaiTro: user.VaiTro,
                 roleName: roleName,
                 penName: user.ButDanh || user.full_name,
+                company_name: user.company_name || 'Doanh nghiệp',
+                chucdanh: user.chucdanh || 'Đại diện',
                 email: user.email,
-                phone: user.phone
+                phone: user.phone,
+                TrangThai: user.TrangThai || 'HoatDong',
+                status: user.TrangThai || 'HoatDong'
             },
             redirectUrl: redirectUrl
         });

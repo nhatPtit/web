@@ -59,16 +59,24 @@ router.get('/articles', async (req, res) => {
         const articles = result.recordset.map(b => ({
             id: b.Id,
             t: b.title,
+            title: b.title,
             s: b.sapo || '',
+            sapo: b.sapo || '',
             c: b.category_name || 'Thời sự',
+            category: b.category_name || 'Thời sự',
             category_id: b.category_id,
             a: b.author_name || 'Phóng viên',
+            author: b.author_name || 'Phóng viên',
+            author_id: b.author_id,
             d: formatDateVN(b.published_at) || formatDateVN(new Date()),
+            published_at: formatDateVN(b.published_at) || formatDateVN(new Date()),
             rawDate: b.published_at,
             v: b.views_count || 0,
+            views_count: b.views_count || 0,
             status: b.status,
             st: b.status === 'published' ? 'pub' : 'hide',
             note: b.editor_note || '',
+            editor_note: b.editor_note || '',
             pin_position: b.pin_position || null,
             img: b.first_image || ''
         }));
@@ -286,10 +294,14 @@ router.post('/articles/:id/reject', async (req, res) => {
 /**
  * 5. POST /api/kiemduyet/articles/:id/toggle-publish
  * Gỡ bài hoặc Đăng lại bài (trong danh sách bài đã đăng)
+ * Khi GỠ: Cập nhật status='rejected', lưu editor_note (feedback cho nhà báo), xóa ghim
+ * Khi ĐĂNG LẠI: Cập nhật status='published', xóa editor_note, cập nhật NgayDang
  */
 router.post('/articles/:id/toggle-publish', async (req, res) => {
     try {
         const articleId = parseInt(req.params.id, 10);
+        const { reason, editor_id } = req.body || {};
+
         if (!articleId || isNaN(articleId)) {
             return res.status(400).json({ success: false, message: 'ID bài báo không hợp lệ.' });
         }
@@ -298,7 +310,7 @@ router.post('/articles/:id/toggle-publish', async (req, res) => {
 
         const checkRes = await pool.request()
             .input('id', sql.Int, articleId)
-            .query('SELECT status FROM dbo.BaiViet WHERE Id = @id;');
+            .query('SELECT status, title FROM dbo.BaiViet WHERE Id = @id;');
 
         if (checkRes.recordset.length === 0) {
             return res.status(404).json({ success: false, message: 'Không tìm thấy bài viết.' });
@@ -307,29 +319,126 @@ router.post('/articles/:id/toggle-publish', async (req, res) => {
         const currentStatus = checkRes.recordset[0].status;
         const newStatus = (currentStatus === 'published') ? 'rejected' : 'published';
 
-        await pool.request()
-            .input('id', sql.Int, articleId)
-            .input('new_status', sql.VarChar, newStatus)
-            .query(`
-                UPDATE dbo.BaiViet 
-                SET status = @new_status
-                WHERE Id = @id;
-            `);
+        if (newStatus === 'rejected') {
+            // Khi GỠ BÀI: Yêu cầu có lý do gỡ bài để feedback lại cho nhà báo
+            const finalReason = (reason && reason.trim()) ? reason.trim() : 'Bài viết đã bị kiểm duyệt viên tạm gỡ khỏi trang báo để kiểm tra hoặc chỉnh sửa lại.';
+            await pool.request()
+                .input('id', sql.Int, articleId)
+                .input('new_status', sql.VarChar, newStatus)
+                .input('editor_note', sql.NVarChar, finalReason)
+                .input('editor_id', sql.Int, parseInt(editor_id, 10) || null)
+                .query(`
+                    UPDATE dbo.BaiViet 
+                    SET status = @new_status,
+                        editor_note = @editor_note,
+                        editor_id = @editor_id
+                    WHERE Id = @id;
+                `);
 
-        if (newStatus !== 'published') {
+            // Xóa ghim khỏi trang chủ nếu đang ghim
             await pool.request()
                 .input('id_bb', sql.Int, articleId)
                 .query(`DELETE FROM dbo.pin_position WHERE Id_BB = @id_bb;`);
+
+            return res.status(200).json({
+                success: true,
+                newStatus: newStatus,
+                message: 'Đã gỡ bài viết xuống và gửi phản hồi lý do cho nhà báo thành công!'
+            });
+        } else {
+            // Khi ĐĂNG LẠI: Cập nhật status = 'published', xóa editor_note, bài báo không bị mất
+            await pool.request()
+                .input('id', sql.Int, articleId)
+                .input('new_status', sql.VarChar, newStatus)
+                .query(`
+                    UPDATE dbo.BaiViet 
+                    SET status = @new_status,
+                        editor_note = NULL,
+                        published_at = GETDATE()
+                    WHERE Id = @id;
+                `);
+
+            return res.status(200).json({
+                success: true,
+                newStatus: newStatus,
+                message: 'Đã xuất bản lại bài viết lên trang báo thành công!'
+            });
+        }
+    } catch (err) {
+        console.error('Lỗi gỡ/đăng lại bài:', err);
+        return res.status(500).json({ success: false, message: 'Lỗi server: ' + err.message });
+    }
+});
+
+/**
+ * 5b. DELETE /api/kiemduyet/articles/:id
+ * Xóa vĩnh viễn bài báo (kèm xóa liên kết pin_position, AnhBaiViet)
+ */
+router.delete('/articles/:id', async (req, res) => {
+    try {
+        const articleId = parseInt(req.params.id, 10);
+        if (!articleId || isNaN(articleId)) {
+            return res.status(400).json({ success: false, message: 'ID bài báo không hợp lệ.' });
+        }
+        const pool = await connectDB();
+        await pool.request().input('id', sql.Int, articleId).query(`
+            DELETE FROM dbo.pin_position WHERE Id_BB = @id;
+            DELETE FROM dbo.AnhBaiViet WHERE bai_viet_id = @id;
+            DELETE FROM dbo.BaiViet WHERE Id = @id;
+        `);
+        return res.status(200).json({
+            success: true,
+            message: `Đã xóa vĩnh viễn bài báo #${articleId} khỏi hệ thống CSDL thành công!`
+        });
+    } catch (err) {
+        console.error('Lỗi khi xóa bài báo:', err);
+        return res.status(500).json({ success: false, message: 'Lỗi server khi xóa bài: ' + err.message });
+    }
+});
+
+/**
+ * 5c. POST /api/kiemduyet/articles/:id/pin
+ * Đổi vị trí ghim của bài báo (0: Tin thường, 1: Tiêu điểm chính, 2: Nổi bật phụ 1, 3: Nổi bật phụ 2)
+ */
+router.post('/articles/:id/pin', async (req, res) => {
+    try {
+        const articleId = parseInt(req.params.id, 10);
+        const { featured_pos, editor_id } = req.body || {};
+        if (!articleId || isNaN(articleId)) {
+            return res.status(400).json({ success: false, message: 'ID bài báo không hợp lệ.' });
+        }
+        const pos = parseInt(featured_pos, 10) || 0;
+        const pool = await connectDB();
+
+        // 1. Luôn xóa bài báo này khỏi pin_position trước
+        await pool.request()
+            .input('id_bb', sql.Int, articleId)
+            .query(`DELETE FROM dbo.pin_position WHERE Id_BB = @id_bb;`);
+
+        // 2. Nếu pos >= 1 && pos <= 3: xóa bài nào đang ở vị trí pos và insert bài này
+        if (pos >= 1 && pos <= 3) {
+            await pool.request()
+                .input('pos', sql.Int, pos)
+                .query(`DELETE FROM dbo.pin_position WHERE pin_position = @pos;`);
+
+            await pool.request()
+                .input('pos', sql.Int, pos)
+                .input('id_bb', sql.Int, articleId)
+                .input('editor_id', sql.Int, parseInt(editor_id, 10) || null)
+                .query(`
+                    INSERT INTO dbo.pin_position (pin_position, pinned_at, Id_BB, Id_editor)
+                    VALUES (@pos, SYSDATETIME(), @id_bb, @editor_id);
+                `);
         }
 
         return res.status(200).json({
             success: true,
-            newStatus: newStatus,
-            message: newStatus === 'published' ? 'Đã đăng lại bài viết!' : 'Đã gỡ bài viết xuống!'
+            featured_pos: pos,
+            message: pos >= 1 && pos <= 3 ? `Đã đổi ghim bài báo #${articleId} sang vị trí nổi bật ${pos}!` : `Đã chuyển bài báo #${articleId} về luồng tin thường (không ghim).`
         });
     } catch (err) {
-        console.error('Lỗi gỡ/đăng lại bài:', err);
-        return res.status(500).json({ success: false, message: 'Lỗi server: ' + err.message });
+        console.error('Lỗi khi đổi ghim:', err);
+        return res.status(500).json({ success: false, message: 'Lỗi server khi đổi ghim: ' + err.message });
     }
 });
 
@@ -342,11 +451,39 @@ router.get('/ads', async (req, res) => {
         const pool = await connectDB();
         const statusFilter = (req.query.status || 'pending').toLowerCase();
 
-        let whereClause = "WHERE r.status IN ('chuaduyet', 'cho_duyet', 'pending', 'dathanhtoan')";
+        // Tự động cập nhật các đơn quảng cáo quá hạn theo các luồng quy định:
+        // Luồng 1: chuaduyet -> daduyet -> choxacnhan -> dathanhtoan -> quahan (hết hạn ngày chạy)
+        // Luồng 2: Chuaduyet -> tuchoi -> quahan (bị từ chối và qua ngày kết thúc)
+        // Luồng 3: chuaduyet -> daduyet -> quahan (duyệt rồi nhưng không thanh toán, qua ngày bắt đầu)
+        await pool.request().query(`
+            -- Đơn đã thanh toán/đang chạy hết thời gian hiển thị
+            UPDATE dbo.ad_requests
+            SET status = 'quahan'
+            WHERE status IN ('dathanhtoan', 'Active', 'active')
+              AND CAST(SYSDATETIME() AS DATE) > end_date;
+
+            -- Đơn đã duyệt nhưng không thanh toán, để qua ngày bắt đầu
+            UPDATE dbo.ad_requests
+            SET status = 'quahan'
+            WHERE status IN ('daduyet')
+              AND CAST(SYSDATETIME() AS DATE) > start_date;
+
+            -- Đơn bị từ chối mẫu hoặc chờ duyệt mà đã qua ngày kết thúc
+            UPDATE dbo.ad_requests
+            SET status = 'quahan'
+            WHERE status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending')
+              AND CAST(SYSDATETIME() AS DATE) > end_date;
+        `);
+
+        let whereClause = "WHERE r.status IN ('chuaduyet', 'cho_duyet', 'pending')";
         if (statusFilter === 'all') {
             whereClause = "WHERE 1=1";
+        } else if (statusFilter === 'payment' || statusFilter === 'choxacnhan') {
+            whereClause = "WHERE r.status IN ('choxacnhan', 'cho_xac_nhan')";
+        } else if (statusFilter === 'schedule') {
+            whereClause = "WHERE r.status IN ('dathanhtoan', 'Active', 'active', 'daduyet', 'choxacnhan')";
         } else if (statusFilter === 'active') {
-            whereClause = "WHERE r.status IN ('Active', 'da_duyet', 'daduyet', 'approved')";
+            whereClause = "WHERE r.status IN ('Active', 'active', 'dathanhtoan')";
         }
 
         const query = `
@@ -410,7 +547,7 @@ router.get('/ads', async (req, res) => {
 
 /**
  * 7. POST /api/kiemduyet/ads/:id/approve
- * Duyệt mẫu quảng cáo
+ * Duyệt mẫu quảng cáo (chuyển chuaduyet -> daduyet)
  */
 router.post('/ads/:id/approve', async (req, res) => {
     try {
@@ -428,7 +565,7 @@ router.post('/ads/:id/approve', async (req, res) => {
             .input('editor_id', sql.Int, parseInt(editor_id, 10) || null)
             .query(`
                 UPDATE dbo.ad_requests
-                SET status = 'Active',
+                SET status = 'daduyet',
                     approved_by = @editor_id,
                     rejection_reason = NULL
                 WHERE Id = @id;
@@ -436,11 +573,46 @@ router.post('/ads/:id/approve', async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: `Đã phê duyệt mẫu quảng cáo ID ${adId} thành công!`
+            message: `Đã phê duyệt mẫu quảng cáo ID ${adId} thành công (chuyển sang [Đã duyệt], chờ doanh nghiệp thanh toán)!`
         });
     } catch (err) {
         console.error('Lỗi khi duyệt mẫu quảng cáo:', err);
         return res.status(500).json({ success: false, message: 'Lỗi server khi duyệt quảng cáo: ' + err.message });
+    }
+});
+
+/**
+ * 7b. POST /api/kiemduyet/ads/:id/confirm-payment
+ * Xác nhận đã thanh toán tiền quảng cáo (chuyển choxacnhan -> dathanhtoan)
+ */
+router.post('/ads/:id/confirm-payment', async (req, res) => {
+    try {
+        const adId = parseInt(req.params.id, 10);
+        const { editor_id } = req.body || {};
+
+        if (!adId || isNaN(adId)) {
+            return res.status(400).json({ success: false, message: 'ID quảng cáo không hợp lệ.' });
+        }
+
+        const pool = await connectDB();
+
+        await pool.request()
+            .input('id', sql.Int, adId)
+            .input('editor_id', sql.Int, parseInt(editor_id, 10) || null)
+            .query(`
+                UPDATE dbo.ad_requests
+                SET status = 'dathanhtoan',
+                    approved_by = COALESCE(@editor_id, approved_by)
+                WHERE Id = @id;
+            `);
+
+        return res.status(200).json({
+            success: true,
+            message: `Đã xác nhận thanh toán thành công cho đơn quảng cáo #${adId} (chuyển sang [Đã thanh toán])!`
+        });
+    } catch (err) {
+        console.error('Lỗi khi xác nhận thanh toán quảng cáo:', err);
+        return res.status(500).json({ success: false, message: 'Lỗi server khi xác nhận thanh toán: ' + err.message });
     }
 });
 
@@ -465,7 +637,7 @@ router.post('/ads/:id/reject', async (req, res) => {
             .input('editor_id', sql.Int, parseInt(editor_id, 10) || null)
             .query(`
                 UPDATE dbo.ad_requests
-                SET status = 'tu_choi',
+                SET status = 'tuchoi',
                     rejection_reason = @reason,
                     approved_by = @editor_id
                 WHERE Id = @id;
@@ -489,10 +661,21 @@ router.get('/stats', async (req, res) => {
     try {
         const pool = await connectDB();
 
+        // Cập nhật các đơn quá hạn trước khi đếm thống kê
+        await pool.request().query(`
+            UPDATE dbo.ad_requests SET status = 'quahan' WHERE status IN ('dathanhtoan', 'Active', 'active') AND CAST(SYSDATETIME() AS DATE) > end_date;
+            UPDATE dbo.ad_requests SET status = 'quahan' WHERE status = 'daduyet' AND CAST(SYSDATETIME() AS DATE) > start_date;
+            UPDATE dbo.ad_requests SET status = 'quahan' WHERE status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending') AND CAST(SYSDATETIME() AS DATE) > end_date;
+        `);
+
         // 1. Đếm bài chờ duyệt
         const pendingCountRes = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.BaiViet WHERE status IN ('pending', 'choduyet');");
         // 2. Đếm QC chờ duyệt
-        const pendingAdsRes = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.ad_requests WHERE status IN ('chuaduyet', 'cho_duyet', 'pending', 'dathanhtoan');");
+        const pendingAdsRes = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.ad_requests WHERE status IN ('chuaduyet', 'cho_duyet', 'pending');");
+        // 2b. Đếm đơn QC chờ xác nhận thanh toán
+        const pendingPaymentRes = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.ad_requests WHERE status IN ('choxacnhan', 'cho_xac_nhan');");
+        // 2c. Đếm đơn QC trong bảng lịch (đã thanh toán hoặc đang chạy)
+        const scheduledAdsRes = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.ad_requests WHERE status IN ('dathanhtoan', 'Active', 'active', 'daduyet');");
         // 3. Đếm bài đang xuất bản
         const publishedCountRes = await pool.request().query("SELECT COUNT(*) AS total, COALESCE(SUM(views_count), 0) AS total_views FROM dbo.BaiViet WHERE status IN ('published', 'daduyet');");
         // 4. Lượt xem theo chuyên mục
@@ -504,23 +687,20 @@ router.get('/stats', async (req, res) => {
             ORDER BY total_views DESC;
         `);
 
-        // 5. Thống kê 7 ngày gần nhất (nhóm theo ngày xuất bản & lượt xem)
+        // 5. Thống kê 7 ngày gần nhất (truy vấn chuẩn xác từ bảng dbo.daily_views)
         const dailyRes = await pool.request().query(`
-            SELECT CAST(published_at AS DATE) AS pub_date,
-                   COUNT(*) AS total_articles,
-                   COALESCE(SUM(views_count), 0) AS total_views
-            FROM dbo.BaiViet
-            WHERE published_at IS NOT NULL
-            GROUP BY CAST(published_at AS DATE);
+            SELECT CONVERT(VARCHAR(10), view_date, 23) AS view_date_str,
+                   views_count,
+                   articles_viewed
+            FROM dbo.daily_views
+            WHERE view_date >= DATEADD(day, -8, CAST(SYSDATETIME() AS DATE));
         `);
 
         const dayNames = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
         const daysMap = {};
         (dailyRes.recordset || []).forEach(r => {
-            if (r.pub_date) {
-                const d = new Date(r.pub_date);
-                const k = d.toISOString().split('T')[0];
-                daysMap[k] = { views: r.total_views || 0, articles: r.total_articles || 0 };
+            if (r.view_date_str) {
+                daysMap[r.view_date_str] = r.views_count || 0;
             }
         });
 
@@ -528,10 +708,13 @@ router.get('/stats', async (req, res) => {
         for (let i = 6; i >= 0; i--) {
             const d = new Date();
             d.setDate(d.getDate() - i);
-            const k = d.toISOString().split('T')[0];
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            const k = `${y}-${m}-${day}`;
             const label = dayNames[d.getDay()];
-            const item = daysMap[k] || { views: 0, articles: 0 };
-            last7Days.push([label, item.views]);
+            const views = daysMap[k] != null ? daysMap[k] : 0;
+            last7Days.push([label, views]);
         }
 
         return res.status(200).json({
@@ -539,6 +722,8 @@ router.get('/stats', async (req, res) => {
             stats: {
                 pending_articles: pendingCountRes.recordset[0]?.total || 0,
                 pending_ads: pendingAdsRes.recordset[0]?.total || 0,
+                pending_payments: pendingPaymentRes.recordset[0]?.total || 0,
+                scheduled_ads: scheduledAdsRes.recordset[0]?.total || 0,
                 published_articles: publishedCountRes.recordset[0]?.total || 0,
                 total_views: publishedCountRes.recordset[0]?.total_views || 0,
                 category_views: catViewsRes.recordset.map(r => ({ name: r.name, views: r.total_views })),
