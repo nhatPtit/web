@@ -130,7 +130,6 @@ router.get('/users', async (req, res) => {
                 u.ButDanh,
                 u.TrangThai,
                 u.company_name,
-                u.contact_person,
                 u.violation_count,
                 u.created_at
             FROM dbo.users u
@@ -145,7 +144,6 @@ router.get('/users', async (req, res) => {
                   OR u.phone LIKE @keywordLike
                   OR u.ButDanh COLLATE SQL_Latin1_General_CP1_CI_AI LIKE @keywordLike
                   OR u.company_name COLLATE SQL_Latin1_General_CP1_CI_AI LIKE @keywordLike
-                  OR u.contact_person COLLATE SQL_Latin1_General_CP1_CI_AI LIKE @keywordLike
               )
             ORDER BY u.created_at DESC, u.id DESC;
         `;
@@ -181,8 +179,7 @@ router.post('/users', async (req, res) => {
             phone,
             role,
             but_danh,
-            company_name,
-            contact_person
+            company_name
         } = req.body || {};
 
         // 1. Kiểm tra các trường chung bắt buộc
@@ -248,7 +245,6 @@ router.post('/users', async (req, res) => {
         // 4. Kiểm tra các ràng buộc trường riêng theo vai trò (CK_users_role_fields)
         let finalButDanh = null;
         let finalCompanyName = null;
-        let finalContactPerson = null;
 
         if (cleanRole === 'NB') {
             if (!but_danh || !but_danh.trim()) {
@@ -265,19 +261,11 @@ router.post('/users', async (req, res) => {
                     message: 'Tài khoản Doanh nghiệp bắt buộc phải có Tên công ty/doanh nghiệp!'
                 });
             }
-            if (!contact_person || !contact_person.trim()) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Tài khoản Doanh nghiệp bắt buộc phải có Tên người liên hệ!'
-                });
-            }
             finalCompanyName = company_name.trim();
-            finalContactPerson = contact_person.trim();
         } else if (cleanRole === 'BT') {
-            // Đối với BT: ButDanh, company_name, contact_person bắt buộc là NULL
+            // Đối với BT: ButDanh, company_name bắt buộc là NULL
             finalButDanh = null;
             finalCompanyName = null;
-            finalContactPerson = null;
         }
 
         const pool = await connectDB();
@@ -330,7 +318,6 @@ router.post('/users', async (req, res) => {
             .input('role', sql.VarChar(10), cleanRole)
             .input('butDanh', sql.NVarChar(100), finalButDanh)
             .input('companyName', sql.NVarChar(150), finalCompanyName)
-            .input('contactPerson', sql.NVarChar(100), finalContactPerson)
             .query(`
                 INSERT INTO dbo.users (
                     username,
@@ -342,7 +329,6 @@ router.post('/users', async (req, res) => {
                     ButDanh,
                     TrangThai,
                     company_name,
-                    contact_person,
                     violation_count,
                     created_at
                 )
@@ -356,7 +342,6 @@ router.post('/users', async (req, res) => {
                     INSERTED.ButDanh,
                     INSERTED.TrangThai,
                     INSERTED.company_name,
-                    INSERTED.contact_person,
                     INSERTED.violation_count,
                     INSERTED.created_at
                 VALUES (
@@ -369,7 +354,6 @@ router.post('/users', async (req, res) => {
                     @butDanh,
                     'HoatDong',
                     @companyName,
-                    @contactPerson,
                     0,
                     SYSDATETIME()
                 );
@@ -434,7 +418,7 @@ router.put('/users/:id', async (req, res) => {
         const existingRes = await pool.request()
             .input('id', sql.Int, userId)
             .query(`
-                SELECT TOP 1 id, username, email, phone, full_name, VaiTro, ButDanh, TrangThai, company_name, contact_person
+                SELECT TOP 1 id, username, email, phone, full_name, VaiTro, ButDanh, TrangThai, company_name
                 FROM dbo.users
                 WHERE id = @id;
             `);
@@ -447,7 +431,7 @@ router.put('/users/:id', async (req, res) => {
             });
         }
 
-        const { full_name, email, phone, but_danh, company_name, contact_person } = req.body || {};
+        const { full_name, email, phone, but_danh, company_name } = req.body || {};
 
         // 1. Kiểm tra thông tin chung
         if (!full_name || !email || !phone) {
@@ -500,7 +484,6 @@ router.put('/users/:id', async (req, res) => {
         // 2. Validate theo vai trò hiện tại (VaiTro giữ nguyên không đổi)
         let finalButDanh = null;
         let finalCompanyName = null;
-        let finalContactPerson = null;
 
         if (currentUser.VaiTro === 'NB') {
             if (!but_danh || !but_danh.trim()) {
@@ -517,14 +500,7 @@ router.put('/users/:id', async (req, res) => {
                     message: 'Tài khoản Doanh nghiệp bắt buộc phải có Tên công ty / Doanh nghiệp!'
                 });
             }
-            if (!contact_person || !contact_person.trim()) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Tài khoản Doanh nghiệp bắt buộc phải có Tên người đại diện liên hệ!'
-                });
-            }
             finalCompanyName = company_name.trim();
-            finalContactPerson = contact_person.trim();
         }
 
         // 3. Thực thi UPDATE
@@ -535,7 +511,6 @@ router.put('/users/:id', async (req, res) => {
             .input('phone', sql.VarChar(20), trimmedPhone)
             .input('butDanh', sql.NVarChar(100), finalButDanh)
             .input('companyName', sql.NVarChar(150), finalCompanyName)
-            .input('contactPerson', sql.NVarChar(100), finalContactPerson)
             .query(`
                 UPDATE dbo.users
                 SET
@@ -543,8 +518,7 @@ router.put('/users/:id', async (req, res) => {
                     email = @email,
                     phone = @phone,
                     ButDanh = @butDanh,
-                    company_name = @companyName,
-                    contact_person = @contactPerson
+                    company_name = @companyName
                 OUTPUT
                     INSERTED.id,
                     INSERTED.username,
@@ -555,7 +529,6 @@ router.put('/users/:id', async (req, res) => {
                     INSERTED.ButDanh,
                     INSERTED.TrangThai,
                     INSERTED.company_name,
-                    INSERTED.contact_person,
                     INSERTED.violation_count,
                     INSERTED.created_at
                 WHERE id = @id;

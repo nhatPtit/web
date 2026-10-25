@@ -204,7 +204,6 @@ router.get('/requests', async (req, res) => {
                 r.Id,
                 r.advertiser_id,
                 u.company_name,
-                u.contact_person,
                 u.phone AS advertiser_phone,
                 u.email AS advertiser_email,
                 r.position_id,

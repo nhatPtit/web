@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Hiển thị thông tin Admin và xử lý Đăng xuất
     const adminUserName = document.getElementById('admin-user-name');
     if (adminUserName) {
-        adminUserName.textContent = currentUser.full_name || currentUser.username;
+        adminUserName.textContent = currentUser.full_name || currentUser.username || 'Quản trị viên';
     }
 
     const btnLogout = document.getElementById('btn-logout');
@@ -34,7 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btnLogout.addEventListener('click', () => {
             sessionStorage.removeItem('current_user');
             sessionStorage.removeItem('admin_user');
-            window.location.href = 'index.html';
+            sessionStorage.removeItem('ptews_user');
+            try {
+                localStorage.removeItem('ptews_user');
+            } catch (e) { }
+            window.location.href = 'login.html';
         });
     }
 
@@ -131,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             roleDetail = `<strong>Bộ phận:</strong> Ban Biên tập & Kiểm duyệt nội dung | <strong>Họ tên:</strong> ${escapeHtml(u.full_name || '—')}`;
         } else if (u.VaiTro === 'DN') {
             roleBadge = '<span class="badge-role dn">Doanh nghiệp</span>';
-            roleDetail = `<strong>Công ty:</strong> <span style="font-weight:600;">${escapeHtml(u.company_name || '—')}</span> | <strong>Người LH:</strong> ${escapeHtml(u.contact_person || '—')}`;
+            roleDetail = `<strong>Doanh nghiệp:</strong> <span style="font-weight:600;">${escapeHtml(u.company_name || '—')}</span>`;
             if (u.violation_count > 0) {
                 violationInfo = `<span class="violation-tag">⚠️ Vi phạm: ${u.violation_count} lần</span>`;
             } else {
@@ -264,10 +268,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =========================================================================
-    // 9. XỬ LÝ CHỨC NĂNG TẠO TÀI KHOẢN MỚI
+    // 9. XỬ LÝ CHUYỂN ĐỔI TAB & TẠO TÀI KHOẢN MỚI TRỰC TIẾP TRÊN MÀN HÌNH
     // =========================================================================
+    const tabListUsers = document.getElementById('tab-list-users');
     const tabCreateUser = document.getElementById('tab-create-user');
-    const createUserModal = document.getElementById('create-user-modal');
+    const usersViewList = document.getElementById('users-view-list');
+    const usersViewCreate = document.getElementById('users-view-create');
     const btnCancelCreate = document.getElementById('btn-cancel-create');
     const createUserForm = document.getElementById('create-user-form');
     const createRoleSelect = document.getElementById('create-role');
@@ -279,11 +285,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const inputButDanh = document.getElementById('create-butdanh');
     const inputCompany = document.getElementById('create-company');
-    const inputContact = document.getElementById('create-contact');
 
-    function openCreateUserModal() {
-        if (!createUserModal) return;
-        createUserModal.style.display = 'flex';
+    function showUsersListView() {
+        if (usersViewList) usersViewList.style.display = 'flex';
+        if (usersViewCreate) usersViewCreate.style.display = 'none';
+        if (tabListUsers) {
+            tabListUsers.classList.add('active');
+        }
+        if (tabCreateUser) {
+            tabCreateUser.classList.remove('active');
+        }
+        if (createErrorMsg) {
+            createErrorMsg.style.display = 'none';
+            createErrorMsg.textContent = '';
+        }
+    }
+
+    function showCreateUserView() {
+        if (usersViewList) usersViewList.style.display = 'none';
+        if (usersViewCreate) usersViewCreate.style.display = 'block';
+        if (tabCreateUser) {
+            tabCreateUser.classList.add('active');
+        }
+        if (tabListUsers) {
+            tabListUsers.classList.remove('active');
+        }
         if (createErrorMsg) {
             createErrorMsg.style.display = 'none';
             createErrorMsg.textContent = '';
@@ -292,21 +318,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('create-fullname')?.focus();
     }
 
-    function closeCreateUserModal() {
-        if (!createUserModal) return;
-        createUserModal.style.display = 'none';
-        if (createErrorMsg) {
-            createErrorMsg.style.display = 'none';
-            createErrorMsg.textContent = '';
-        }
+    if (tabListUsers) {
+        tabListUsers.addEventListener('click', showUsersListView);
     }
 
     if (tabCreateUser) {
-        tabCreateUser.addEventListener('click', openCreateUserModal);
+        tabCreateUser.addEventListener('click', showCreateUserView);
     }
 
     if (btnCancelCreate) {
-        btnCancelCreate.addEventListener('click', closeCreateUserModal);
+        btnCancelCreate.addEventListener('click', showUsersListView);
     }
 
     function updateRoleFields() {
@@ -319,21 +340,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fieldGroupDN) fieldGroupDN.style.display = 'none';
             if (inputButDanh) inputButDanh.required = true;
             if (inputCompany) inputCompany.required = false;
-            if (inputContact) inputContact.required = false;
         } else if (role === 'BT') {
             if (fieldGroupNB) fieldGroupNB.style.display = 'none';
             if (fieldGroupBT) fieldGroupBT.style.display = 'block';
             if (fieldGroupDN) fieldGroupDN.style.display = 'none';
             if (inputButDanh) inputButDanh.required = false;
             if (inputCompany) inputCompany.required = false;
-            if (inputContact) inputContact.required = false;
         } else if (role === 'DN') {
             if (fieldGroupNB) fieldGroupNB.style.display = 'none';
             if (fieldGroupBT) fieldGroupBT.style.display = 'none';
             if (fieldGroupDN) fieldGroupDN.style.display = 'block';
             if (inputButDanh) inputButDanh.required = false;
             if (inputCompany) inputCompany.required = true;
-            if (inputContact) inputContact.required = true;
         }
     }
 
@@ -358,7 +376,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = document.getElementById('create-phone')?.value.trim() || '';
             const butDanh = inputButDanh ? inputButDanh.value.trim() : '';
             const companyName = inputCompany ? inputCompany.value.trim() : '';
-            const contactPerson = inputContact ? inputContact.value.trim() : '';
 
             if (!fullName || !username || !password || !email || !phone) {
                 showCreateError('Vui lòng điền đầy đủ các thông tin bắt buộc (*)!');
@@ -395,10 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     showCreateError('Tài khoản Doanh nghiệp bắt buộc phải nhập Tên công ty / Doanh nghiệp!');
                     return;
                 }
-                if (!contactPerson) {
-                    showCreateError('Tài khoản Doanh nghiệp bắt buộc phải nhập Tên người đại diện liên hệ!');
-                    return;
-                }
             }
 
             if (btnSubmitCreate) {
@@ -415,8 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     email,
                     phone,
                     but_danh: role === 'NB' ? butDanh : null,
-                    company_name: role === 'DN' ? companyName : null,
-                    contact_person: role === 'DN' ? contactPerson : null
+                    company_name: role === 'DN' ? companyName : null
                 };
 
                 const res = await fetch('/api/admin/users', {
@@ -434,7 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 alert(`✓ ${data.message}\nTài khoản "${data.data?.username}" đã được tạo thành công.`);
                 createUserForm.reset();
-                closeCreateUserModal();
+                showUsersListView();
                 loadUsersList();
 
             } catch (err) {
@@ -476,7 +488,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const editButdanh = document.getElementById('edit-butdanh');
     const editGroupDN = document.getElementById('edit-group-dn');
     const editCompany = document.getElementById('edit-company');
-    const editContact = document.getElementById('edit-contact');
 
     function openEditUserModal(u) {
         if (!editUserModal) return;
@@ -514,10 +525,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 editCompany.value = u.company_name || '';
                 editCompany.required = true;
             }
-            if (editContact) {
-                editContact.value = u.contact_person || '';
-                editContact.required = true;
-            }
         } else {
             if (editGroupNB) editGroupNB.style.display = 'none';
             if (editGroupDN) editGroupDN.style.display = 'none';
@@ -553,7 +560,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = editPhone.value.trim();
             const butDanh = editButdanh ? editButdanh.value.trim() : '';
             const company = editCompany ? editCompany.value.trim() : '';
-            const contact = editContact ? editContact.value.trim() : '';
 
             if (!fullName || !email || !phone) {
                 showEditError('Vui lòng điền đầy đủ họ tên, email và số điện thoại!');
@@ -565,8 +571,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            if (role === 'DN' && (!company || !contact)) {
-                showEditError('Tài khoản Doanh nghiệp bắt buộc phải có Tên công ty và Người đại diện liên hệ!');
+            if (role === 'DN' && !company) {
+                showEditError('Tài khoản Doanh nghiệp bắt buộc phải có Tên công ty / Doanh nghiệp!');
                 return;
             }
 
@@ -584,8 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         email,
                         phone,
                         but_danh: role === 'NB' ? butDanh : null,
-                        company_name: role === 'DN' ? company : null,
-                        contact_person: role === 'DN' ? contact : null
+                        company_name: role === 'DN' ? company : null
                     })
                 });
 
@@ -881,6 +886,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (menuBtnUsers) menuBtnUsers.classList.add('active');
             if (usersMainCol) usersMainCol.style.display = 'block';
             if (usersActionsCol) usersActionsCol.style.display = 'flex';
+            showUsersListView();
         }
     }
 
@@ -1111,7 +1117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><strong>#${r.Id}</strong></td>
                 <td>
                     <div style="font-weight: 600; color: #1e293b;">${escapeHtml(r.company_name || 'Doanh nghiệp')}</div>
-                    <div style="font-size: 11.5px; color: #64748b;">LH: ${escapeHtml(r.contact_person || '—')} (${escapeHtml(r.advertiser_phone || '—')})</div>
+                    <div style="font-size: 11.5px; color: #64748b;">SĐT: ${escapeHtml(r.advertiser_phone || '—')} | Email: ${escapeHtml(r.advertiser_email || '—')}</div>
                 </td>
                 <td><span class="badge-role dn">${escapeHtml(r.position_name)}</span></td>
                 <td>
@@ -1516,7 +1522,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Đóng các modal khi click ra ngoài vùng nền mờ
     window.addEventListener('click', (e) => {
-        if (e.target === createUserModal) closeCreateUserModal();
         if (e.target === editUserModal) closeEditUserModal();
         if (e.target === statusModal) closeStatusModal();
         if (e.target === violationModal) closeViolationModal();
