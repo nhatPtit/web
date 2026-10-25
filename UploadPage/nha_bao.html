@@ -5,6 +5,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>PTIT News - Nhà báo</title>
+  <script>
+    (function () {
+      var user = null;
+      try {
+        var str = localStorage.getItem("ptews_user");
+        if (str) user = JSON.parse(str);
+      } catch (e) {}
+
+      if (!user || (user.role !== "NB" && user.VaiTro !== "NB")) {
+        alert("Hạn chế quyền truy cập! Vui lòng đăng nhập với tài khoản Nhà báo để tiếp tục.");
+        window.location.replace("login.html");
+      }
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgICAgdmlld0JveD0iMCAwIDE1MTkgMTM4NSIKICAgICB3aWR0aD0iMTUxOSIgaGVpZ2h0PSIxMzg1Ij4KICA8dGl0bGU+UFRFV1MgTG9nbzwvdGl0bGU+CiAgPHBhdGggZD0iTSA1NTkgMTMyMSBMIDU1OSAxMzgwIEwgNTYwIDEzODMgTCA1NjUgMTM4MCBMIDU3NSAxMzcxIEwgNTgyIDEzNjkgTCA1ODggMTM2NSBMIDU5OSAxMzY0IEwgNjAwIDEzNjMgTCA2MDcgMTM2MyBMIDYwOCAxMzYyIEwgNjE3IDEzNjIgTCA2MTggMTM2MSBMIDc0NCAxMzYyIEwgNzQ1IDEzNjMgTCA4OTcgMTM2MyBMIDg5OCAxMzY0IEwgMTEwMyAxMzY0IEwgMTEwNyAxMzYyIEwgMTEwNyAxMzAwIEwgMTEwMiAxMjk3IEwgNjA1IDEyOTcgTCA2MDQgMTI5OCBMIDU5MSAxMjk5IEwgNTg0IDEzMDMgTCA1NzkgMTMwNCBMIDU2NiAxMzEzIFogTSAwIDEzMDAgTCAwIDEzNjIgTCAzIDEzNjQgTCAyMTggMTM2NCBMIDIxOSAxMzYzIEwgMzYyIDEzNjMgTCAzNjMgMTM2MiBMIDQ4OCAxMzYxIEwgNDg5IDEzNjIgTCA0OTggMTM2MiBMIDQ5OSAxMzYzIEwgNTA3IDEzNjMgTCA1MDggMTM2NCBMIDUxOSAxMzY1IEwgNTI1IDEzNjkgTCA1MzAgMTM3MCBMIDU0MSAxMzc5IEwgNTQ1IDEzODQgTCA1NDcgMTM4MiBMIDU0NyAxMzIwIEwgNTM2IDEzMDkgTCA1MzEgMTMwNyBMIDUyNiAxMzAzIEwgNTIzIDEzMDMgTCA1MTYgMTI5OSBMIDUxMyAxMjk5IEwgNTEyIDEyOTggTCA1MDIgMTI5OCBMIDUwMSAxMjk3IEwgNCAxMjk3IFogTSAwIDEyNjQgTCAwIDEyNzcgTCAxIDEyODAgTCA0IDEyODIgTCA1MjAgMTI4MiBMIDUyMSAxMjgzIEwgNTI3IDEyODMgTCA1MzMgMTI4NiBMIDU0MSAxMjg4IEwgNTUwIDEyOTggTCA1NjcgMTI5NyBMIDU3NiAxMjg4IEwgNTgxIDEyODcgTCA1ODcgMTI4MyBMIDU5MyAxMjgzIEwgNTk0IDEyODIgTCAxMTAyIDEyODIgTCAxMTA2IDEyODAgTCAxMTA3IDEyNzcgTCAxMTA3IDEyNjMgTCAxMTAzIDEyNjAgTCA2MDIgMTI2MCBMIDYwMSAxMjYxIEwgNTkyIDEyNjEgTCA1OTEgMTI2MiBMIDU3OSAxMjYzIEwgNTcyIDEyNjcgTCA1NjUgMTI2OSBMIDU2MiAxMjcyIEwgNTU1IDEyNzIgTCA1NTAgMTI2OCBMIDU0NCAxMjY3IEwgNTM3IDEyNjMgTCA1MjQgMTI2MiBMIDUyMyAxMjYxIEwgNTEzIDEyNjEgTCA1MTIgMTI2MCBMIDMgMTI2MCBaIE0gNzI2IDgwNSBMIDcyNSA4MDUgTCA3MjMgODEzIEwgNzE5IDgxOCBMIDcxOCA4MjMgTCA3MTMgODMxIEwgNzEzIDgzNCBMIDcwOSA4MzkgTCA3MDcgODQ1IEwgNzAzIDg0OSBMIDcwMiA4NTMgTCA2OTkgODU2IEwgNjk3IDg2MSBMIDY5MyA4NjUgTCA2ODcgODc2IEwgNjgyIDg4MSBMIDY4MSA4ODQgTCA2NzcgODg4IEwgNjc3IDg5MCBMIDY3MyA4OTMgTCA2NzEgODk3IEwgNjU3IDkxMyBMIDY1NiA5MTYgTCA2NTEgOTIwIEwgNjQ2IDkyNyBMIDY0MiA5MzAgTCA2MjYgOTQ4IEwgNjIzIDk1MCBMIDYwNCA5NzAgTCA1ODYgOTg2IEwgNTgzIDk5MCBMIDU3NSA5OTYgTCA1NzIgMTAwMCBMIDU1OSAxMDExIEwgNTU2IDEwMTIgTCA1NTAgMTAxNyBMIDU0NyAxMDIxIEwgNTM1IDEwMzEgTCA1MjYgMTAzNyBMIDUxMCAxMDUxIEwgNDk5IDEwNTggTCA0ODkgMTA2NyBMIDQ4NiAxMDY4IEwgNDc1IDEwNzcgTCA0NzIgMTA3OCBMIDQ2MyAxMDg2IEwgNDU4IDEwODggTCA0NTQgMTA5MiBMIDQ1MSAxMDkzIEwgNDQ1IDEwOTggTCA0NDMgMTA5OCBMIDQzOSAxMTAyIEwgNDM0IDExMDQgTCA0MzEgMTEwNyBMIDQyNiAxMTA5IEwgNDIyIDExMTMgTCA0MTcgMTExNSBMIDQxNCAxMTE4IEwgNDA4IDExMjAgTCA0MDUgMTEyMyBMIDM5OSAxMTI1IEwgMzk2IDExMjggTCAzOTAgMTEzMCBMIDM4NyAxMTMzIEwgMzgxIDExMzUgTCAzNzggMTEzOCBMIDM3NCAxMTM5IEwgMzY2IDExNDQgTCAzNjEgMTE0NSBMIDM1NyAxMTQ4IEwgMzUzIDExNDkgTCAzNDQgMTE1NCBMIDMzOCAxMTU1IEwgMzMyIDExNTkgTCAzMjQgMTE2MSBMIDMyMCAxMTY0IEwgMzEzIDExNjUgTCAzMDUgMTE2OSBMIDI5NyAxMTcwIEwgMjg1IDExNzUgTCAyODAgMTE3NSBMIDI2OCAxMTc5IEwgMjQ4IDExODEgTCAyNDcgMTE4MiBMIDI0MyAxMTgyIEwgMjM3IDExODQgTCAxOTkgMTE4NSBMIDE5OCAxMTg0IEwgMTg2IDExODQgTCAxODUgMTE4MyBMIDE3NyAxMTgyIEwgMTc2IDExODEgTCAxNzEgMTE4MSBMIDE3MCAxMTgwIEwgMTYzIDExODAgTCAxNjIgMTE3OSBMIDE1OSAxMTc5IEwgMTU0IDExNzYgTCAxNDYgMTE3NSBMIDEzOSAxMTcxIEwgMTMzIDExNzAgTCAxMjkgMTE2NyBMIDEyMSAxMTY0IEwgMTE5IDExNjEgTCAxMTIgMTE1OSBMIDEwOCAxMTU1IEwgMTA1IDExNTYgTCAxMDYgMTE1OSBMIDEwNyAxMTU5IEwgMTIxIDExNzQgTCAxMjQgMTE3NSBMIDEyNyAxMTc5IEwgMTMyIDExODMgTCAxMzggMTE4NiBMIDE0MiAxMTkwIEwgMTQ1IDExOTEgTCAxNDcgMTE5NCBMIDE1MyAxMTk2IEwgMTU3IDEyMDAgTCAxNjEgMTIwMSBMIDE2NCAxMjA0IEwgMTcwIDEyMDYgTCAxNzUgMTIxMCBMIDE4MCAxMjExIEwgMTg2IDEyMTUgTCAxOTIgMTIxNiBMIDE5OCAxMjIwIEwgMjA4IDEyMjIgTCAyMTMgMTIyNSBMIDIyMiAxMjI2IEwgMjM3IDEyMzEgTCAyNDcgMTIzMSBMIDI0OCAxMjMyIEwgMjY5IDEyMzQgTCAyNzAgMTIzNSBMIDI5OCAxMjM1IEwgMjk5IDEyMzQgTCAzMDYgMTIzNCBMIDMxMyAxMjMyIEwgMzMzIDEyMzEgTCAzMzQgMTIzMCBMIDM0MSAxMjI5IEwgMzQ0IDEyMjcgTCAzNTUgMTIyNiBMIDM1NiAxMjI1IEwgMzU5IDEyMjUgTCAzNjQgMTIyMiBMIDM3NiAxMjIwIEwgMzgxIDEyMTcgTCAzOTAgMTIxNSBMIDM5NyAxMjExIEwgNDAzIDEyMTAgTCA0MTAgMTIwNiBMIDQxNSAxMjA1IEwgNDIxIDEyMDEgTCA0MjYgMTIwMCBMIDQzMSAxMTk2IEwgNDM2IDExOTUgTCA0NDAgMTE5MiBMIDQ0OCAxMTg5IEwgNDUxIDExODYgTCA0NTUgMTE4NSBMIDQ2OCAxMTc4IEwgNDcwIDExNzYgTCA0NzYgMTE3NCBMIDQ3OSAxMTcxIEwgNDg1IDExNjkgTCA0ODkgMTE2NSBMIDQ5NSAxMTYzIEwgNDk4IDExNjAgTCA1MTAgMTE1NCBMIDUxNCAxMTUwIEwgNTE4IDExNDkgTCA1MzAgMTE0MCBMIDUzNSAxMTM4IEwgNTM4IDExMzUgTCA1NDQgMTEzMiBMIDU0NSAxMTMwIEwgNTUwIDExMjggTCA1NTQgMTEyNCBMIDU2NCAxMTE4IEwgNTY4IDExMTQgTCA1NzEgMTExMyBMIDU3NSAxMTA5IEwgNTc4IDExMDggTCA2MzAgMTA2NSBMIDYzMCAxMDY0IEwgNjYxIDEwMzQgTCA2NjYgMTAyNyBMIDY3MCAxMDI0IEwgNjgyIDEwMTAgTCA2ODMgMTAwNyBMIDY4NiAxMDA1IEwgNjg3IDEwMDIgTCA2OTYgOTkyIEwgNzAxIDk4NSBMIDcwMyA5ODAgTCA3MTEgOTcwIEwgNzEzIDk2NSBMIDcxNyA5NjAgTCA3MTkgOTU1IEwgNzIyIDk1MiBMIDcyMyA5NDggTCA3MjcgOTQzIEwgNzI4IDk0MCBMIDcyOCA4MTIgWiBNIDk0NCA2NzMgTCA5NDUgNjgxIEwgOTQ2IDY4MiBMIDk0OCA2OTQgTCA5NTEgNzAzIEwgOTUxIDcwNyBMIDk1MyA3MTIgTCA5NTMgNzE2IEwgOTU0IDcxNyBMIDk1NiA3MjkgTCA5NTkgNzM4IEwgOTU5IDc0MiBMIDk2MiA3NTEgTCA5NjIgNzU1IEwgOTY0IDc2MCBMIDk2NCA3NjQgTCA5NjUgNzY1IEwgOTY3IDc3NyBMIDk3MCA3ODYgTCA5NzAgNzkwIEwgOTczIDc5OSBMIDk3NSA4MTIgTCA5NzYgODEzIEwgOTc4IDgyNSBMIDk4MSA4MzQgTCA5ODMgODQ3IEwgOTg0IDg0OCBMIDk4NiA4NjAgTCA5ODkgODY5IEwgOTg5IDg3MyBMIDk5MiA4ODIgTCA5OTQgODk1IEwgOTk1IDg5NiBMIDk5NyA5MDggTCAxMDAwIDkxNyBMIDEwMDAgOTIxIEwgMTAwMyA5MzAgTCAxMDA1IDk0MyBMIDEwMDcgOTQ3IEwgMTA2NiA5NDcgTCAxMDY3IDk0NiBMIDEwNjcgOTQzIEwgMTA2OCA5NDIgTCAxMDcwIDkzMSBMIDEwNzIgOTI3IEwgMTA3OSA4OTYgTCAxMDgxIDg5MiBMIDEwODkgODU3IEwgMTA5MSA4NTMgTCAxMDk5IDgxOCBMIDExMDEgODE0IEwgMTEwOCA3ODMgTCAxMTEwIDc3OSBMIDExMTEgNzcyIEwgMTExMyA3NzAgTCAxMTE2IDc3MCBMIDExMTggNzc0IEwgMTExOCA3NzcgTCAxMTIwIDc4MSBMIDExMjEgNzg4IEwgMTEyMyA3OTIgTCAxMTI0IDc5OSBMIDExMjYgODAzIEwgMTEyNyA4MTAgTCAxMTI5IDgxNCBMIDExMzAgODIxIEwgMTEzNSA4MzYgTCAxMTM3IDg0NyBMIDExMzkgODUxIEwgMTE0MCA4NTggTCAxMTQyIDg2MiBMIDExNDMgODY5IEwgMTE0NSA4NzMgTCAxMTQ2IDg4MCBMIDExNDggODg0IEwgMTE0OSA4OTEgTCAxMTUxIDg5NSBMIDExNTIgOTAyIEwgMTE1NCA5MDYgTCAxMTU0IDkwOSBMIDExNTggOTIxIEwgMTE1OSA5MjggTCAxMTYxIDkzMiBMIDExNjIgOTM5IEwgMTE2NCA5NDMgTCAxMTY0IDk0NiBMIDExNjUgOTQ3IEwgMTIyNSA5NDcgTCAxMjI2IDk0MCBMIDEyMjggOTM1IEwgMTIyOCA5MzEgTCAxMjMxIDkyMiBMIDEyMzEgOTE4IEwgMTIzMyA5MTMgTCAxMjMzIDkwOSBMIDEyMzYgOTAwIEwgMTIzNiA4OTYgTCAxMjM5IDg4NyBMIDEyMzkgODgzIEwgMTI0MSA4NzggTCAxMjQxIDg3NCBMIDEyNDQgODY1IEwgMTI0NCA4NjEgTCAxMjQ3IDg1MiBMIDEyNDkgODM5IEwgMTI1MCA4MzggTCAxMjUyIDgyNiBMIDEyNTUgODE3IEwgMTI1NyA4MDQgTCAxMjU4IDgwMyBMIDEyNjAgNzkxIEwgMTI2MyA3ODIgTCAxMjY1IDc2OSBMIDEyNjYgNzY4IEwgMTI2OCA3NTYgTCAxMjcxIDc0NyBMIDEyNzMgNzM0IEwgMTI3NCA3MzMgTCAxMjc2IDcyMSBMIDEyNzkgNzEyIEwgMTI4MSA2OTkgTCAxMjg0IDY5MCBMIDEyODcgNjczIEwgMTIzNiA2NzMgTCAxMjM0IDY4MCBMIDEyMzQgNjg0IEwgMTIzMyA2ODUgTCAxMjMzIDY4OSBMIDEyMzEgNjk0IEwgMTIzMCA3MDMgTCAxMjI4IDcwOCBMIDEyMjggNzEyIEwgMTIyNiA3MTcgTCAxMjI1IDcyNiBMIDEyMjMgNzMxIEwgMTIyMiA3NDAgTCAxMjIwIDc0NSBMIDEyMTkgNzU0IEwgMTIxNSA3NjggTCAxMjE0IDc3NyBMIDEyMTIgNzgyIEwgMTIxMSA3OTEgTCAxMjA3IDgwNSBMIDEyMDYgODE0IEwgMTIwNCA4MTkgTCAxMjAzIDgyOCBMIDExOTkgODQyIEwgMTE5OCA4NTEgTCAxMTk2IDg1NiBMIDExOTUgODY1IEwgMTE5NCA4NjYgTCAxMTkwIDg2NiBMIDExODggODY0IEwgMTE4NCA4NDUgTCAxMTgyIDg0MSBMIDExNzcgODE4IEwgMTE3NSA4MTQgTCAxMTcxIDc5NSBMIDExNjkgNzkxIEwgMTE2NCA3NjggTCAxMTYyIDc2NCBMIDExNTggNzQ1IEwgMTE1NiA3NDEgTCAxMTU2IDczOCBMIDExNTUgNzM3IEwgMTE1NSA3MzQgTCAxMTU0IDczMyBMIDExNTEgNzE4IEwgMTE0OSA3MTQgTCAxMTQ5IDcxMSBMIDExNDggNzEwIEwgMTE0OCA3MDcgTCAxMTQ3IDcwNiBMIDExNDUgNjk1IEwgMTE0MyA2OTEgTCAxMTM5IDY3MyBMIDEwOTMgNjczIEwgMTA5MiA2NzUgTCAxMDkyIDY3OCBMIDEwOTEgNjc5IEwgMTA4MyA3MTQgTCAxMDgxIDcxOCBMIDEwNzAgNzY1IEwgMTA2OCA3NjkgTCAxMDU4IDgxMiBMIDEwNTYgODE2IEwgMTA0NiA4NTkgTCAxMDQzIDg2NiBMIDEwMzkgODY2IEwgMTAzNyA4NjEgTCAxMDM3IDg1NyBMIDEwMzMgODQzIEwgMTAzMiA4MzQgTCAxMDMwIDgyOSBMIDEwMjkgODIwIEwgMTAyNyA4MTUgTCAxMDI2IDgwNiBMIDEwMjQgODAxIEwgMTAyMyA3OTIgTCAxMDIxIDc4NyBMIDEwMjAgNzc4IEwgMTAxNiA3NjQgTCAxMDE1IDc1NSBMIDEwMTMgNzUwIEwgMTAxMiA3NDEgTCAxMDEwIDczNiBMIDEwMDkgNzI3IEwgMTAwNyA3MjIgTCAxMDA2IDcxMyBMIDEwMDQgNzA4IEwgMTAwNCA3MDQgTCAxMDAzIDcwMyBMIDEwMDMgNjk5IEwgMTAwMSA2OTQgTCAxMDAxIDY5MCBMIDk5OSA2ODUgTCA5OTcgNjczIFogTSA3MzUgNjczIEwgNzM1IDk0NiBMIDczNiA5NDcgTCA5MjAgOTQ3IEwgOTIwIDkwMiBMIDc5MCA5MDIgTCA3ODkgOTAxIEwgNzg5IDgyNyBMIDc5MCA4MjYgTCA5MDEgODI2IEwgOTAxIDc4MyBMIDc5MCA3ODMgTCA3ODkgNzgyIEwgNzg5IDcxOSBMIDc5MCA3MTggTCA5MTcgNzE4IEwgOTE3IDY3MyBaIE0gNDYyIDY3MSBMIDQ2MCA2NzQgTCA0NjAgNjc3IEwgNDYxIDY3OCBMIDQ2MSA3MDggTCA0NjAgNzEwIEwgNDYxIDcxMSBMIDQ2MSA3MTYgTCA0NjMgNzE4IEwgNTMyIDcxOCBMIDUzNiA3MjEgTCA1MzYgOTQ4IEwgNTM3IDk0OSBMIDUzNyA5NTIgTCA1NDAgOTU0IEwgNTgxIDk1NCBMIDU4NiA5NTIgTCA1ODcgOTUwIEwgNTg3IDcyMyBMIDU4OCA3MjAgTCA1OTEgNzE4IEwgNjU5IDcxNyBMIDY2MSA3MTUgTCA2NjEgNzEyIEwgNjYyIDcxMSBMIDY2MiA2NzQgTCA2NjAgNjcxIFogTSAxMzc0IDY3NCBMIDEzNjMgNjc4IEwgMTM1MSA2ODQgTCAxMzQwIDY5MiBMIDEzMzMgNjk5IEwgMTMyNyA3MDcgTCAxMzIyIDcxNyBMIDEzMjIgNzE5IEwgMTMxOSA3MjUgTCAxMzE5IDcyOSBMIDEzMTcgNzM1IEwgMTMxNyA3NjAgTCAxMzIzIDc4MSBMIDEzMzIgNzk1IEwgMTM0MSA4MDQgTCAxMzYwIDgxNiBMIDEzODIgODI0IEwgMTM4NiA4MjQgTCAxMzk5IDgyOCBMIDE0MDMgODI4IEwgMTQwOCA4MzAgTCAxNDEyIDgzMCBMIDE0MTcgODMyIEwgMTQyOSA4MzQgTCAxNDQzIDgzOSBMIDE0NTAgODQzIEwgMTQ1OSA4NTIgTCAxNDYxIDg1NiBMIDE0NjIgODYzIEwgMTQ2MyA4NjQgTCAxNDYyIDg3OSBMIDE0NTYgODkxIEwgMTQ1MSA4OTYgTCAxNDQ1IDkwMCBMIDE0MzEgOTA0IEwgMTQwNSA5MDQgTCAxNDA0IDkwMyBMIDEzOTkgOTAzIEwgMTM5OCA5MDIgTCAxMzk0IDkwMiBMIDEzOTAgOTAwIEwgMTM4NyA5MDAgTCAxMzc0IDg5NCBMIDEzNjIgODg2IEwgMTM0NyA4NzEgTCAxMzQyIDg2NCBMIDEzMzggODY0IEwgMTMwOSA4OTkgTCAxMzA5IDkwMiBMIDEzMTggOTE0IEwgMTMzNyA5MzAgTCAxMzU5IDk0MSBMIDEzNjggOTQ0IEwgMTM3MSA5NDQgTCAxMzc1IDk0NiBMIDEzODMgOTQ3IEwgMTM4NCA5NDggTCAxMzg5IDk0OCBMIDEzOTAgOTQ5IEwgMTM5NyA5NDkgTCAxMzk4IDk1MCBMIDE0MTYgOTUwIEwgMTQxNyA5NTEgTCAxNDIwIDk1MSBMIDE0MjEgOTUwIEwgMTQ0NCA5NDkgTCAxNDQ1IDk0OCBMIDE0NTAgOTQ4IEwgMTQ1MSA5NDcgTCAxNDYyIDk0NSBMIDE0NzggOTM4IEwgMTQ5MCA5MzAgTCAxNTAyIDkxOCBMIDE1MTIgOTAwIEwgMTUxNiA4ODYgTCAxNTE3IDg2NyBMIDE1MTggODY2IEwgMTUxNyA4NjUgTCAxNTE3IDg1MiBMIDE1MTYgODUxIEwgMTUxNSA4NDIgTCAxNTEyIDgzMyBMIDE1MDIgODE2IEwgMTQ5MiA4MDYgTCAxNDc2IDc5NiBMIDE0NzQgNzk2IEwgMTQ2OSA3OTMgTCAxNDU1IDc4OCBMIDE0NTIgNzg4IEwgMTQ0MyA3ODUgTCAxNDM5IDc4NSBMIDE0MzggNzg0IEwgMTQzNCA3ODQgTCAxNDMzIDc4MyBMIDE0MjkgNzgzIEwgMTQyNCA3ODEgTCAxNDEwIDc3OSBMIDE0MDkgNzc4IEwgMTM5OCA3NzYgTCAxMzgzIDc3MCBMIDEzNzQgNzYyIEwgMTM3MSA3NTcgTCAxMzY5IDc1MCBMIDEzNjkgNzQwIEwgMTM3MSA3MzMgTCAxMzgxIDcyMiBMIDEzODYgNzE5IEwgMTM5NSA3MTYgTCAxNDExIDcxNSBMIDE0MTIgNzE0IEwgMTQzMCA3MTUgTCAxNDMxIDcxNiBMIDE0NDAgNzE3IEwgMTQ0OSA3MjAgTCAxNDY1IDcyOSBMIDE0NzYgNzM5IEwgMTQ4MCA3MzkgTCAxNTAwIDcxMyBMIDE1MDcgNzAyIEwgMTQ5OSA2OTQgTCAxNDgxIDY4MiBMIDE0NzAgNjc3IEwgMTQ1MiA2NzIgTCAxNDQxIDY3MSBMIDE0NDAgNjcwIEwgMTQzMiA2NzAgTCAxNDMxIDY2OSBMIDE0MDAgNjY5IEwgMTM5OSA2NzAgTCAxMzg2IDY3MSBMIDEzODUgNjcyIFogTSA0MDkgNjc4IEwgNDAzIDY3NyBMIDM5NiA2NzMgTCAzOTEgNjczIEwgMzkwIDY3MiBMIDM3OSA2NzIgTCAzNzggNjcxIEwgMzQ1IDY3MSBMIDM0MSA2NjkgTCAyMzcgNjY5IEwgMjM0IDY3MyBMIDIzNCA5NDcgTCAyMzYgOTQ5IEwgMjg5IDk0OSBMIDI5MiA5NDcgTCAyOTIgODQ4IEwgMjk3IDg0NCBMIDM0NiA4NDQgTCAzNTMgODQyIEwgMzc3IDg0MiBMIDM3OCA4NDEgTCAzOTEgODQwIEwgNDAwIDgzNiBMIDQwNSA4MzUgTCA0MDkgODMyIEwgNDE2IDgyOSBMIDQyMyA4MjQgTCA0MzggODA4IEwgNDQxIDgwMSBMIDQ0NCA3OTggTCA0NDUgNzkyIEwgNDQ4IDc4OCBMIDQ1MCA3ODEgTCA0NTAgNzc0IEwgNDUxIDc3MyBMIDQ1MSA3NjYgTCA0NTIgNzY1IEwgNDUyIDc0NyBMIDQ1MSA3NDYgTCA0NDkgNzI2IEwgNDQ1IDcxOSBMIDQ0NCA3MTMgTCA0NDEgNzEwIEwgNDM4IDcwMyBMIDQzNiA3MDIgTCA0MzUgNjk5IEwgNDIzIDY4NyBMIDQyMCA2ODYgWiBNIDI5MiA3MjAgTCAyOTcgNzE3IEwgMzQwIDcxNyBMIDM0MSA3MTggTCAzNTkgNzE4IEwgMzYwIDcxOSBMIDM2NSA3MTkgTCAzNzUgNzI0IEwgMzc4IDcyNyBMIDM4MSA3MjggTCAzODggNzM2IEwgMzg4IDczOCBMIDM5MyA3NDggTCAzOTMgNzY1IEwgMzg4IDc3NCBMIDM4NyA3NzggTCAzNzUgNzg5IEwgMzY0IDc5NCBMIDM0NCA3OTUgTCAzNDMgNzk2IEwgMjk3IDc5NiBMIDI5NCA3OTUgTCAyOTIgNzkzIEwgMjkyIDcyOSBMIDI5MSA3MjggWiBNIDQ5MSAxMDQgTCA0ODggMTA0IEwgNDg1IDEwOCBMIDQ4MSAxMDkgTCA0NzkgMTEyIEwgNDc2IDExMyBMIDQ1NyAxMjkgTCA0NTQgMTMzIEwgNDQwIDE0NCBMIDQzNyAxNDggTCAzOTggMTg1IEwgMzczIDIxMyBMIDM2OCAyMTcgTCAzNTEgMjM4IEwgMzQ4IDI0MCBMIDM0NiAyNDQgTCAzNDIgMjQ3IEwgMzQxIDI1MCBMIDMzOSAyNTEgTCAzMzYgMjU2IEwgMzMzIDI1OCBMIDMzMSAyNjIgTCAzMjIgMjcyIEwgMzIwIDI3NiBMIDMxNyAyNzggTCAzMTYgMjgxIEwgMzA3IDI5MSBMIDMwNSAyOTUgTCAzMDEgMjk5IEwgMzAwIDMwMiBMIDI5MCAzMTQgTCAyODkgMzE3IEwgMjg2IDMxOSBMIDI4NCAzMjQgTCAyNzUgMzM1IEwgMjc1IDMzNyBMIDI3MSAzNDEgTCAyNjQgMzUzIEwgMjYwIDM1NyBMIDI1OSAzNjAgTCAyNTUgMzY0IEwgMjU0IDM2NyBMIDI0NSAzNzkgTCAyNDMgMzg0IEwgMjQwIDM4NyBMIDIzMyA0MDAgTCAyMjggNDA2IEwgMjI4IDQwOCBMIDIyNCA0MTIgTCAyMjQgNDE0IEwgMjE0IDQyOCBMIDIwOCA0NDAgTCAyMDUgNDQzIEwgMjAyIDQ1MCBMIDE5OSA0NTMgTCAxOTggNDU3IEwgMTk0IDQ2MiBMIDE5MSA0NjkgTCAxODggNDcyIEwgMTg2IDQ3OCBMIDE4MyA0ODEgTCAxODEgNDg3IEwgMTc4IDQ5MCBMIDE3NiA0OTYgTCAxNzMgNDk5IEwgMTczIDUwMSBMIDE2NSA1MTYgTCAxNjMgNTE4IEwgMTYxIDUyNCBMIDE1OCA1MjcgTCAxNTcgNTMxIEwgMTUzIDUzNyBMIDE1MiA1NDEgTCAxNDggNTQ3IEwgMTQ1IDU1NSBMIDE0MiA1NTggTCAxNDAgNTY1IEwgMTM3IDU2OCBMIDEzNiA1NzMgTCAxMzEgNTgxIEwgMTMwIDU4NiBMIDEyNiA1OTIgTCAxMjUgNTk3IEwgMTIxIDYwMiBMIDEyMCA2MDggTCAxMTYgNjEzIEwgMTE1IDYxOSBMIDExMSA2MjYgTCAxMDkgNjM3IEwgMTA2IDY0MSBMIDEwNCA2NTQgTCAxMDEgNjU5IEwgOTkgNjcxIEwgOTUgNjc5IEwgOTQgNjg4IEwgOTAgNjk2IEwgODkgNzA2IEwgODUgNzE0IEwgODQgNzI0IEwgODAgNzMzIEwgNzkgNzQ0IEwgNzUgNzUzIEwgNzQgNzY1IEwgNzAgNzc1IEwgNjkgNzg3IEwgNjQgODA1IEwgNjMgODE5IEwgNTkgODMxIEwgNTkgODQwIEwgNTggODQxIEwgNTcgODUyIEwgNTUgODU2IEwgNTMgODg1IEwgNTIgODg2IEwgNTIgODkzIEwgNTEgODk0IEwgNTAgOTA5IEwgNDkgOTEwIEwgNDkgOTQ0IEwgNDggOTQ1IEwgNDkgOTkxIEwgNTAgOTkyIEwgNTAgOTk5IEwgNTMgMTAwOSBMIDU0IDEwMjcgTCA1OCAxMDM4IEwgNTkgMTA0OCBMIDYzIDEwNTYgTCA2NCAxMDYzIEwgNjYgMTA2OCBMIDY4IDEwNzAgTCA3MCAxMDc4IEwgNzIgMTA4MCBMIDc1IDEwODggTCA3OSAxMDkzIEwgODAgMTA5NyBMIDgzIDExMDAgTCA4NCAxMTAzIEwgOTEgMTExMyBMIDk0IDExMTUgTCA5OSAxMTIyIEwgMTE3IDExMzggTCAxMjIgMTE0MCBMIDEzMyAxMTQ4IEwgMTM3IDExNDkgTCAxNDUgMTE1NCBMIDE1MiAxMTU1IEwgMTU5IDExNTkgTCAxNjQgMTE1OSBMIDE4MCAxMTY0IEwgMTg5IDExNjQgTCAxOTAgMTE2NSBMIDIzOSAxMTY1IEwgMjQwIDExNjQgTCAyNTEgMTE2NCBMIDI2NCAxMTYwIEwgMjgwIDExNTggTCAyODQgMTE1NiBMIDI4OCAxMTUyIEwgMjg4IDExNTEgTCAyODAgMTE0OSBMIDI3NiAxMTQ2IEwgMjY4IDExNDMgTCAyNjYgMTE0MSBMIDI2MSAxMTM5IEwgMjU3IDExMzUgTCAyNTIgMTEzMyBMIDI0OCAxMTI5IEwgMjQ1IDExMjggTCAyNDQgMTEyNiBMIDIzNSAxMTE5IEwgMjMzIDExMTYgTCAyMjggMTExMiBMIDIyMiAxMTA0IEwgMjE4IDExMDEgTCAyMTMgMTA5NSBMIDIxMiAxMDkyIEwgMjA4IDEwODggTCAyMDcgMTA4NSBMIDIwMyAxMDgxIEwgMjAxIDEwNzYgTCAxOTggMTA3MyBMIDE5NyAxMDY5IEwgMTk0IDEwNjYgTCAxOTEgMTA1OCBMIDE4OCAxMDU1IEwgMTg3IDEwNTAgTCAxODMgMTA0NCBMIDE4MSAxMDM2IEwgMTc4IDEwMzMgTCAxNzYgMTAyMyBMIDE3MyAxMDE5IEwgMTcxIDEwMTIgTCAxNzEgMTAwOCBMIDE2NyAxMDAwIEwgMTY2IDk5MCBMIDE2MiA5ODAgTCAxNjAgOTYyIEwgMTU3IDk1NCBMIDE1NSA5MjUgTCAxNTQgOTI0IEwgMTUzIDkxMiBMIDE1MiA5MTEgTCAxNTIgODgyIEwgMTUxIDg4MSBMIDE1MiA4MjMgTCAxNTMgODIyIEwgMTUzIDgxNCBMIDE1NCA4MTMgTCAxNTQgODA3IEwgMTU1IDgwNiBMIDE1NiA3NzkgTCAxNTcgNzc4IEwgMTU3IDc3MCBMIDE1OCA3NjkgTCAxNTggNzY0IEwgMTU5IDc2MyBMIDE2MCA3NTMgTCAxNjEgNzUyIEwgMTYyIDczNCBMIDE2NiA3MjAgTCAxNjcgNzA0IEwgMTcxIDY5MiBMIDE3MiA2NzkgTCAxNzYgNjY4IEwgMTc3IDY1NiBMIDE3OSA2NDkgTCAxODEgNjQ2IEwgMTgyIDYzNiBMIDE4NyA2MjMgTCAxODcgNjE3IEwgMTkxIDYwOCBMIDE5MyA1OTYgTCAxOTcgNTg5IEwgMTk4IDU4MCBMIDIwMiA1NzMgTCAyMDMgNTY1IEwgMjA3IDU1OCBMIDIwOCA1NTEgTCAyMTAgNTQ2IEwgMjEyIDU0NCBMIDIxMyA1MzggTCAyMTcgNTMwIEwgMjE5IDUyMSBMIDIyMiA1MTcgTCAyMjMgNTEwIEwgMjI4IDUwMiBMIDIyOSA0OTYgTCAyMzMgNDkwIEwgMjM0IDQ4NCBMIDIzOCA0NzggTCAyNDEgNDY5IEwgMjQzIDQ2NyBMIDI0NCA0NjEgTCAyNDkgNDU0IEwgMjQ5IDQ1MSBMIDI1NCA0NDMgTCAyNTUgNDM4IEwgMjU5IDQzMyBMIDI2MCA0MjggTCAyNjQgNDIzIEwgMjY2IDQxNiBMIDI2OSA0MTMgTCAyNzAgNDA4IEwgMjczIDQwNSBMIDI3NSAzOTkgTCAyNzkgMzk0IEwgMjgxIDM4OCBMIDI4NCAzODUgTCAyODQgMzgzIEwgMjg5IDM3NSBMIDI5MCAzNzEgTCAyOTUgMzY1IEwgMjk2IDM2MSBMIDMwMCAzNTcgTCAzMDIgMzUxIEwgMzA1IDM0OCBMIDMwNiAzNDQgTCAzMDkgMzQxIEwgMzEyIDMzNCBMIDMxNSAzMzEgTCAzMjEgMzIwIEwgMzI1IDMxNiBMIDMyOCAzMDkgTCAzMzUgMzAwIEwgMzM3IDI5NSBMIDM0MSAyOTEgTCAzNDcgMjgwIEwgMzUyIDI3NSBMIDM1MiAyNzMgTCAzNTYgMjY5IEwgMzU4IDI2NCBMIDM2MiAyNjAgTCAzNjMgMjU3IEwgMzY2IDI1NSBMIDM3MyAyNDMgTCAzNzcgMjQwIEwgMzc4IDIzNyBMIDM4MyAyMzIgTCAzODQgMjI5IEwgMzg4IDIyNSBMIDM4OCAyMjMgTCAzOTIgMjIwIEwgMzkzIDIxNyBMIDM5NyAyMTQgTCAzOTggMjExIEwgNDAzIDIwNiBMIDQwNCAyMDMgTCA0MzUgMTY2IEwgNDM5IDE2MyBMIDQ0NCAxNTYgTCA0NTQgMTQ2IEwgNDYxIDEzNyBMIDQ4NyAxMTAgWiBNIDY2MiAxNiBMIDY1NSAyMCBMIDY0OSAyMSBMIDY0MyAyNSBMIDYzNiAyNiBMIDYzMSAzMCBMIDYyNiAzMSBMIDYxOCAzNiBMIDYxMyAzNyBMIDYxMCA0MCBMIDU5NCA0OCBMIDU5MSA1MSBMIDU4NSA1MyBMIDU4NCA1NSBMIDU3OSA1NyBMIDU3NSA2MSBMIDU3MCA2MyBMIDU2NiA2NyBMIDU2NCA2NyBMIDU2MCA3MSBMIDUzNiA4OCBMIDUwMiAxMTggTCA1MDEgMTIwIEwgNDcxIDE0OSBMIDQ2NSAxNTcgTCA0NjEgMTYwIEwgNDI2IDIwMiBMIDQyNCAyMDYgTCA0MjAgMjEwIEwgNDE5IDIxMyBMIDQxNCAyMTggTCA0MDggMjI4IEwgNDA0IDIzMiBMIDQwMyAyMzUgTCAzOTkgMjM5IEwgMzk4IDI0MiBMIDM5NCAyNDYgTCAzOTMgMjUwIEwgMzg5IDI1NCBMIDM4MiAyNjcgTCAzODAgMjY4IEwgMzc4IDI3MyBMIDM3OCAyNzYgTCAzODEgMjc2IEwgMzkzIDI2MiBMIDM5NyAyNTkgTCA0MDQgMjUwIEwgNDA5IDI0NiBMIDQyNyAyMjcgTCA0MzYgMjIwIEwgNDQ4IDIwOSBMIDQ1MSAyMDUgTCA0NTkgMTk5IEwgNDYyIDE5NSBMIDQ2NSAxOTQgTCA0NjggMTkwIEwgNDcxIDE4OSBMIDQ3MyAxODYgTCA0NzcgMTg0IEwgNDg4IDE3NCBMIDQ5MSAxNzMgTCA0OTMgMTcwIEwgNDk2IDE2OSBMIDUwOCAxNTkgTCA1MTEgMTU4IEwgNTIyIDE0OSBMIDUyNiAxNDggTCA1MzAgMTQ0IEwgNTM1IDE0MiBMIDU0NCAxMzUgTCA1NTAgMTMzIEwgNTU0IDEyOSBMIDU2NyAxMjIgTCA1NjkgMTIyIEwgNTcyIDExOSBMIDU3NiAxMTggTCA1OTQgMTA4IEwgNTk5IDEwNyBMIDYwNSAxMDMgTCA2MTEgMTAyIEwgNjE4IDk4IEwgNjI3IDk2IEwgNjMxIDkzIEwgNjM5IDkyIEwgNjQ4IDg4IEwgNjYyIDg2IEwgNjc1IDgyIEwgNjk3IDgxIEwgNjk4IDgwIEwgNzI4IDgwIEwgNzI5IDgxIEwgNzUxIDgyIEwgNzY2IDg3IEwgNzcyIDg3IEwgNzgwIDkxIEwgNzg5IDkzIEwgNzk1IDk3IEwgODAxIDk4IEwgODA0IDEwMSBMIDgwOCAxMDIgTCA4MTUgMTA3IEwgODIxIDEwOSBMIDgyMiAxMTEgTCA4MjkgMTE0IEwgODMxIDExNyBMIDgzNiAxMTkgTCA4NTIgMTMzIEwgODU1IDEzNCBMIDg1NiAxMzYgTCA4NjYgMTQ1IEwgODczIDE1NCBMIDg3NiAxNTYgTCA4NzggMTYwIEwgODg4IDE3MiBMIDg5NCAxODMgTCA4OTggMTg3IEwgODk4IDE4OSBMIDkwOSAyMDkgTCA5MDkgMjEyIEwgOTEzIDIxOCBMIDkxNCAyMjQgTCA5MTggMjMxIEwgOTE5IDIzOCBMIDkyNCAyNDkgTCA5MjUgMjU5IEwgOTI4IDI2NSBMIDkzMCAyODIgTCA5MzQgMjk1IEwgOTM1IDMyMSBMIDkzNiAzMjIgTCA5MzcgMzQzIEwgOTM4IDM0NCBMIDkzOCAzODMgTCA5MzcgMzg0IEwgOTM3IDM5NSBMIDkzNiAzOTYgTCA5MzYgNDA2IEwgOTM1IDQwNyBMIDkzNSA0MjAgTCA5MzQgNDIxIEwgOTMzIDQ0NCBMIDkzMCA0NTQgTCA5MjkgNDcxIEwgOTI4IDQ3MiBMIDkyOCA0NzcgTCA5MjUgNDg2IEwgOTI0IDUwMCBMIDkxOSA1MTYgTCA5MTggNTI5IEwgOTE1IDUzNSBMIDkxMyA1NTAgTCA5MTAgNTU1IEwgOTA5IDU2MyBMIDkwOCA1NjQgTCA5MDggNTY5IEwgOTA0IDU3NyBMIDkwMyA1ODYgTCA4OTkgNTk1IEwgODk4IDYwMyBMIDg5NCA2MTEgTCA4OTMgNjE5IEwgODg5IDYyNiBMIDg4NyA2MzYgTCA4ODQgNjQwIEwgODg0IDY0MyBMIDg4MyA2NDQgTCA4ODUgNjQ4IEwgODg3IDY0NSBMIDg4NyA2NDMgTCA4OTEgNjQwIEwgODk0IDYzMiBMIDg5NyA2MjkgTCA4OTggNjI1IEwgOTAzIDYxNyBMIDkwNCA2MTIgTCA5MDggNjA3IEwgOTA5IDYwMiBMIDkxMyA1OTUgTCA5MTQgNTg5IEwgOTE4IDU4MyBMIDkxOSA1NzcgTCA5MjMgNTcwIEwgOTI0IDU2NCBMIDkyOCA1NTggTCA5MzAgNTQ4IEwgOTM0IDU0MSBMIDkzNCA1MzYgTCA5MzkgNTI2IEwgOTQwIDUxOCBMIDk0NCA1MTEgTCA5NDUgNTAyIEwgOTQ5IDQ5NSBMIDk1MCA0ODYgTCA5NTQgNDc3IEwgOTU1IDQ2OCBMIDk1OSA0NTkgTCA5NjEgNDQ1IEwgOTY0IDQzOSBMIDk2NSA0MjggTCA5NjkgNDE3IEwgOTcwIDQwNSBMIDk3NCAzOTIgTCA5NzYgMzczIEwgOTc3IDM3MiBMIDk3NyAzNjkgTCA5NzkgMzY0IEwgOTc5IDM1OSBMIDk4MCAzNTggTCA5ODEgMzM5IEwgOTgyIDMzOCBMIDk4MiAzMzMgTCA5ODQgMzI4IEwgOTg1IDMwOCBMIDk4NiAzMDcgTCA5ODYgMjg0IEwgOTg3IDI4MyBMIDk4NyAyNjggTCA5ODggMjY3IEwgOTg4IDIyOCBMIDk4NyAyMjcgTCA5ODcgMjEzIEwgOTg2IDIxMiBMIDk4NiAyMDAgTCA5ODUgMTk5IEwgOTg0IDE4MSBMIDk4MSAxNzIgTCA5ODAgMTU5IEwgOTc2IDE0OSBMIDk3NSAxNDAgTCA5NzAgMTI5IEwgOTY5IDEyMiBMIDk2NSAxMTUgTCA5NjQgMTA5IEwgOTYwIDEwNCBMIDk1OSA5OSBMIDk1NiA5NiBMIDk1NCA5MCBMIDk1MSA4NyBMIDk0OSA4MiBMIDk0NiA3OSBMIDk0MyA3MyBMIDkzNCA2MiBMIDkzMSA2MCBMIDkxOCA0NiBMIDkxMiA0MSBMIDkwOSA0MCBMIDkwNyAzNyBMIDkwMiAzNSBMIDg5OSAzMiBMIDg5NSAzMSBMIDg4NyAyNiBMIDg4NCAyNiBMIDg3NiAyMSBMIDg2OSAyMCBMIDg2MiAxNiBMIDg1NCAxNSBMIDg0OSAxMiBMIDg0MiAxMCBMIDgzNiAxMCBMIDgyNyA2IEwgODEzIDUgTCA4MTIgNCBMIDgwNyA0IEwgNzk4IDEgTCA3ODggMSBMIDc4NyAwIEwgNzM1IDAgTCA3MzQgMSBMIDcyNCAxIEwgNzEwIDUgTCA2OTcgNiBMIDY5MSA5IEwgNjc4IDExIEwgNjcwIDE1IFoiCiAgICAgICAgZmlsbD0iI0RFMjIxQSIKICAgICAgICBmaWxsLXJ1bGU9ImV2ZW5vZGQiCiAgICAgICAgY2xpcC1ydWxlPSJldmVub2RkIi8+Cjwvc3ZnPgo=">
   <link
@@ -751,18 +765,22 @@
       transform: translateX(-50%);
       background: var(--ink);
       color: var(--bg);
-      padding: 10px 18px;
-      border-radius: 8px;
+      padding: 12px 22px;
+      border-radius: 10px;
       font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      z-index: 999999;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .2s;
+      transition: opacity .2s, transform .2s;
       max-width: 90vw;
       text-align: center
     }
 
     .toast.on {
-      opacity: 1
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px);
     }
 
     @media(max-width:900px) {
@@ -922,71 +940,409 @@
   </div>
   <div class="toast" id="toast" role="status"></div>
   <script>
-    var ST = ["Nháp", "Chờ duyệt", "Đã duyệt", "Bị trả lại"]; var CATS = ["Thời sự", "Thế giới", "Kinh tế", "Thể thao", "Giáo dục", "Đời sống"];
-    var SAMPLE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='340'><rect width='600' height='340' fill='%23b8c7cf'/><text x='300' y='180' font-size='28' text-anchor='middle' fill='%23455a64'>Ảnh mẫu</text></svg>";
-    var posts = [
-      { id: 1, t: "Xe ben kéo sập cổng chào, hai người tử vong", sum: "Đà Nẵng: xe ben chờ theo xe múc đã kéo đổ cổng chào.", body: "<p>Khoảng 9h20, xe ben do anh Vương Thanh Tuấn điều khiển...</p><p>[Ảnh 1]</p><p>Sau vụ việc, lực lượng chức năng phong toả hiện trường.</p>", s: 2, d: "28/09/2026", imgs: [{ url: SAMPLE, cap: "Hiện trường vụ việc", name: "hien-truong.webp" }] },
-      { id: 2, t: "Đề xuất khai thác tạm 62 km cao tốc qua Lạng Sơn", sum: "62 km thuộc cao tốc Hữu Nghị - Chi Lăng.", body: "<p>Đề xuất được liên danh nhà đầu tư đưa ra trong chuyến làm việc...</p>", s: 2, d: "28/09/2026", imgs: [] },
-      { id: 3, t: "Tháo dỡ quả cầu 18 tấn ở cửa ngõ TP HCM", sum: "Quả cầu thép, inox nặng 18 tấn tại cửa ngõ Bình Dương.", body: "<p>Ngày 3/10, chủ đầu tư dự án mở rộng quốc lộ 13...</p>", s: 1, d: "04/10/2026", imgs: [] },
-      { id: 4, t: "Lý giải chuỗi ngày mưa lớn, sấm sét dồn dập ở TP HCM", sum: "Gió mang ẩm hoạt động kéo dài.", body: "<p>TP HCM liên tiếp có mưa lớn...</p>", s: 3, d: "04/10/2026", imgs: [], why: "Bổ sung ý kiến chuyên gia khí tượng và số liệu lượng mưa." },
-      { id: 5, t: "Nhóm luật sư tinh hoa của Man City", sum: "Man City và Ngoại hạng Anh đều mang theo những luật sư giỏi nhất.", body: "", s: 0, d: "04/10/2026", imgs: [] }
-    ];
-    var view = "post", mode = "new", cur = null, f = { t: "", sum: "", body: "", imgs: [] }, q = "", fs = "", sel = 1, bd = null, di = null;
+    var ST = ["Nháp", "Chờ duyệt", "Đã duyệt", "Bị trả lại"];
+    var CATS = ["Thời sự", "Thể thao", "Kinh doanh", "Khoa học công nghệ", "Góc nhìn", "Bất động sản", "Sức khỏe", "Giải trí", "Pháp luật", "Giáo dục"];
+    var posts = [];
+    var view = "post", mode = "new", cur = null, f = { t: "", sum: "", c: "Thời sự", category_id: 1, body: "", imgs: [] }, q = "", fs = "", sel = null, bd = null, di = null;
     var $ = function (s) { return document.querySelector(s) };
-    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] }) }
-    function toast(m) { var t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toast.h); toast.h = setTimeout(function () { t.classList.remove("on") }, 3200) }
-    function st(s) { return '<span class="st st' + s + '">' + ST[s] + '</span>' }
+
+    // Đọc phiên đăng nhập từ localStorage
+    var currentUser = null;
+    try {
+      var u = localStorage.getItem("ptews_user");
+      if (u) currentUser = JSON.parse(u);
+    } catch (e) { }
+
+    if (!currentUser || (currentUser.role !== "NB" && currentUser.VaiTro !== "NB")) {
+      window.location.replace("login.html");
+    }
+
+    if (currentUser && currentUser.fullName) {
+      var roleEl = document.querySelector(".role");
+      if (roleEl) roleEl.textContent = "Nhà báo: " + (currentUser.penName || currentUser.fullName);
+    }
+
+    function esc(s) { return String(s || "").replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] }) }
+    function toast(m) { var t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toast.h); toast.h = setTimeout(function () { t.classList.remove("on") }, 3500) }
+    function st(s) { return '<span class="st st' + s + '">' + (ST[s] || "Không xác định") + '</span>' }
     function find(id) { return posts.find(function (x) { return x.id === id }) }
-    function art(p) { var h = String(p.body || "").normalize("NFC").replace(/&nbsp;/g, " ").replace(/\[(?:Ảnh|Anh)[\s_]*(\d+)\]/gi, function (_, n) { var m = p.imgs[+n - 1]; return m && m.url ? '</p><figure><img src="' + esc(m.url) + '" alt=""><figcaption>' + esc(m.cap || "") + '</figcaption></figure><p>' : '<span class="miss">Chưa có ảnh ở vị trí ' + n + '</span>' }); return '<h2>' + esc(p.t || "Tiêu đề bài báo") + '</h2>' + h.replace(/<p>\s*<\/p>/g, "") }
-    function frameDoc(p) { var c = getComputedStyle(document.documentElement), g = function (k) { return c.getPropertyValue(k).trim() }; return '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><style>body{margin:0;padding:20px 24px;background:' + g("--panel") + ';color:' + g("--ink") + ';font:17px/1.75 "Source Serif 4",Georgia,serif}h2{font-size:28px;line-height:1.3;margin:0 0 12px}img{max-width:100%;border-radius:6px}figure{margin:16px 0}figcaption{font:13px sans-serif;color:' + g("--mute") + '}blockquote{border-left:3px solid ' + g("--acc") + ';margin:12px 0;padding-left:14px;color:' + g("--mute") + '}</style>' + art(p) }
+    function art(p) {
+      var h = String(p.body || "").normalize("NFC").replace(/&nbsp;/g, " ").replace(/\[(?:Ảnh|Anh)[\s_]*(\d+)\]/gi, function (_, n) {
+        var m = p.imgs && p.imgs[+n - 1];
+        return m && m.url ? '</p><figure><img src="' + esc(m.url) + '" alt=""><figcaption>' + esc(m.cap || "") + '</figcaption></figure><p>' : '<span class="miss">Chưa có ảnh ở vị trí ' + n + '</span>';
+      });
+      return '<h2>' + esc(p.t || "Tiêu đề bài báo") + '</h2>' + h.replace(/<p>\s*<\/p>/g, "");
+    }
+    function frameDoc(p) {
+      var c = getComputedStyle(document.documentElement), g = function (k) { return c.getPropertyValue(k).trim() };
+      return '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><style>body{margin:0;padding:20px 24px;background:' + g("--panel") + ';color:' + g("--ink") + ';font:17px/1.75 "Source Serif 4",Georgia,serif}h2{font-size:28px;line-height:1.3;margin:0 0 12px}img{max-width:100%;border-radius:6px}figure{margin:16px 0}figcaption{font:13px sans-serif;color:' + g("--mute") + '}blockquote{border-left:3px solid ' + g("--acc") + ';margin:12px 0;padding-left:14px;color:' + g("--mute") + '}</style>' + art(p);
+    }
 
     function setTheme(t) { document.documentElement.setAttribute("data-theme", t); try { localStorage.setItem("wb-theme", t) } catch (e) { } $("#theme").textContent = t === "dark" ? "Chế độ sáng" : "Chế độ tối"; if (view === "status") frame() }
-    function render() { document.querySelectorAll(".nav").forEach(function (n) { n.classList.toggle("on", n.dataset.v === view) }); view === "post" ? vPost() : vStatus() }
-    function newPost() { cur = null; mode = "new"; f = { t: "", sum: "", body: "", imgs: [] }; view = "post"; render() }
-    function loadEdit(id) { var p = find(id); if (!p) { toast("Không tìm thấy bài ID " + id + " trong danh sách bài của bạn."); return } cur = id; mode = "edit"; f = { t: p.t, sum: p.sum, c: p.c, body: p.body, imgs: p.imgs.map(function (m) { return { url: m.url, cap: m.cap, name: m.name, link: m.link } }) }; view = "post"; render() }
-
-    function usedNums() { var m = bd.innerText.normalize("NFC").match(/\[(?:Ảnh|Anh)[\s_]*\d+\]/gi) || []; return m.map(function (x) { return +x.replace(/\D/g, "") }) }
-    function usage() { var u = usedNums(); document.querySelectorAll(".im .us").forEach(function (s, i) { var on = u.indexOf(i + 1) > -1; s.textContent = on ? "Đã dùng trong bài" : "Chưa dùng trong bài"; s.className = "us " + (on ? "y" : "n") }) }
-    function dbv() { $("#dbv").innerHTML = f.imgs.length ? '<table class="dbt"><thead><tr><th>ID_BB</th><th>ViTriTrongBai</th><th>URL</th><th>Caption</th></tr></thead><tbody>' + f.imgs.map(function (m, i) { if (!m.url) return ""; return '<tr><td>' + (cur || "mới") + '</td><td>' + (i + 1) + '</td><td>' + esc(m.link ? m.url : "/uploads/" + m.name) + '</td><td>' + esc(m.cap || "") + '</td></tr>' }).join("") + '</tbody></table>' : '<div class="m">Chưa có ảnh nào.</div>' }
-    function pvr() { var pv = $("#pv"); if (pv && !pv.hidden) pv.innerHTML = art({ t: $("#t").value, body: bd.innerHTML, imgs: f.imgs }) }
-    function imgList() {
-      var h = f.imgs.length ? "" : '<div class="empty">Chưa có ảnh. Hãy tải ảnh .webp ở khung phía trên.</div>';
-      f.imgs.forEach(function (m, i) { h += '<div class="im" draggable="true" data-i="' + i + '"><span class="hd" aria-hidden="true">&#8942;&#8942;</span>' + (m.url ? '<img class="th" draggable="false" src="' + esc(m.url) + '" alt="">' : '<span class="th"></span>') + '<div class="mi"><b>[Ảnh ' + (i + 1) + ']</b><span class="m">' + (m.name ? esc(m.name) : "(chưa có ảnh)") + '</span><span class="us"></span><input class="cp" data-i="' + i + '" placeholder="Chú thích ảnh" value="' + esc(m.cap || "") + '"></div><div class="ib"><button data-a="up" data-i="' + i + '" aria-label="Đưa lên">&#8593;</button><button data-a="dn" data-i="' + i + '" aria-label="Đưa xuống">&#8595;</button><button data-a="rm" data-i="' + i + '" aria-label="Xoá ảnh">&#10005;</button></div></div>' });
-      $("#il").innerHTML = h; usage()
+    function render() {
+      document.querySelectorAll(".nav").forEach(function (n) { n.classList.toggle("on", n.dataset.v === view) });
+      view === "post" ? vPost() : vStatus();
     }
+    function newPost() { cur = null; mode = "new"; f = { t: "", sum: "", c: CATS[0] || "Thời sự", category_id: 1, body: "", imgs: [] }; view = "post"; render() }
+
+    // API: Tải danh mục từ CSDL
+    async function fetchCategories() {
+      try {
+        var res = await fetch("/api/nhabao/categories");
+        var data = await res.json();
+        if (res.ok && data.success && Array.isArray(data.categories) && data.categories.length > 0) {
+          CATS = data.categories.map(function(c) { return c.name; });
+          var selC = $("#c");
+          if (selC) {
+            selC.innerHTML = CATS.map(function(c) { return '<option' + (c === (f.c || "Thời sự") ? " selected" : "") + '>' + esc(c) + '</option>' }).join("");
+          }
+        }
+      } catch (err) {
+        console.warn("Chưa tải được danh mục từ CSDL:", err.message);
+      }
+    }
+
+    // API: Tải danh sách bài báo của chính nhà báo này
+    async function fetchArticles() {
+      if (!currentUser || !currentUser.id) return;
+      try {
+        var res = await fetch("/api/nhabao/articles?author_id=" + currentUser.id);
+        var data = await res.json();
+        if (res.ok && data.success) {
+          posts = data.articles || [];
+          if (!sel && posts.length > 0) sel = posts[0].id;
+          if (view === "status") {
+            list();
+            frame();
+          }
+        } else {
+          console.error("Lỗi khi tải bài viết từ CSDL:", data.message);
+        }
+      } catch (err) {
+        console.error("Lỗi kết nối khi tải danh sách bài:", err);
+      }
+    }
+
+    // API: Mở bài báo để chỉnh sửa với KIỂM SOÁT PHÂN QUYỀN
+    async function loadEdit(id) {
+      if (!id) {
+        toast("Vui lòng nhập ID bài báo cần sửa.");
+        return;
+      }
+      try {
+        toast("Đang kiểm tra quyền và tải bài ID " + id + " từ CSDL...");
+        var res = await fetch("/api/nhabao/articles/" + id + "?author_id=" + currentUser.id);
+        var data = await res.json();
+
+        if (!res.ok || !data.success) {
+          if (data.isNotOwner) {
+            alert("LỖI PHÂN QUYỀN:\nBài báo ID " + id + " thuộc về tác giả khác!\nBạn không có quyền xem hoặc chỉnh sửa bài viết của nhà báo khác.");
+            toast("Lỗi: Bạn không thể sửa bài báo của tác giả khác!");
+          } else {
+            toast(data.message || ("Không tìm thấy bài ID " + id + " trong CSDL."));
+          }
+          return;
+        }
+
+        var p = data.article;
+        var exIdx = posts.findIndex(function(x) { return x.id === p.id });
+        if (exIdx > -1) posts[exIdx] = p; else posts.unshift(p);
+
+        cur = p.id;
+        mode = "edit";
+        f = {
+          t: p.t,
+          sum: p.sum,
+          c: p.c,
+          category_id: p.category_id,
+          body: p.body,
+          imgs: (p.imgs || []).map(function (m) {
+            return { url: m.url, cap: m.cap, name: m.name }
+          })
+        };
+        view = "post";
+        render();
+        toast("Đã mở bài ID " + p.id + " để chỉnh sửa thành công.");
+      } catch (err) {
+        toast("Lỗi kết nối khi tải bài báo: " + err.message);
+      }
+    }
+
+    // API: Tải file ảnh trực tiếp lên server
+    async function uploadImageFile(file) {
+      if (!file) return null;
+      if (!file.type.startsWith("image/")) {
+        toast("Chỉ chấp nhận tệp hình ảnh (.webp, .jpg, .png...).");
+        return null;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        toast("Ảnh vượt quá 10 MB. Vui lòng chọn ảnh nhỏ hơn.");
+        return null;
+      }
+      var fd = new FormData();
+      fd.append("file", file);
+      try {
+        toast("Đang tải ảnh " + file.name + " lên CSDL...");
+        var res = await fetch("/api/nhabao/upload", {
+          method: "POST",
+          body: fd
+        });
+        var data = await res.json();
+        if (res.ok && data.success) {
+          toast("Tải ảnh lên thành công!");
+          return { url: data.url, name: data.name };
+        } else {
+          toast(data.message || "Tải ảnh thất bại.");
+          return null;
+        }
+      } catch (err) {
+        toast("Lỗi kết nối máy chủ tải ảnh: " + err.message);
+        return null;
+      }
+    }
+
+    function usedNums() {
+      if (!bd) return [];
+      var m = bd.innerText.normalize("NFC").match(/\[(?:Ảnh|Anh)[\s_]*\d+\]/gi) || [];
+      return m.map(function (x) { return +x.replace(/\D/g, "") });
+    }
+    function usage() {
+      var u = usedNums();
+      document.querySelectorAll(".im .us").forEach(function (s, i) {
+        var on = u.indexOf(i + 1) > -1;
+        s.textContent = on ? "Đã dùng trong bài" : "Chưa dùng trong bài";
+        s.className = "us " + (on ? "y" : "n");
+      });
+    }
+    function dbv() {
+      var el = $("#dbv");
+      if (!el) return;
+      el.innerHTML = f.imgs.length
+        ? '<table class="dbt"><thead><tr><th>id_BB</th><th>ViTriTrongBai</th><th>image_url</th><th>caption</th></tr></thead><tbody>' +
+          f.imgs.map(function (m, i) {
+            if (!m.url) return "";
+            return '<tr><td>' + (cur || "Mới") + '</td><td>' + (i + 1) + '</td><td>' + esc(m.url) + '</td><td>' + esc(m.cap || "") + '</td></tr>'
+          }).join("") + '</tbody></table>'
+        : '<div class="m">Chưa có ảnh nào được thêm.</div>';
+    }
+    function pvr() { var pv = $("#pv"); if (pv && !pv.hidden && bd) pv.innerHTML = art({ t: $("#t").value, body: bd.innerHTML, imgs: f.imgs }) }
+
+    function imgList() {
+      var il = $("#il");
+      if (!il) return;
+      var h = f.imgs.length ? "" : '<div class="empty">Chưa có ảnh. Hãy tải ảnh lên ở khung phía trên.</div>';
+      f.imgs.forEach(function (m, i) {
+        h += '<div class="im" draggable="true" data-i="' + i + '">' +
+          '<span class="hd" aria-hidden="true">&#8942;&#8942;</span>' +
+          (m.url ? '<img class="th" draggable="false" src="' + esc(m.url) + '" alt="">' : '<span class="th"></span>') +
+          '<div class="mi"><b>[Ảnh ' + (i + 1) + ']</b><span class="m">' + (m.name ? esc(m.name) : "(chưa có ảnh)") + '</span><span class="us"></span>' +
+          '<input class="cp" data-i="' + i + '" placeholder="Chú thích ảnh" value="' + esc(m.cap || "") + '"></div>' +
+          '<div class="ib"><button data-a="up" data-i="' + i + '" aria-label="Đưa lên">&#8593;</button><button data-a="dn" data-i="' + i + '" aria-label="Đưa xuống">&#8595;</button><button data-a="rm" data-i="' + i + '" aria-label="Xoá ảnh">&#10005;</button></div></div>';
+      });
+      il.innerHTML = h;
+      usage();
+    }
+
     var sk = null;
     function uniq(a) { return a.filter(function (n, i) { return n >= 1 && a.indexOf(n) === i }) }
-    function ent(n) { while (f.imgs.length < n) f.imgs.push({ url: "", cap: "", name: "", link: false }); return f.imgs[n - 1] }
-    function disp(m) { return !m.url ? "" : (m.link ? m.url : "/uploads/" + m.name) }
-    function tw(m) { return m.url ? '<img class="th" draggable="false" src="' + esc(m.url) + '" alt="">' : '<span class="th"></span>' }
+    function ent(n) { while (f.imgs.length < n) f.imgs.push({ url: "", cap: "", name: "" }); return f.imgs[n - 1] }
+    function tw(m) { return m && m.url ? '<img class="th" draggable="false" src="' + esc(m.url) + '" alt="">' : '<span class="th"></span>' }
+
+    // Xây dựng các ô vị trí ảnh trong bài: CHỈ CHO TẢI ẢNH LÊN, ĐÃ BỎ HOÀN TOÀN DÁN LINK
     function slots(force) {
-      var ns = uniq(usedNums()), k = ns.join(","); if (!force && k === sk) return; sk = k;
-      var h = ns.length ? "" : '<div class="m">Chưa có dấu [Ảnh N] nào trong bài. Gõ [Ảnh 1] vào nội dung để ô nhận ảnh hiện ra ở đây.</div>';
-      ns.forEach(function (n) { var m = f.imgs[n - 1] || { url: "", cap: "", name: "" }; h += '<div class="slot" data-n="' + n + '"><div class="sh"><b>[Ảnh ' + n + ']</b><span class="us ' + (m.url ? "y" : "n") + '">' + (m.url ? "Đã có ảnh" : "Chưa có ảnh") + '</span></div><div class="sr"><div class="tw">' + tw(m) + '</div><div class="sf"><input class="u" placeholder="Dán link ảnh .webp" value="' + esc(disp(m)) + '"><label class="btn up">Tải ảnh lên<input class="f" type="file" accept="image/webp,.webp" hidden></label></div></div><input class="cp2" placeholder="Chú thích ảnh" value="' + esc(m.cap || "") + '"></div>' });
-      $("#slots").innerHTML = h
-    }
-    function chg() { imgList(); dbv(); pvr(); slots(true) }
-    function chgS() { imgList(); dbv(); pvr() }
-    function slotUi(n) { var s = document.querySelector('.slot[data-n="' + n + '"]'); if (!s) return; var m = f.imgs[n - 1]; if (!m) { s.querySelector(".u").value = ""; return } s.querySelector(".tw").innerHTML = tw(m); s.querySelector(".u").value = disp(m); var u = s.querySelector(".sh .us"); u.textContent = m.url ? "Đã có ảnh" : "Chưa có ảnh"; u.className = "us " + (m.url ? "y" : "n") }
-    function setImg(n, o) { var m = ent(n); m.url = o.url; m.name = o.name; m.link = !!o.link; slotUi(n); chgS() }
-    function setFile(n, x) { if (!x) return; if (!(x.type === "image/webp" || /\.webp$/i.test(x.name))) { toast("Chỉ nhận ảnh .webp."); return } if (x.size > 3145728) { toast("Ảnh quá 3 MB."); return } var fr = new FileReader(); fr.onload = function () { setImg(n, { url: fr.result, name: x.name, link: false }) }; fr.readAsDataURL(x) }
-    function setLink(n, v) { v = v.trim(); if (!v) return; if (!/^https?:\/\/\S+\.webp([?#]\S*)?$/i.test(v)) { toast("Link phải bắt đầu bằng http hoặc https và là ảnh .webp."); slotUi(n); return } setImg(n, { url: v, name: v.split(/[?#]/)[0].split("/").pop(), link: true }) }
-    function addFiles(list, mark) {
-      var rg = null; if (mark) { var s0 = window.getSelection(); if (s0.rangeCount) rg = s0.getRangeAt(0).cloneRange() } var ok = [], bad = []; Array.prototype.forEach.call(list, function (x) { if (!(x.type === "image/webp" || /\.webp$/i.test(x.name))) bad.push(x.name); else if (x.size > 3145728) bad.push(x.name + " (quá 3 MB)"); else ok.push(x) });
-      if (bad.length) toast("Chỉ nhận ảnh .webp tối đa 3 MB. Đã bỏ qua: " + bad.join(", "));
-      Promise.all(ok.map(function (x) { return new Promise(function (r) { var fr = new FileReader(); fr.onload = function () { r({ url: fr.result, cap: "", name: x.name }) }; fr.readAsDataURL(x) }) })).then(function (a) { if (!a.length) return; var base = f.imgs.length; f.imgs = f.imgs.concat(a); chg(); if (mark && rg) { bd.focus(); var s1 = window.getSelection(); s1.removeAllRanges(); s1.addRange(rg); document.execCommand("insertText", false, a.map(function (_, i) { return "[Ảnh " + (base + i + 1) + "]" }).join(" ")); bd.oninput(); toast("Đã chèn " + a.length + " ảnh vào đúng vị trí bạn thả") } })
+      var slotsEl = $("#slots");
+      if (!slotsEl) return;
+      var ns = uniq(usedNums()), k = ns.join(",");
+      if (!force && k === sk) return;
+      sk = k;
+      var h = ns.length ? "" : '<div class="m">Chưa có dấu [Ảnh N] nào trong bài. Gõ [Ảnh 1] vào nội dung để ô tải ảnh hiện ra ở đây.</div>';
+      ns.forEach(function (n) {
+        var m = f.imgs[n - 1] || { url: "", cap: "", name: "" };
+        h += '<div class="slot" data-n="' + n + '">' +
+          '<div class="sh"><b>[Ảnh ' + n + ']</b><span class="us ' + (m.url ? "y" : "n") + '">' + (m.url ? "Đã có ảnh" : "Chưa có ảnh") + '</span></div>' +
+          '<div class="sr">' +
+            '<div class="tw">' + tw(m) + '</div>' +
+            '<div class="sf">' +
+              '<label class="btn up">Tải ảnh lên<input class="f" type="file" accept="image/*" hidden></label>' +
+              '<span class="m" style="font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (m.name ? esc(m.name) : "(Chọn tệp ảnh từ máy tính)") + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<input class="cp2" placeholder="Chú thích ảnh" value="' + esc(m.cap || "") + '">' +
+        '</div>';
+      });
+      slotsEl.innerHTML = h;
     }
 
-    function save(s) {
-      var t = $("#t").value.trim(), sum = $("#sum").value.trim();
-      if (!t) { toast("Cần nhập tiêu đề."); return }
-      if (s === 1) {
-        if (!sum || !bd.innerText.trim()) { toast("Cần có tóm tắt và nội dung trước khi đăng."); return }
-        var bad = usedNums().filter(function (n) { return n < 1 || !(f.imgs[n - 1] && f.imgs[n - 1].url) }); if (bad.length) { toast("[Ảnh " + bad[0] + "] chưa có ảnh ở vị trí " + bad[0] + ". Hãy tải thêm ảnh hoặc sửa dấu đánh dấu."); return } var em = f.imgs.findIndex(function (m) { return !m.url }); if (em > -1) { toast("Ảnh ở vị trí " + (em + 1) + " chưa có file hoặc link. Hãy bổ sung hoặc xoá ảnh đó."); return }
+    function chg() { imgList(); dbv(); pvr(); slots(true) }
+    function chgS() { imgList(); dbv(); pvr() }
+    function slotUi(n) {
+      var s = document.querySelector('.slot[data-n="' + n + '"]');
+      if (!s) return;
+      var m = f.imgs[n - 1];
+      if (!m) return;
+      s.querySelector(".tw").innerHTML = tw(m);
+      var fn = s.querySelector(".sf span");
+      if (fn) fn.textContent = m.name ? m.name : "(Chọn tệp ảnh từ máy tính)";
+      var u = s.querySelector(".sh .us");
+      u.textContent = m.url ? "Đã có ảnh" : "Chưa có ảnh";
+      u.className = "us " + (m.url ? "y" : "n");
+    }
+    function setImg(n, o) { var m = ent(n); m.url = o.url; m.name = o.name; slotUi(n); chgS() }
+
+    // Xử lý kéo thả hoặc chọn nhiều file ảnh
+    async function addFiles(list, mark) {
+      var rg = null;
+      if (mark) {
+        var s0 = window.getSelection();
+        if (s0.rangeCount) rg = s0.getRangeAt(0).cloneRange();
       }
-      var p = cur && find(cur); if (!p) { p = { id: Math.max.apply(null, posts.map(function (x) { return x.id })) + 1 }; posts.push(p); cur = p.id }
-      p.t = t; p.sum = sum; p.c = $("#c").value; p.body = bd.innerHTML; p.imgs = f.imgs.map(function (m) { return { url: m.url, cap: m.cap, name: m.name, link: m.link } }); p.s = s; p.why = ""; p.d = new Date().toLocaleDateString("vi-VN"); sel = p.id;
-      if (s === 0) { loadEdit(p.id); toast("Đã lưu nháp (ID " + p.id + ")") } else { view = "status"; render(); toast("Đã gửi bài ID " + p.id + ", đang chờ biên tập viên duyệt.") }
+      var files = Array.prototype.slice.call(list || []);
+      if (!files.length) return;
+
+      toast("Đang tải lên " + files.length + " ảnh...");
+      var uploaded = [];
+      for (var i = 0; i < files.length; i++) {
+        var upRes = await uploadImageFile(files[i]);
+        if (upRes) {
+          uploaded.push({ url: upRes.url, cap: "", name: upRes.name });
+        }
+      }
+
+      if (!uploaded.length) return;
+      var base = f.imgs.length;
+      f.imgs = f.imgs.concat(uploaded);
+      chg();
+
+      if (mark && rg && bd) {
+        bd.focus();
+        var s1 = window.getSelection();
+        s1.removeAllRanges();
+        s1.addRange(rg);
+        document.execCommand("insertText", false, uploaded.map(function (_, i) { return "[Ảnh " + (base + i + 1) + "]" }).join(" "));
+        bd.oninput();
+        toast("Đã chèn " + uploaded.length + " ảnh vào đúng vị trí bạn thả!");
+      }
+    }
+
+    // LƯU BÀI BÁO ĐỒNG BỘ TRỰC TIẾP VỚI CSDL SSMS
+    async function save(s) {
+      var tEl = $("#t"), sumEl = $("#sum");
+      var t = tEl ? tEl.value.trim() : "";
+      var sum = sumEl ? sumEl.value.trim() : "";
+
+      if (!t) {
+        alert("Vui lòng nhập Tiêu đề bài báo trước khi đăng!");
+        if (tEl) { tEl.focus(); tEl.style.outline = "2px solid var(--acc)"; }
+        return;
+      }
+
+      if (!bd || !bd.innerText.trim()) {
+        alert("Vui lòng nhập Nội dung bài viết trước khi đăng!");
+        if (bd) bd.focus();
+        return;
+      }
+
+      // Nếu tác giả chưa nhập tóm tắt (Sapo), tự động trích 200 ký tự đầu của bài viết làm tóm tắt
+      if (!sum) {
+        sum = bd.innerText.trim().slice(0, 200);
+        if (sumEl) sumEl.value = sum;
+      }
+
+      // Lọc bỏ các mục ảnh trống/lỗi chưa có link
+      f.imgs = f.imgs.filter(function (m) { return m && m.url });
+
+      // Nếu tác giả đã tải ảnh lên nhưng chưa gõ [Ảnh 1], [Ảnh 2] vào bài -> tự động chèn vào cuối bài
+      var used = usedNums();
+      var unplaced = [];
+      for (var i = 1; i <= f.imgs.length; i++) {
+        if (used.indexOf(i) === -1) unplaced.push(i);
+      }
+      if (unplaced.length > 0) {
+        var autoAppend = unplaced.map(function (n) { return "<p>[Ảnh " + n + "]</p>"; }).join("");
+        bd.innerHTML = bd.innerHTML.trim() + autoAppend;
+        bd.oninput();
+        toast("Hệ thống đã tự động đưa " + unplaced.length + " ảnh đã tải vào nội dung bài viết.");
+      }
+
+      // Kiểm tra nếu có [Ảnh X] mà chưa có ảnh thật
+      var bad = usedNums().filter(function (n) { return n < 1 || !f.imgs[n - 1] || !f.imgs[n - 1].url });
+      if (bad.length > 0) {
+        var missingTag = bad[0];
+        var ok = confirm("Bài viết có ký hiệu [Ảnh " + missingTag + "] nhưng bạn chưa tải ảnh lên cho vị trí này.\n\n• Bấm OK: Hệ thống tự động gỡ ký hiệu [Ảnh " + missingTag + "] và tiếp tục đăng bài ngay.\n• Bấm Hủy (Cancel): Dừng lại để bạn tải ảnh lên ô [Ảnh " + missingTag + "].");
+        if (ok) {
+          var reg = new RegExp("\\[(?:Ảnh|Anh)[\\s_]*" + missingTag + "\\]", "gi");
+          bd.innerHTML = bd.innerHTML.replace(reg, "");
+          bd.oninput();
+        } else {
+          return;
+        }
+      }
+
+      var authorId = (currentUser && currentUser.id) ? currentUser.id : 6;
+      if (currentUser && !currentUser.id) currentUser.id = authorId;
+
+      var payload = {
+        author_id: authorId,
+        title: t,
+        sapo: sum,
+        Content: bd.innerHTML,
+        category_name: $("#c") ? $("#c").value : "Thời sự",
+        status: s,
+        imgs: f.imgs.map(function (m) {
+          return { url: m.url, cap: m.cap || "", name: m.name || "" };
+        })
+      };
+
+      var btn = s === 1 ? $("#sb") : $("#sd");
+      var origBtnText = btn ? btn.textContent : "";
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = s === 1 ? "Đang gửi duyệt..." : "Đang lưu nháp...";
+      }
+      toast("Đang lưu bài viết vào CSDL SSMS...");
+
+      try {
+        var url = cur ? ("/api/nhabao/articles/" + cur) : "/api/nhabao/articles";
+        var method = cur ? "PUT" : "POST";
+
+        var res = await fetch(url, {
+          method: method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        var data = await res.json();
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = origBtnText;
+        }
+
+        if (res.ok && data.success) {
+          var savedId = data.id || cur;
+          alert(s === 1 ? ("Chúc mừng! Bài báo đã được gửi duyệt thành công lên hệ thống (Mã ID: " + savedId + ")!") : ("Đã lưu bản nháp thành công (Mã ID: " + savedId + ")!"));
+          await fetchArticles();
+
+          if (s === 0) {
+            await loadEdit(savedId);
+          } else {
+            cur = null;
+            sel = savedId;
+            view = "status";
+            render();
+          }
+        } else {
+          if (data.isNotOwner) {
+            alert("LỖI PHÂN QUYỀN:\nBạn không có quyền sửa bài báo này vì bài báo không thuộc quyền tác giả của bạn!");
+          } else {
+            alert("Không thể lưu bài báo: " + (data.message || "Lỗi không xác định"));
+          }
+        }
+      } catch (err) {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = origBtnText;
+        }
+        alert("Lỗi kết nối tới máy chủ backend: " + err.message);
+      }
     }
 
     function vPost() {
@@ -997,93 +1353,212 @@
         if (p.why) h += '<div class="note"><b>Kiểm duyệt viên yêu cầu sửa:</b> ' + esc(p.why) + '</div>';
         if (p.s === 1 || p.s === 2) h += '<div class="note warn">Bài này đã gửi duyệt. Sau khi lưu chỉnh sửa, bài quay lại trạng thái Chờ duyệt.</div>'
       }
-      h += '<div class="cols"><div><input class="title" id="t" placeholder="Tiêu đề" value="' + esc(f.t) + '"><textarea class="sum" id="sum" rows="2" maxlength="500" placeholder="Tóm tắt (tối đa 500 ký tự)">' + esc(f.sum) + '</textarea>';
+      h += '<div class="cols"><div><input class="title" id="t" placeholder="Tiêu đề" value="' + esc(f.t) + '"><textarea class="sum" id="sum" rows="2" maxlength="500" placeholder="Tóm tắt (Sapo bài viết - nếu để trống hệ thống sẽ tự động lấy đoạn đầu bài)">' + esc(f.sum) + '</textarea>';
       h += '<div class="tools"><button data-c="bold"><b>B</b></button><button data-c="italic"><i>I</i></button><button data-c="formatBlock:h3">Tiêu đề phụ</button><button data-c="formatBlock:blockquote">Trích dẫn</button><button data-c="img">Chèn [Ảnh x]</button></div>';
-      h += '<div id="body" contenteditable="true" data-ph="Nội dung. Muốn chèn ảnh vào chỗ nào thì đánh dấu [Ảnh x], x là vị trí của ảnh. Bạn cũng có thể kéo ảnh thả thẳng vào đây.">' + f.body + '</div><div class="foot"><span id="wc">0 từ</span><button class="btn" id="pvb">Xem trước bài</button></div><div id="pv" class="pv" hidden></div>';
+      h += '<div id="body" contenteditable="true" data-ph="Nội dung bài viết. Muốn chèn ảnh vào chỗ nào thì bấm Chèn [Ảnh x] hoặc gõ [Ảnh 1], [Ảnh 2]... Bạn cũng có thể kéo ảnh thả thẳng vào đây.">' + (f.body || "") + '</div><div class="foot"><span id="wc">0 từ</span><button class="btn" id="pvb">Xem trước bài</button></div><div id="pv" class="pv" hidden></div>';
       h += '<div class="acts">' + ((!ed || p.s === 0 || p.s === 3) ? '<button class="btn" id="sd">Lưu nháp</button>' : '') + '<button class="btn pri" id="sb">' + (ed ? "Lưu và gửi duyệt lại" : "Đăng bài") + '</button></div></div>';
-      h += '<div><div class="card"><h3>Thông tin bài</h3><label class="fld"><span>Chuyên mục</span><select id="c">' + CATS.map(function (c) { return '<option' + (c === (f.c || "Thời sự") ? " selected" : "") + '>' + c + '</option>' }).join("") + '</select></label><div class="m">Tác giả: Minh Anh</div></div><div class="card"><h3>Ảnh trong bài</h3><div class="m" style="margin-bottom:10px">Gõ [Ảnh 1], [Ảnh 2]... vào nội dung. Mỗi dấu sẽ có một ô nhận ảnh ngay đây: dán link, tải lên hoặc kéo thả ảnh vào ô.</div><div id="slots"></div></div><div class="card"><h3>Tải ảnh lên</h3><label class="drop" id="dz">Kéo ảnh vào đây hoặc bấm để chọn<small>Chỉ nhận .webp, tối đa 3 MB mỗi ảnh. Bạn cũng có thể thả ảnh thẳng vào bài viết để chèn đúng chỗ đó.</small><input id="mf" type="file" accept="image/webp,.webp" multiple hidden></label></div>';
-      h += '<div class="card"><h3>Thứ tự của ảnh</h3><div class="m" style="margin-bottom:10px">Kéo để đổi thứ tự, hoặc dùng nút mũi tên. Ảnh thứ x sẽ hiện ở chỗ đánh dấu [Ảnh x] trong bài.</div><div id="il"></div><details><summary>Dữ liệu sẽ lưu vào dbo.Anh</summary><div id="dbv"></div></details></div></div></div>';
-      $("#main").innerHTML = h; bd = $("#body");
-      $("#tn").onclick = newPost; $("#te").onclick = function () { if (!cur) { $("#eid").focus(); toast("Nhập ID bài cần chỉnh sửa rồi bấm Mở bài.") } };
-      function openId() { var id = +$("#eid").value; if (!id) { toast("Nhập ID bài cần chỉnh sửa."); return } loadEdit(id) }
-      $("#go").onclick = openId; $("#eid").onkeydown = function (e) { if (e.key === "Enter") openId() };
+      h += '<div><div class="card"><h3>Thông tin bài</h3><label class="fld"><span>Chuyên mục</span><select id="c">' + CATS.map(function (c) { return '<option' + (c === (f.c || "Thời sự") ? " selected" : "") + '>' + esc(c) + '</option>' }).join("") + '</select></label><div class="m">Tác giả: <b>' + esc(currentUser.penName || currentUser.fullName) + '</b></div></div><div class="card"><h3>Ảnh trong bài</h3><div class="m" style="margin-bottom:10px">Gõ [Ảnh 1], [Ảnh 2]... vào nội dung. Mỗi dấu sẽ có một ô tương ứng bên dưới để tải ảnh trực tiếp từ máy tính.</div><div id="slots"></div></div><div class="card"><h3>Tải ảnh lên hệ thống</h3><label class="drop" id="dz">Kéo ảnh vào đây hoặc bấm để chọn<small>Chấp nhận các định dạng ảnh, tối đa 10 MB mỗi ảnh. Bạn cũng có thể kéo thả ảnh thẳng vào bài viết.</small><input id="mf" type="file" accept="image/*" multiple hidden></label></div>';
+      h += '<div class="card"><h3>Thứ tự của ảnh</h3><div class="m" style="margin-bottom:10px">Kéo để đổi thứ tự, hoặc dùng nút mũi tên. Ảnh thứ x sẽ hiện ở chỗ đánh dấu [Ảnh x] trong bài.</div><div id="il"></div><details><summary>Dữ liệu sẽ lưu vào dbo.AnhBaiViet</summary><div id="dbv"></div></details></div></div></div>';
+      $("#main").innerHTML = h;
+      bd = $("#body");
+
+      $("#tn").onclick = newPost;
+      $("#te").onclick = function () { if (!cur) { $("#eid").focus(); toast("Nhập ID bài cần chỉnh sửa rồi bấm Mở bài.") } };
+      function openId() {
+        var id = +$("#eid").value;
+        if (!id) { toast("Nhập ID bài cần chỉnh sửa."); return }
+        loadEdit(id);
+      }
+      $("#go").onclick = openId;
+      $("#eid").onkeydown = function (e) { if (e.key === "Enter") openId() };
       function wc() { var n = bd.innerText.trim(); $("#wc").textContent = (n ? n.split(/\s+/).length : 0) + " từ" }
       bd.oninput = function () { wc(); usage(); pvr(); slots() };
       bd.onpaste = function (e) { e.preventDefault(); document.execCommand("insertText", false, e.clipboardData.getData("text/plain")) };
       $("#t").oninput = pvr;
-      document.querySelectorAll(".tools button").forEach(function (b) { b.onmousedown = function (e) { e.preventDefault(); var a = b.dataset.c.split(":"); if (a[0] === "img") { var u = usedNums(), n = 1; while (u.indexOf(n) > -1 && n <= f.imgs.length) n++; document.execCommand("insertText", false, "[Ảnh " + n + "]"); bd.oninput(); return } document.execCommand(a[0], false, a[1] || null) } });
+      document.querySelectorAll(".tools button").forEach(function (b) {
+        b.onmousedown = function (e) {
+          e.preventDefault();
+          var a = b.dataset.c.split(":");
+          if (a[0] === "img") {
+            var u = usedNums(), n = 1;
+            while (u.indexOf(n) > -1 && n <= f.imgs.length) n++;
+            document.execCommand("insertText", false, "[Ảnh " + n + "]");
+            bd.oninput();
+            return;
+          }
+          document.execCommand(a[0], false, a[1] || null);
+        }
+      });
       $("#pvb").onclick = function () { var pv = $("#pv"); pv.hidden = !pv.hidden; $("#pvb").textContent = pv.hidden ? "Xem trước bài" : "Ẩn xem trước"; pvr() };
-      if ($("#sd")) $("#sd").onclick = function () { save(0) }; $("#sb").onclick = function () { save(1) };
-      var dz = $("#dz"); dz.ondragover = function (e) { e.preventDefault(); dz.classList.add("over") }; dz.ondragleave = function () { dz.classList.remove("over") }; dz.ondrop = function (e) { e.preventDefault(); dz.classList.remove("over"); addFiles(e.dataTransfer.files) };
+      if ($("#sd")) $("#sd").onclick = function () { save(0) };
+      $("#sb").onclick = function () { save(1) };
+
+      var dz = $("#dz");
+      dz.ondragover = function (e) { e.preventDefault(); dz.classList.add("over") };
+      dz.ondragleave = function () { dz.classList.remove("over") };
+      dz.ondrop = function (e) { e.preventDefault(); dz.classList.remove("over"); addFiles(e.dataTransfer.files) };
       $("#mf").onchange = function (e) { addFiles(e.target.files); e.target.value = "" };
+
       var il = $("#il");
-      il.onclick = function (e) { var b = e.target.closest("[data-a]"); if (!b) return; var i = +b.dataset.i, a = b.dataset.a, j = a === "up" ? i - 1 : i + 1; if (a === "rm") f.imgs.splice(i, 1); else if (j >= 0 && j < f.imgs.length) { var m = f.imgs[i]; f.imgs[i] = f.imgs[j]; f.imgs[j] = m } chg() };
-      il.oninput = function (e) { if (e.target.classList.contains("cp")) { f.imgs[+e.target.dataset.i].cap = e.target.value; var sc = document.querySelector('.slot[data-n="' + (+e.target.dataset.i + 1) + '"] .cp2'); if (sc) sc.value = e.target.value; dbv(); pvr() } };
+      il.onclick = function (e) {
+        var b = e.target.closest("[data-a]");
+        if (!b) return;
+        var i = +b.dataset.i, a = b.dataset.a, j = a === "up" ? i - 1 : i + 1;
+        if (a === "rm") f.imgs.splice(i, 1);
+        else if (j >= 0 && j < f.imgs.length) { var m = f.imgs[i]; f.imgs[i] = f.imgs[j]; f.imgs[j] = m }
+        chg();
+      };
+      il.oninput = function (e) {
+        if (e.target.classList.contains("cp")) {
+          f.imgs[+e.target.dataset.i].cap = e.target.value;
+          var sc = document.querySelector('.slot[data-n="' + (+e.target.dataset.i + 1) + '"] .cp2');
+          if (sc) sc.value = e.target.value;
+          dbv(); pvr();
+        }
+      };
       il.ondragstart = function (e) { var el = e.target.closest && e.target.closest(".im"); if (!el) return; di = +el.dataset.i; el.classList.add("drag"); e.dataTransfer.effectAllowed = "move"; try { e.dataTransfer.setData("text/plain", "anh") } catch (x) { } };
       il.ondragover = function (e) { var el = e.target.closest(".im"); if (di === null || !el) return; e.preventDefault(); document.querySelectorAll(".im.ov").forEach(function (n) { n.classList.remove("ov") }); el.classList.add("ov") };
       il.ondragend = function () { di = null; document.querySelectorAll(".im").forEach(function (n) { n.classList.remove("ov", "drag") }) };
       il.ondrop = function (e) { var el = e.target.closest(".im"); if (di === null || !el) return; e.preventDefault(); var to = +el.dataset.i; if (di !== to) { var m = f.imgs.splice(di, 1)[0]; f.imgs.splice(to, 0, m) } di = null; chg() };
+
       function hasFiles(e) { return e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types || [], "Files") > -1 }
       bd.addEventListener("dragover", function (e) { if (hasFiles(e)) { e.preventDefault(); bd.classList.add("over") } });
       bd.addEventListener("dragleave", function () { bd.classList.remove("over") });
-      bd.addEventListener("drop", function (e) { bd.classList.remove("over"); if (!hasFiles(e)) return; e.preventDefault(); var r = null; if (document.caretRangeFromPoint) r = document.caretRangeFromPoint(e.clientX, e.clientY); else if (document.caretPositionFromPoint) { var cp = document.caretPositionFromPoint(e.clientX, e.clientY); if (cp) { r = document.createRange(); r.setStart(cp.offsetNode, cp.offset) } } bd.focus(); if (r && bd.contains(r.startContainer)) { var sl = window.getSelection(); sl.removeAllRanges(); sl.addRange(r) } addFiles(e.dataTransfer.files, true) });
-      il.addEventListener("dragover", function (e) { if (hasFiles(e)) { e.preventDefault(); il.classList.add("over") } });
-      il.addEventListener("dragleave", function () { il.classList.remove("over") });
-      il.addEventListener("drop", function (e) { if (hasFiles(e)) { e.preventDefault(); il.classList.remove("over"); addFiles(e.dataTransfer.files) } });
+      bd.addEventListener("drop", function (e) {
+        bd.classList.remove("over");
+        if (!hasFiles(e)) return;
+        e.preventDefault();
+        var r = null;
+        if (document.caretRangeFromPoint) r = document.caretRangeFromPoint(e.clientX, e.clientY);
+        else if (document.caretPositionFromPoint) {
+          var cp = document.caretPositionFromPoint(e.clientX, e.clientY);
+          if (cp) { r = document.createRange(); r.setStart(cp.offsetNode, cp.offset) }
+        }
+        bd.focus();
+        if (r && bd.contains(r.startContainer)) { var sl = window.getSelection(); sl.removeAllRanges(); sl.addRange(r) }
+        addFiles(e.dataTransfer.files, true);
+      });
+
       var sl = $("#slots");
-      sl.addEventListener("change", function (e) { var s = e.target.closest(".slot"); if (!s) return; var n = +s.dataset.n; if (e.target.classList.contains("u")) setLink(n, e.target.value); else if (e.target.classList.contains("f")) { setFile(n, e.target.files[0]); e.target.value = "" } });
-      sl.addEventListener("input", function (e) { if (!e.target.classList.contains("cp2")) return; var n = +e.target.closest(".slot").dataset.n, L = f.imgs.length; ent(n).cap = e.target.value; if (f.imgs.length !== L) imgList(); var li = document.querySelector('#il .cp[data-i="' + (n - 1) + '"]'); if (li) li.value = e.target.value; dbv(); pvr() });
+      sl.addEventListener("change", function (e) {
+        var s = e.target.closest(".slot");
+        if (!s) return;
+        var n = +s.dataset.n;
+        if (e.target.classList.contains("f") && e.target.files[0]) {
+          uploadImageFile(e.target.files[0]).then(function (upRes) {
+            if (upRes) setImg(n, { url: upRes.url, name: upRes.name });
+          });
+          e.target.value = "";
+        }
+      });
+      sl.addEventListener("input", function (e) {
+        if (!e.target.classList.contains("cp2")) return;
+        var n = +e.target.closest(".slot").dataset.n, L = f.imgs.length;
+        ent(n).cap = e.target.value;
+        if (f.imgs.length !== L) imgList();
+        var li = document.querySelector('#il .cp[data-i="' + (n - 1) + '"]');
+        if (li) li.value = e.target.value;
+        dbv(); pvr();
+      });
       sl.addEventListener("dragover", function (e) { var s = e.target.closest(".slot"); if (s && hasFiles(e)) { e.preventDefault(); s.classList.add("over") } });
       sl.addEventListener("dragleave", function (e) { var s = e.target.closest(".slot"); if (s) s.classList.remove("over") });
-      sl.addEventListener("drop", function (e) { var s = e.target.closest(".slot"); if (!s) return; s.classList.remove("over"); var n = +s.dataset.n; if (hasFiles(e)) { e.preventDefault(); setFile(n, e.dataTransfer.files[0]) } else { var u = (e.dataTransfer.getData("text/uri-list") || "").trim(); if (u) { e.preventDefault(); setLink(n, u) } } });
+      sl.addEventListener("drop", function (e) {
+        var s = e.target.closest(".slot");
+        if (!s) return;
+        s.classList.remove("over");
+        var n = +s.dataset.n;
+        if (hasFiles(e) && e.dataTransfer.files[0]) {
+          e.preventDefault();
+          uploadImageFile(e.dataTransfer.files[0]).then(function (upRes) {
+            if (upRes) setImg(n, { url: upRes.url, name: upRes.name });
+          });
+        }
+      });
+
       wc(); chg();
     }
 
     function vStatus() {
-      var h = '<h1>Trạng thái các bài đã đăng</h1><p class="sub">Chọn một bài ở danh sách để xem trang báo hoặc theo dõi tiến độ duyệt.</p><div class="cols"><div class="card" id="pl"></div><div><div class="card bar"><input id="q" type="search" placeholder="Tìm theo tiêu đề hoặc ID" value="' + esc(q) + '" aria-label="Tìm kiếm"><select id="fs" aria-label="Lọc trạng thái"><option value="">Mọi trạng thái</option>' + ST.map(function (s, i) { return '<option value="' + i + '"' + (fs !== "" && +fs === i ? " selected" : "") + '>' + s + '</option>' }).join("") + '</select></div><div class="card fr" id="fr"></div></div></div>';
+      var h = '<h1>Trạng thái các bài đã đăng</h1><p class="sub">Danh sách các bài viết của bạn được lưu trong CSDL SSMS. Chọn một bài để xem tiến độ hoặc nội dung.</p><div class="cols"><div class="card" id="pl"></div><div><div class="card bar"><input id="q" type="search" placeholder="Tìm theo tiêu đề hoặc ID" value="' + esc(q) + '" aria-label="Tìm kiếm"><select id="fs" aria-label="Lọc trạng thái"><option value="">Mọi trạng thái</option>' + ST.map(function (s, i) { return '<option value="' + i + '"' + (fs !== "" && +fs === i ? " selected" : "") + '>' + s + '</option>' }).join("") + '</select></div><div class="card fr" id="fr"></div></div></div>';
       $("#main").innerHTML = h;
-      $("#q").oninput = function (e) { q = e.target.value; list() }; $("#fs").onchange = function (e) { fs = e.target.value; list() };
+      $("#q").oninput = function (e) { q = e.target.value; list() };
+      $("#fs").onchange = function (e) { fs = e.target.value; list() };
       $("#pl").onclick = function (e) { var it = e.target.closest(".it"); if (!it) return; sel = +it.dataset.id; list(); frame() };
-      list(); frame();
-    }
-    function list() {
-      var k = q.trim().toLowerCase();
-      var r = posts.filter(function (p) { return (fs === "" || p.s === +fs) && (!k || p.t.toLowerCase().indexOf(k) > -1 || String(p.id) === k) }).sort(function (a, b) { return b.id - a.id });
-      $("#pl").innerHTML = r.length ? r.map(function (p) { return '<button class="it' + (p.id === sel ? " on" : "") + '" data-id="' + p.id + '"><div class="t">' + esc(p.t) + '</div><div class="r"><span>ID ' + p.id + '</span><span>Ngày đăng ' + p.d + '</span>' + st(p.s) + '</div></button>' }).join("") : '<div class="empty">Không có bài phù hợp với tìm kiếm.</div>'
-    }
-    function frame() {
-      var p = find(sel), fr = $("#fr"); if (!fr) return;
-      if (!p) { fr.innerHTML = '<div class="msg">Chọn một bài ở danh sách bên trái.</div>'; return }
-      var h = '<div class="fh"><div><div class="t">' + esc(p.t) + '</div><div class="m">ID ' + p.id + ', ' + p.d + '</div></div>' + st(p.s) + '</div>';
-      if (p.s === 2) h += '<iframe title="Trang báo" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
-      else h += '<div class="msg"><div><b>Bài chưa được duyệt.</b><br>' + (p.s === 1 ? "Trang báo sẽ hiện ở đây sau khi biên tập viên duyệt." : p.s === 3 ? "Kiểm duyệt viên đã trả bài. Lý do: " + esc(p.why || "") : "Bài còn là bản nháp, chưa gửi duyệt.") + '</div></div>';
-      h += '<div class="fa"><button class="btn" id="ed">Chỉnh sửa bài này</button></div>';
-      fr.innerHTML = h; $("#ed").onclick = function () { loadEdit(p.id) }
+      list();
+      frame();
     }
 
-    document.querySelectorAll(".nav").forEach(function (n) { n.onclick = function () { if (n.dataset.v === "post") newPost(); else { view = "status"; render() } } });
-    $("#theme").onclick = function () { setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark") };
+    function list() {
+      var pl = $("#pl");
+      if (!pl) return;
+      var k = q.trim().toLowerCase();
+      var r = posts.filter(function (p) {
+        return (fs === "" || p.s === +fs) && (!k || p.t.toLowerCase().indexOf(k) > -1 || String(p.id) === k);
+      }).sort(function (a, b) { return b.id - a.id });
+
+      if (posts.length === 0) {
+        pl.innerHTML = '<div class="empty">Tài khoản này chưa có bài viết nào trong hệ thống CSDL.<br><br><button class="btn pri" id="btn-create-first">Tạo bài viết đầu tiên</button></div>';
+        var bcf = $("#btn-create-first");
+        if (bcf) bcf.onclick = newPost;
+        return;
+      }
+
+      pl.innerHTML = r.length ? r.map(function (p) {
+        return '<button class="it' + (p.id === sel ? " on" : "") + '" data-id="' + p.id + '">' +
+          '<div class="t">' + esc(p.t) + '</div>' +
+          '<div class="r"><span>ID ' + p.id + '</span><span>Chuyên mục: ' + esc(p.c || "Thời sự") + '</span><span>Ngày: ' + p.d + '</span>' + st(p.s) + '</div>' +
+        '</button>';
+      }).join("") : '<div class="empty">Không có bài viết nào phù hợp với tìm kiếm.</div>';
+    }
+
+    function frame() {
+      var p = find(sel), fr = $("#fr");
+      if (!fr) return;
+      if (!p) {
+        fr.innerHTML = '<div class="msg">' + (posts.length === 0 ? "Bạn chưa có bài viết nào." : "Chọn một bài ở danh sách bên trái để xem.") + '</div>';
+        return;
+      }
+      var h = '<div class="fh"><div><div class="t">' + esc(p.t) + '</div><div class="m">ID ' + p.id + ', ' + p.d + ' &bull; ' + esc(p.c || "Thời sự") + '</div></div>' + st(p.s) + '</div>';
+      if (p.s === 2) {
+        h += '<iframe title="Trang báo" sandbox srcdoc="' + esc(frameDoc(p)) + '"></iframe>';
+      } else {
+        h += '<div class="msg"><div><b>Trạng thái: ' + ST[p.s] + '</b><br>' +
+          (p.s === 1 ? "Bài đã gửi lên CSDL và đang chờ biên tập viên duyệt." :
+           p.s === 3 ? "Kiểm duyệt viên đã yêu cầu sửa bài. <br><span style='color:var(--s3)'>Lý do: " + esc(p.why || "Chưa có ghi chú cụ thể") + "</span>" :
+           "Bài viết hiện đang lưu ở dạng Bản nháp, chưa gửi duyệt.") +
+          '</div></div>';
+      }
+      h += '<div class="fa"><button class="btn" id="ed">Chỉnh sửa bài này</button></div>';
+      fr.innerHTML = h;
+      $("#ed").onclick = function () { loadEdit(p.id) };
+    }
+
+    document.querySelectorAll(".nav").forEach(function (n) {
+      n.onclick = function () {
+        if (n.dataset.v === "post") newPost();
+        else { view = "status"; render() }
+      }
+    });
+
+    $("#theme").onclick = function () {
+      setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    };
+
     $("#out").onclick = function () {
       try { localStorage.removeItem("ptews_user") } catch (e) { }
       toast("Đã đăng xuất. Đang quay lại trang đăng nhập...");
       setTimeout(function () { window.location.href = "login.html" }, 500);
     };
 
-    // Đọc phiên đăng nhập từ localStorage
-    var currentUser = null;
-    try {
-      var u = localStorage.getItem("ptews_user");
-      if (u) currentUser = JSON.parse(u);
-    } catch (e) { }
-
-    if (currentUser && currentUser.fullName) {
-      var roleEl = document.querySelector(".role");
-      if (roleEl) roleEl.textContent = "Nhà báo: " + (currentUser.penName || currentUser.fullName);
-    }
-
-    var t0 = null; try { t0 = localStorage.getItem("wb-theme") } catch (e) { }
+    var t0 = null;
+    try { t0 = localStorage.getItem("wb-theme") } catch (e) { }
     setTheme(t0 || (matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"));
-    render();
+
+    // Khởi tạo trang: tải danh mục và danh sách bài từ CSDL
+    fetchCategories();
+    fetchArticles().then(function() {
+      render();
+    });
   </script>
 </body>
 

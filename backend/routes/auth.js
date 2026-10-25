@@ -47,28 +47,40 @@ router.post('/login', async (req, res) => {
         }
 
         // Tài khoản dự phòng trường hợp database chưa khởi động hoặc offline
+        // Tài khoản dự phòng trường hợp database chưa khởi động hoặc offline
         if (!user) {
             const fallbackUsers = {
-                'nhabao123': {
-                    id: 6,
-                    username: 'nhabao123',
+                'duyet_b': {
+                    id: 3,
+                    username: 'duyet_b',
                     password: '123456',
-                    email: 'nhabao123@ptitnews.vn',
-                    phone: '0988123456',
-                    full_name: 'Nhà báo',
-                    VaiTro: 'NB',
-                    ButDanh: 'Minh Anh',
-                    TrangThai: 'HoatDong'
-                },
-                'kiemduyet123': {
-                    id: 7,
-                    username: 'kiemduyet123',
-                    password: '123456',
-                    email: 'kiemduyet123@ptitnews.vn',
-                    phone: '0977123456',
-                    full_name: 'Người kiểm duyệt',
+                    email: 'kiemduyet@webbao.com',
+                    phone: '0912345678',
+                    full_name: 'Trần Thị B',
                     VaiTro: 'BT',
                     ButDanh: null,
+                    TrangThai: 'HoatDong'
+                },
+                'adNhat': {
+                    id: 11,
+                    username: 'adNhat',
+                    password: '123456',
+                    email: 'adnhat@gmail.com',
+                    phone: '0911108627',
+                    full_name: 'Nguyễn Duy Nhất',
+                    VaiTro: 'BT',
+                    ButDanh: null,
+                    TrangThai: 'HoatDong'
+                },
+                'phongvien_c': {
+                    id: 2,
+                    username: 'phongvien_c',
+                    password: '123456',
+                    email: 'nhabao@webbao.com',
+                    phone: '0988123456',
+                    full_name: 'Lê Văn C',
+                    VaiTro: 'NB',
+                    ButDanh: 'Minh Anh',
                     TrangThai: 'HoatDong'
                 },
                 'admin_a': {
@@ -77,8 +89,19 @@ router.post('/login', async (req, res) => {
                     password: '123456',
                     email: 'admin@ptitnews.vn',
                     phone: '0988000001',
-                    full_name: 'Quản trị viên Hệ thống',
+                    full_name: 'Nguyễn Văn A',
                     VaiTro: 'AD',
+                    ButDanh: null,
+                    TrangThai: 'HoatDong'
+                },
+                'kiemduyet123': {
+                    id: 3,
+                    username: 'kiemduyet123',
+                    password: '123456',
+                    email: 'kiemduyet@webbao.com',
+                    phone: '0977123456',
+                    full_name: 'Trần Thị B',
+                    VaiTro: 'BT',
                     ButDanh: null,
                     TrangThai: 'HoatDong'
                 }
@@ -104,20 +127,24 @@ router.post('/login', async (req, res) => {
         if (user.TrangThai && user.TrangThai !== 'HoatDong') {
             return res.status(403).json({
                 success: false,
-                message: 'Tài khoản của bạn đang bị khóa hoặc ngừng hoạt động.'
+                message: `Tài khoản của bạn đang ở trạng thái "${user.TrangThai}". Không thể đăng nhập!`
             });
         }
 
-        // Quyết định trang chuyển hướng dựa trên vai trò
+        // Quyết định trang chuyển hướng chuẩn xác dựa trên vai trò trong CSDL
+        const cleanRole = (user.VaiTro || '').trim().toUpperCase();
         let redirectUrl = 'nha_bao.html';
         let roleName = 'Nhà báo';
 
-        if (user.VaiTro === 'BT' || user.VaiTro === 'KD') {
+        if (cleanRole === 'BT' || cleanRole === 'KD' || cleanRole === 'KIEMDUYET') {
             redirectUrl = 'Nguoi_kiem_duyet.html';
-            roleName = 'Người kiểm duyệt';
-        } else if (user.VaiTro === 'AD') {
+            roleName = 'Kiểm duyệt viên';
+        } else if (cleanRole === 'AD') {
             redirectUrl = 'admin.html';
             roleName = 'Quản trị viên hệ thống';
+        } else if (cleanRole === 'DN') {
+            redirectUrl = 'portal-doanhnghiep.html';
+            roleName = 'Doanh nghiệp quảng cáo';
         }
 
         return res.status(200).json({
@@ -147,23 +174,28 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// GET /api/auth/demo-accounts (hỗ trợ lấy thông tin tài khoản mẫu)
+// GET /api/auth/demo-accounts (hỗ trợ lấy thông tin tài khoản mẫu đã đăng ký trong CSDL)
 router.get('/demo-accounts', (req, res) => {
     res.json({
         nhabao: {
-            username: 'nhabao123',
+            username: 'phongvien_c',
             password: '123456',
-            roleName: 'Nhà báo'
+            roleName: 'Nhà báo (Lê Văn C)'
         },
         kiemduyet: {
-            username: 'kiemduyet123',
+            username: 'duyet_b',
             password: '123456',
-            roleName: 'Người kiểm duyệt'
+            roleName: 'Kiểm duyệt viên (Trần Thị B)'
+        },
+        kiemduyet2: {
+            username: 'adNhat',
+            password: '123456',
+            roleName: 'Kiểm duyệt viên (Nguyễn Duy Nhất)'
         },
         admin: {
             username: 'admin_a',
             password: '123456',
-            roleName: 'Quản trị viên'
+            roleName: 'Quản trị viên (Nguyễn Văn A)'
         }
     });
 });

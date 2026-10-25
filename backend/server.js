@@ -36,11 +36,15 @@ const authDoanhNghiepRoute = require('./routes/authDoanhNghiep');
 const adminUsersRoute = require('./routes/admin-users');
 const adminAdsRoute = require('./routes/admin-ads');
 const adminBackupRoute = require('./routes/admin-backup');
+const nhabaoRoute = require('./routes/nhabao');
+const kiemduyetRoute = require('./routes/kiemduyet');
 
 // Gắn các API dùng chung cho cả 2 ứng dụng
 [readApp, uploadApp].forEach(instance => {
   instance.use('/api/auth', authRoute);
   instance.use('/api', authRoute); // Cho phép gọi trực tiếp /api/login
+  instance.use('/api/nhabao', nhabaoRoute);
+  instance.use('/api/kiemduyet', kiemduyetRoute);
   instance.use('/api/gia-vang2', giaVang2Route);
   instance.use('/api/gia-Xang', giaXangRoute);
   instance.use('/api/lay-home-db', layHomeDBRoute);

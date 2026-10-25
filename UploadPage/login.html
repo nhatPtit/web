@@ -162,16 +162,6 @@ body{margin:0;min-height:100%;font-family:var(--font-body);color:var(--ink);line
             <button type="submit" id="btn-submit" class="btn-submit">Đăng Nhập</button>
           </form>
 
-          <!-- TÀI KHOẢN MẪU THỬ NGHIỆM NHANH CHO 3 VAI TRÒ -->
-          <div style="margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.06); border: 1px dashed var(--line); border-radius: 8px;">
-            <div style="font-size: 12px; color: var(--mute); margin-bottom: 8px; font-weight: 600;">Chọn nhanh tài khoản mẫu:</div>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <button type="button" class="btn-demo-acc" data-u="nhabao123" data-p="123456" style="padding: 5px 10px; font-size: 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--field); color: var(--ink); cursor: pointer;">✍️ Nhà báo</button>
-              <button type="button" class="btn-demo-acc" data-u="kiemduyet123" data-p="123456" style="padding: 5px 10px; font-size: 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--field); color: var(--ink); cursor: pointer;">🔍 Người kiểm duyệt</button>
-              <button type="button" class="btn-demo-acc" data-u="admin_a" data-p="123456" style="padding: 5px 10px; font-size: 12px; border-radius: 6px; border: 1px solid var(--acc); background: var(--acc-soft); color: var(--acc); font-weight: 700; cursor: pointer;">👑 Quản trị viên (Admin)</button>
-            </div>
-          </div>
-
           <div class="divider"></div>
           <div class="footer-text">© 2026 PTEWS - Hệ Thống Tác Nghiệp Báo Chí</div>
         </div>
@@ -240,17 +230,7 @@ body{margin:0;min-height:100%;font-family:var(--font-body);color:var(--ink);line
       alertBox.textContent = "Lỗi kết nối tới máy chủ backend (" + err.message + "). Vui lòng đảm bảo backend đang chạy.";
       alertBox.style.display = "block";
       submitBtn.disabled = false;
-      submitBtn.textContent = "Đăng Nhập";
     }
-  });
-
-  // Sự kiện chọn nhanh tài khoản mẫu
-  document.querySelectorAll(".btn-demo-acc").forEach(function(btn) {
-    btn.addEventListener("click", function() {
-      usernameInput.value = btn.getAttribute("data-u");
-      passwordInput.value = btn.getAttribute("data-p");
-      submitBtn.click();
-    });
   });
 })();
 </script>
