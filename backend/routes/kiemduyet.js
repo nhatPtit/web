@@ -458,19 +458,19 @@ router.get('/ads', async (req, res) => {
         await pool.request().query(`
             -- Đơn đã thanh toán/đang chạy hết thời gian hiển thị
             UPDATE dbo.ad_requests
-            SET status = 'quahan'
+            SET status = 'hoanthanh'
             WHERE status IN ('dathanhtoan', 'Active', 'active')
               AND CAST(SYSDATETIME() AS DATE) > end_date;
 
             -- Đơn đã duyệt nhưng không thanh toán, để qua ngày bắt đầu
             UPDATE dbo.ad_requests
-            SET status = 'quahan'
+            SET status = 'hoanthanh'
             WHERE status IN ('daduyet')
               AND CAST(SYSDATETIME() AS DATE) > start_date;
 
             -- Đơn bị từ chối mẫu hoặc chờ duyệt mà đã qua ngày kết thúc
             UPDATE dbo.ad_requests
-            SET status = 'quahan'
+            SET status = 'hoanthanh'
             WHERE status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending')
               AND CAST(SYSDATETIME() AS DATE) > end_date;
         `);
@@ -491,7 +491,7 @@ router.get('/ads', async (req, res) => {
                 r.Id,
                 r.advertiser_id,
                 COALESCE(u.company_name, u.full_name, 'Doanh nghiệp') AS company_name,
-                COALESCE(u.contact_person, u.full_name, 'Người liên hệ') AS contact_person,
+                COALESCE(u.full_name, 'Người liên hệ') AS contact_person,
                 u.phone AS advertiser_phone,
                 u.email AS advertiser_email,
                 r.position_id,
@@ -663,9 +663,9 @@ router.get('/stats', async (req, res) => {
 
         // Cập nhật các đơn quá hạn trước khi đếm thống kê
         await pool.request().query(`
-            UPDATE dbo.ad_requests SET status = 'quahan' WHERE status IN ('dathanhtoan', 'Active', 'active') AND CAST(SYSDATETIME() AS DATE) > end_date;
-            UPDATE dbo.ad_requests SET status = 'quahan' WHERE status = 'daduyet' AND CAST(SYSDATETIME() AS DATE) > start_date;
-            UPDATE dbo.ad_requests SET status = 'quahan' WHERE status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending') AND CAST(SYSDATETIME() AS DATE) > end_date;
+            UPDATE dbo.ad_requests SET status = 'hoanthanh' WHERE status IN ('dathanhtoan', 'Active', 'active') AND CAST(SYSDATETIME() AS DATE) > end_date;
+            UPDATE dbo.ad_requests SET status = 'hoanthanh' WHERE status = 'daduyet' AND CAST(SYSDATETIME() AS DATE) > start_date;
+            UPDATE dbo.ad_requests SET status = 'hoanthanh' WHERE status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending') AND CAST(SYSDATETIME() AS DATE) > end_date;
         `);
 
         // 1. Đếm bài chờ duyệt

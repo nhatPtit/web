@@ -226,7 +226,7 @@ router.get('/booked-dates/:positionId', async (req, res) => {
                 SELECT start_date, end_date, status
                 FROM dbo.ad_requests
                 WHERE position_id = @position_id
-                  AND status NOT IN ('tu_choi', 'rejected', 'cancelled', 'da_huy');
+                  AND status IN ('dathanhtoan', 'da_thanh_toan', 'active');
             `);
 
         return res.status(200).json({
@@ -241,6 +241,17 @@ router.get('/booked-dates/:positionId', async (req, res) => {
 
 // 5. API TẠO YÊU CẦU QUẢNG CÁO MỚI: POST /api/auth-doanhnghiep/create-request
 router.post('/create-request', upload.single('media_file'), async (req, res) => {
+    // Hàm phụ trợ xóa file vừa upload nếu quá trình tạo đơn thất bại
+    const cleanupUploadedFile = () => {
+        if (req.file && req.file.path && fs.existsSync(req.file.path)) {
+            try {
+                fs.unlinkSync(req.file.path);
+            } catch (unlinkErr) {
+                console.error('Không thể xóa file upload tạm thời:', unlinkErr);
+            }
+        }
+    };
+
     try {
         const {
             advertiser_id,
@@ -252,6 +263,7 @@ router.post('/create-request', upload.single('media_file'), async (req, res) => 
         } = req.body;
 
         if (!advertiser_id || !position_id || !target_url || !start_date || !end_date) {
+            cleanupUploadedFile();
             return res.status(400).json({
                 success: false,
                 message: 'Vui lòng cung cấp đầy đủ thông tin: vị trí, liên kết đích, ngày bắt đầu và kết thúc!'
@@ -264,6 +276,7 @@ router.post('/create-request', upload.single('media_file'), async (req, res) => 
         } else if (req.body.media_url) {
             media_url = req.body.media_url;
         } else {
+            cleanupUploadedFile();
             return res.status(400).json({
                 success: false,
                 message: 'Vui lòng tải lên tệp Banner/Video quảng cáo!'
@@ -281,13 +294,14 @@ router.post('/create-request', upload.single('media_file'), async (req, res) => 
                 SELECT Id 
                 FROM dbo.ad_requests
                 WHERE position_id = @position_id
-                  AND status NOT IN ('tu_choi', 'rejected', 'cancelled', 'da_huy')
+                  AND status IN ('dathanhtoan', 'da_thanh_toan', 'active')
                   AND (
                       (start_date <= @end_date AND end_date >= @start_date)
                   );
             `);
 
         if (overlapCheck.recordset.length > 0) {
+            cleanupUploadedFile();
             return res.status(400).json({
                 success: false,
                 message: 'Khoảng thời gian bạn chọn đã có ngày bị người khác thuê trước. Vui lòng chọn ngày khác!'
@@ -303,7 +317,7 @@ router.post('/create-request', upload.single('media_file'), async (req, res) => 
             .input('start_date', sql.Date, start_date)
             .input('end_date', sql.Date, end_date)
             .input('total_amount', sql.Decimal(18, 2), parseFloat(total_amount) || 0)
-            .input('status', sql.VarChar(30), 'cho_duyet')
+            .input('status', sql.VarChar(30), 'chuaduyet')
             .input('views_count', sql.Int, 0)
             .query(`
                 INSERT INTO dbo.ad_requests 
@@ -323,6 +337,7 @@ router.post('/create-request', upload.single('media_file'), async (req, res) => 
         });
 
     } catch (err) {
+        cleanupUploadedFile();
         console.error('Lỗi khi nộp đơn quảng cáo:', err);
         return res.status(500).json({
             success: false,
@@ -407,21 +422,21 @@ router.get('/my-requests', async (req, res) => {
             .query(`
                 -- Đơn đã thanh toán/đang chạy hết thời gian hiển thị
                 UPDATE dbo.ad_requests
-                SET status = 'quahan'
+                SET status = 'hoanthanh'
                 WHERE advertiser_id = @adv_id
                   AND status IN ('dathanhtoan', 'Active', 'active')
                   AND CAST(SYSDATETIME() AS DATE) > end_date;
 
                 -- Đơn đã duyệt nhưng không thanh toán, để qua ngày bắt đầu
                 UPDATE dbo.ad_requests
-                SET status = 'quahan'
+                SET status = 'hoanthanh'
                 WHERE advertiser_id = @adv_id
                   AND status IN ('daduyet')
                   AND CAST(SYSDATETIME() AS DATE) > start_date;
 
                 -- Đơn bị từ chối mẫu hoặc chờ duyệt mà đã qua ngày kết thúc
                 UPDATE dbo.ad_requests
-                SET status = 'quahan'
+                SET status = 'hoanthanh'
                 WHERE advertiser_id = @adv_id
                   AND status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending')
                   AND CAST(SYSDATETIME() AS DATE) > end_date;
