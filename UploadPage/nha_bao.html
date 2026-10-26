@@ -957,19 +957,36 @@
       window.location.replace("login.html");
     }
 
-    // Cập nhật thông tin & trạng thái tài khoản trên Header
+    // Cập nhật thông tin & đúng 3 trạng thái của tài khoản Nhà báo: Hoạt động, Cảnh cáo, Cấm
     function updateHeaderStatus(status) {
       var roleEl = document.querySelector(".role");
       if (!roleEl || !currentUser) return;
       var name = (currentUser.penName || currentUser.fullName || currentUser.username || "Nhà báo");
-      var st = status || currentUser.TrangThai || currentUser.status || "HoatDong";
-      if (st === "CanhCao" || st === "HanChe") {
-        roleEl.innerHTML = 'Nhà báo: <b style="color:#f97316;">' + esc(name) + '</b> <span style="color:#f97316;font-weight:700;margin-left:8px;background:rgba(249,115,22,0.12);padding:2px 8px;border-radius:999px;border:1px solid rgba(249,115,22,0.35);font-size:0.85em;">⚠️ Diện Cảnh cáo</span>';
-        roleEl.style.color = "#f97316";
-      } else if (st === "Cam") {
-        roleEl.innerHTML = 'Nhà báo: <b style="color:#ef4444;">' + esc(name) + '</b> <span style="color:#ef4444;font-weight:700;margin-left:8px;background:rgba(239,68,68,0.12);padding:2px 8px;border-radius:999px;border:1px solid rgba(239,68,68,0.35);font-size:0.85em;">🚫 Bị cấm</span>';
-        roleEl.style.color = "#ef4444";
+      
+      // Chuẩn hóa trạng thái về đúng 3 trạng thái: HoatDong, CanhCao, Cam
+      var raw = (status || currentUser.TrangThai || currentUser.status || "HoatDong").trim();
+      var st = "HoatDong";
+      if (raw === "CanhCao" || raw === "canhcao" || raw === "HanChe" || raw === "hanche") {
+        st = "CanhCao";
+      } else if (raw === "Cam" || raw === "cam" || raw === "TamKhoa" || raw === "tamkhoa") {
+        st = "Cam";
       } else {
+        st = "HoatDong";
+      }
+      currentUser.TrangThai = st;
+
+      // 1. Cảnh cáo: Chữ màu cam ở header
+      if (st === "CanhCao") {
+        roleEl.innerHTML = 'Nhà báo: <b style="color:#f97316;">' + esc(name) + '</b> <span style="color:#f97316;font-weight:700;margin-left:8px;background:rgba(249,115,22,0.12);padding:2px 8px;border-radius:999px;border:1px solid rgba(249,115,22,0.35);font-size:0.85em;">⚠️ Cảnh cáo</span>';
+        roleEl.style.color = "#f97316";
+      } 
+      // 2. Cấm: Chữ màu đỏ ở header
+      else if (st === "Cam") {
+        roleEl.innerHTML = 'Nhà báo: <b style="color:#ef4444;">' + esc(name) + '</b> <span style="color:#ef4444;font-weight:700;margin-left:8px;background:rgba(239,68,68,0.12);padding:2px 8px;border-radius:999px;border:1px solid rgba(239,68,68,0.35);font-size:0.85em;">🚫 Cấm</span>';
+        roleEl.style.color = "#ef4444";
+      } 
+      // 3. Hoạt động: Màu xanh lá mặc định
+      else {
         roleEl.innerHTML = 'Nhà báo: <b>' + esc(name) + '</b> <span style="color:#16a34a;font-weight:600;margin-left:8px;font-size:0.85em;">(🟢 Hoạt động)</span>';
         roleEl.style.color = "";
       }
@@ -1253,6 +1270,11 @@
 
     // LƯU BÀI BÁO ĐỒNG BỘ TRỰC TIẾP VỚI CSDL SSMS
     async function save(s) {
+      if (currentUser && currentUser.TrangThai === "Cam") {
+        alert("TÀI KHOẢN BỊ CẤM:\nTài khoản nhà báo của bạn hiện đang ở trạng thái CẤM. Bạn không thể đăng hoặc chỉnh sửa bài viết!");
+        return;
+      }
+
       var tEl = $("#t"), sumEl = $("#sum");
       var t = tEl ? tEl.value.trim() : "";
       var sum = sumEl ? sumEl.value.trim() : "";
@@ -1383,8 +1405,24 @@
       h += '<div class="cols"><div><input class="title" id="t" placeholder="Tiêu đề" value="' + esc(f.t) + '"><textarea class="sum" id="sum" rows="2" maxlength="500" placeholder="Tóm tắt (Sapo bài viết - nếu để trống hệ thống sẽ tự động lấy đoạn đầu bài)">' + esc(f.sum) + '</textarea>';
       h += '<div class="tools"><button data-c="bold"><b>B</b></button><button data-c="italic"><i>I</i></button><button data-c="formatBlock:h3">Tiêu đề phụ</button><button data-c="formatBlock:blockquote">Trích dẫn</button><button data-c="img">Chèn [Ảnh x]</button></div>';
       h += '<div id="body" contenteditable="true" data-ph="Nội dung bài viết. Muốn chèn ảnh vào chỗ nào thì bấm Chèn [Ảnh x] hoặc gõ [Ảnh 1], [Ảnh 2]... Bạn cũng có thể kéo ảnh thả thẳng vào đây.">' + (f.body || "") + '</div><div class="foot"><span id="wc">0 từ</span><button class="btn" id="pvb">Xem trước bài</button></div><div id="pv" class="pv" hidden></div>';
-      h += '<div class="acts">' + ((!ed || p.s === 0 || p.s === 3) ? '<button class="btn" id="sd">Lưu nháp</button>' : '') + '<button class="btn pri" id="sb">' + (ed ? "Lưu và gửi duyệt lại" : "Đăng bài") + '</button></div></div>';
-      h += '<div><div class="card"><h3>Thông tin bài</h3><label class="fld"><span>Chuyên mục</span><select id="c">' + CATS.map(function (c) { return '<option' + (c === (f.c || "Thời sự") ? " selected" : "") + '>' + esc(c) + '</option>' }).join("") + '</select></label><div class="m">Tác giả: <b>' + esc(currentUser.penName || currentUser.fullName) + '</b></div></div><div class="card"><h3>Ảnh trong bài</h3><div class="m" style="margin-bottom:10px">Gõ [Ảnh 1], [Ảnh 2]... vào nội dung. Mỗi dấu sẽ có một ô tương ứng bên dưới để tải ảnh trực tiếp từ máy tính.</div><div id="slots"></div></div>';
+      var actsHtml = '';
+      if (currentUser && currentUser.TrangThai === "Cam") {
+        actsHtml = '<div style="color:#ef4444;font-weight:600;padding:10px 14px;background:rgba(239,68,68,0.1);border-radius:8px;border:1px solid rgba(239,68,68,0.3);width:100%;">🚫 <b>Tài khoản đang bị CẤM:</b> Bạn tạm thời không thể lưu nháp hoặc gửi bài duyệt lên tòa soạn.</div>';
+      } else {
+        actsHtml = ((!ed || p.s === 0 || p.s === 3) ? '<button class="btn" id="sd">Lưu nháp</button>' : '') + '<button class="btn pri" id="sb">' + (ed ? "Lưu và gửi duyệt lại" : "Đăng bài") + '</button>';
+      }
+      h += '<div class="acts">' + actsHtml + '</div></div>';
+
+      var authorBadge = '';
+      if (currentUser && currentUser.TrangThai === "CanhCao") {
+        authorBadge = ' <span style="color:#f97316;font-size:0.85em;font-weight:700;">(⚠️ Cảnh cáo)</span>';
+      } else if (currentUser && currentUser.TrangThai === "Cam") {
+        authorBadge = ' <span style="color:#ef4444;font-size:0.85em;font-weight:700;">(🚫 Cấm)</span>';
+      } else {
+        authorBadge = ' <span style="color:#16a34a;font-size:0.85em;font-weight:600;">(🟢 Hoạt động)</span>';
+      }
+
+      h += '<div><div class="card"><h3>Thông tin bài</h3><label class="fld"><span>Chuyên mục</span><select id="c">' + CATS.map(function (c) { return '<option' + (c === (f.c || "Thời sự") ? " selected" : "") + '>' + esc(c) + '</option>' }).join("") + '</select></label><div class="m">Tác giả: <b>' + esc(currentUser.penName || currentUser.fullName) + '</b>' + authorBadge + '</div></div><div class="card"><h3>Ảnh trong bài</h3><div class="m" style="margin-bottom:10px">Gõ [Ảnh 1], [Ảnh 2]... vào nội dung. Mỗi dấu sẽ có một ô tương ứng bên dưới để tải ảnh trực tiếp từ máy tính.</div><div id="slots"></div></div>';
       h += '<div class="card"><h3>Thứ tự của ảnh</h3><div class="m" style="margin-bottom:10px">Kéo để đổi thứ tự, hoặc dùng nút mũi tên. Ảnh thứ x sẽ hiện ở chỗ đánh dấu [Ảnh x] trong bài.</div><div id="il"></div><details><summary>Dữ liệu sẽ lưu vào dbo.AnhBaiViet</summary><div id="dbv"></div></details></div></div></div>';
       $("#main").innerHTML = h;
       bd = $("#body");

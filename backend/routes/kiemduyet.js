@@ -451,26 +451,27 @@ router.get('/ads', async (req, res) => {
         const pool = await connectDB();
         const statusFilter = (req.query.status || 'pending').toLowerCase();
 
-        // Tự động cập nhật các đơn quảng cáo quá hạn theo các luồng quy định:
-        // Luồng 1: chuaduyet -> daduyet -> choxacnhan -> dathanhtoan -> quahan (hết hạn ngày chạy)
-        // Luồng 2: Chuaduyet -> tuchoi -> quahan (bị từ chối và qua ngày kết thúc)
-        // Luồng 3: chuaduyet -> daduyet -> quahan (duyệt rồi nhưng không thanh toán, qua ngày bắt đầu)
+        // Tự động cập nhật các đơn quảng cáo theo quy định:
+        // - Đơn đã thanh toán chạy xong hết hạn (CAST(SYSDATETIME() AS DATE) > end_date) ➔ 'hoanthanh' (Hoàn thành chiến dịch).
+        // - Đơn chưa thanh toán mà để quá hạn ➔ 'quahan' (Hủy do quá hạn):
+        //   + Đơn đã duyệt nhưng để quá ngày bắt đầu (CAST(SYSDATETIME() AS DATE) > start_date) ➔ 'quahan'
+        //   + Đơn chưa duyệt hoặc bị từ chối mà quá ngày kết thúc (CAST(SYSDATETIME() AS DATE) > end_date) ➔ 'quahan'
         await pool.request().query(`
-            -- Đơn đã thanh toán/đang chạy hết thời gian hiển thị
+            -- Đơn đã thanh toán chạy xong hết hạn ➔ hoanthanh
             UPDATE dbo.ad_requests
             SET status = 'hoanthanh'
             WHERE status IN ('dathanhtoan', 'Active', 'active')
               AND CAST(SYSDATETIME() AS DATE) > end_date;
 
-            -- Đơn đã duyệt nhưng không thanh toán, để qua ngày bắt đầu
+            -- Đơn đã duyệt nhưng không thanh toán, để qua ngày bắt đầu ➔ quahan
             UPDATE dbo.ad_requests
-            SET status = 'hoanthanh'
-            WHERE status IN ('daduyet')
+            SET status = 'quahan'
+            WHERE status = 'daduyet'
               AND CAST(SYSDATETIME() AS DATE) > start_date;
 
-            -- Đơn bị từ chối mẫu hoặc chờ duyệt mà đã qua ngày kết thúc
+            -- Đơn chưa duyệt hoặc bị từ chối mà để qua ngày kết thúc ➔ quahan
             UPDATE dbo.ad_requests
-            SET status = 'hoanthanh'
+            SET status = 'quahan'
             WHERE status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending')
               AND CAST(SYSDATETIME() AS DATE) > end_date;
         `);
@@ -481,9 +482,13 @@ router.get('/ads', async (req, res) => {
         } else if (statusFilter === 'payment' || statusFilter === 'choxacnhan') {
             whereClause = "WHERE r.status IN ('choxacnhan', 'cho_xac_nhan')";
         } else if (statusFilter === 'schedule') {
-            whereClause = "WHERE r.status IN ('dathanhtoan', 'Active', 'active', 'daduyet', 'choxacnhan')";
+            whereClause = "WHERE r.status IN ('dathanhtoan', 'Active', 'active', 'daduyet', 'choxacnhan', 'hoanthanh', 'quahan')";
         } else if (statusFilter === 'active') {
             whereClause = "WHERE r.status IN ('Active', 'active', 'dathanhtoan')";
+        } else if (statusFilter === 'hoanthanh') {
+            whereClause = "WHERE r.status = 'hoanthanh'";
+        } else if (statusFilter === 'quahan') {
+            whereClause = "WHERE r.status = 'quahan'";
         }
 
         const query = `
@@ -661,11 +666,11 @@ router.get('/stats', async (req, res) => {
     try {
         const pool = await connectDB();
 
-        // Cập nhật các đơn quá hạn trước khi đếm thống kê
+        // Cập nhật các đơn quá hạn & hoàn thành trước khi đếm thống kê
         await pool.request().query(`
             UPDATE dbo.ad_requests SET status = 'hoanthanh' WHERE status IN ('dathanhtoan', 'Active', 'active') AND CAST(SYSDATETIME() AS DATE) > end_date;
-            UPDATE dbo.ad_requests SET status = 'hoanthanh' WHERE status = 'daduyet' AND CAST(SYSDATETIME() AS DATE) > start_date;
-            UPDATE dbo.ad_requests SET status = 'hoanthanh' WHERE status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending') AND CAST(SYSDATETIME() AS DATE) > end_date;
+            UPDATE dbo.ad_requests SET status = 'quahan' WHERE status = 'daduyet' AND CAST(SYSDATETIME() AS DATE) > start_date;
+            UPDATE dbo.ad_requests SET status = 'quahan' WHERE status IN ('tuchoi', 'tu_choi', 'chuaduyet', 'cho_duyet', 'pending') AND CAST(SYSDATETIME() AS DATE) > end_date;
         `);
 
         // 1. Đếm bài chờ duyệt
@@ -674,8 +679,8 @@ router.get('/stats', async (req, res) => {
         const pendingAdsRes = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.ad_requests WHERE status IN ('chuaduyet', 'cho_duyet', 'pending');");
         // 2b. Đếm đơn QC chờ xác nhận thanh toán
         const pendingPaymentRes = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.ad_requests WHERE status IN ('choxacnhan', 'cho_xac_nhan');");
-        // 2c. Đếm đơn QC trong bảng lịch (đã thanh toán hoặc đang chạy)
-        const scheduledAdsRes = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.ad_requests WHERE status IN ('dathanhtoan', 'Active', 'active', 'daduyet');");
+        // 2c. Đếm đơn QC trong bảng lịch (đã thanh toán, đang chạy hoặc đã hoàn thành)
+        const scheduledAdsRes = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.ad_requests WHERE status IN ('dathanhtoan', 'Active', 'active', 'daduyet', 'hoanthanh');");
         // 3. Đếm bài đang xuất bản
         const publishedCountRes = await pool.request().query("SELECT COUNT(*) AS total, COALESCE(SUM(views_count), 0) AS total_views FROM dbo.BaiViet WHERE status IN ('published', 'daduyet');");
         // 4. Lượt xem theo chuyên mục
