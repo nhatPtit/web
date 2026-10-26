@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const router = express.Router();
 const sql = require('mssql');
 const { connectDB } = require('../db');
@@ -6,25 +6,28 @@ const { connectDB } = require('../db');
 // Route API: GET /api/chitietbaibao?id=...
 router.get('/', async (req, res) => {
     try {
-        // Lấy ID từ URL query
+        // Láº¥y ID tá»« URL query
         const articleId = req.query.id;
 
         if (!articleId) {
-            return res.status(400).json({ message: 'Thiếu ID bài viết!' });
+            return res.status(400).json({ message: 'Thiáº¿u ID bÃ i viáº¿t!' });
         }
 
         const pool = await connectDB();
 
-        // Chạy đồng thời 2 câu lệnh truy vấn để lấy Bài Báo và Ảnh
+        // Cháº¡y Ä‘á»“ng thá»i 2 cÃ¢u lá»‡nh truy váº¥n Ä‘á»ƒ láº¥y BÃ i BÃ¡o vÃ  áº¢nh
         const result = await pool.request()
             .input('id_bb', sql.Int, articleId)
             .query(`
-                -- Chỉ tăng lượt xem khi bài viết đã được xuất bản (dành cho độc giả đọc tin)
+                -- Chá»‰ tÄƒng lÆ°á»£t xem khi bÃ i viáº¿t Ä‘Ã£ Ä‘Æ°á»£c xuáº¥t báº£n (dÃ nh cho Ä‘á»™c giáº£ Ä‘á»c tin)
                 UPDATE dbo.BaiViet 
                 SET views_count = COALESCE(views_count, 0) + 1 
                 WHERE Id = @id_bb AND status IN ('published', 'daduyet');
 
-                -- Ghi nhận lượt xem ngày hôm nay vào dbo.daily_views
+                -- Ghi nhận lượt xem ngày hôm nay vào dbo.daily_views (nếu có bảng)
+                IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'daily_views')
+                BEGIN
+                -- Ghi nháº­n lÆ°á»£t xem ngÃ y hÃ´m nay vÃ o dbo.daily_views
                 IF EXISTS (SELECT 1 FROM dbo.BaiViet WHERE Id = @id_bb AND status IN ('published', 'daduyet'))
                 BEGIN
                     MERGE dbo.daily_views AS target
@@ -37,7 +40,8 @@ router.get('/', async (req, res) => {
                         VALUES (source.today, 1, 1);
                 END
 
-                -- Truy vấn 1: Lấy chi tiết bài báo (đã được cộng 1 lượt xem)
+                END
+                -- Truy váº¥n 1: Láº¥y chi tiáº¿t bÃ i bÃ¡o (Ä‘Ã£ Ä‘Æ°á»£c cá»™ng 1 lÆ°á»£t xem)
                 SELECT 
                     b.Id AS ID_BB,
                     b.Id,
@@ -53,7 +57,7 @@ router.get('/', async (req, res) => {
                 FROM dbo.BaiViet b
                 WHERE b.Id = @id_bb;
 
-                -- Truy vấn 2: Lấy tất cả ảnh thuộc bài báo này
+                -- Truy váº¥n 2: Láº¥y táº¥t cáº£ áº£nh thuá»™c bÃ i bÃ¡o nÃ y
                 SELECT 
                     a.Id AS ID_Anh, 
                     a.image_url AS [URL], 
@@ -63,27 +67,27 @@ router.get('/', async (req, res) => {
                 WHERE a.id_BB = @id_bb;
             `);
 
-        // Truy vấn 1 sẽ nằm ở result.recordsets[0]
+        // Truy váº¥n 1 sáº½ náº±m á»Ÿ result.recordsets[0]
         const baiBaoData = result.recordsets[0];
 
         if (!baiBaoData || baiBaoData.length === 0) {
-            return res.status(404).json({ message: 'Không tìm thấy bài viết' });
+            return res.status(404).json({ message: 'KhÃ´ng tÃ¬m tháº¥y bÃ i viáº¿t' });
         }
 
-        // Lấy bài báo đầu tiên
+        // Láº¥y bÃ i bÃ¡o Ä‘áº§u tiÃªn
         const article = baiBaoData[0];
 
-        // Truy vấn 2 (danh sách ảnh) sẽ nằm ở result.recordsets[1]
+        // Truy váº¥n 2 (danh sÃ¡ch áº£nh) sáº½ náº±m á»Ÿ result.recordsets[1]
         const listAnh = result.recordsets[1];
 
-        // Nếu có ảnh, lặp qua mảng ảnh và gán URL vào thuộc tính AnhX (VD: Anh2, Anh3...)
+        // Náº¿u cÃ³ áº£nh, láº·p qua máº£ng áº£nh vÃ  gÃ¡n URL vÃ o thuá»™c tÃ­nh AnhX (VD: Anh2, Anh3...)
         if (listAnh && listAnh.length > 0) {
             listAnh.forEach(anh => {
                 if (anh.ViTriTrongBai) {
-                    // Tạo ra các key động như article.Anh2 = '/Anh-BB/xxhaha4.webp'
+                    // Táº¡o ra cÃ¡c key Ä‘á»™ng nhÆ° article.Anh2 = '/Anh-BB/xxhaha4.webp'
                     article[`Anh${anh.ViTriTrongBai}`] = anh.URL;
 
-                    // (Tùy chọn) Gán thêm cả Caption nếu muốn hiển thị chú thích ảnh
+                    // (TÃ¹y chá»n) GÃ¡n thÃªm cáº£ Caption náº¿u muá»‘n hiá»ƒn thá»‹ chÃº thÃ­ch áº£nh
                     if (anh.Caption) {
                         article[`Caption${anh.ViTriTrongBai}`] = anh.Caption;
                     }
@@ -91,12 +95,12 @@ router.get('/', async (req, res) => {
             });
         }
 
-        // Trả về object bài báo đã được đính kèm toàn bộ link ảnh
+        // Tráº£ vá» object bÃ i bÃ¡o Ä‘Ã£ Ä‘Æ°á»£c Ä‘Ã­nh kÃ¨m toÃ n bá»™ link áº£nh
         res.status(200).json(article);
 
     } catch (error) {
-        console.error('Lỗi khi lấy chi tiết bài báo và ảnh:', error);
-        res.status(500).json({ message: 'Lỗi server khi tải nội dung bài viết!' });
+        console.error('Lá»—i khi láº¥y chi tiáº¿t bÃ i bÃ¡o vÃ  áº£nh:', error);
+        res.status(500).json({ message: 'Lá»—i server khi táº£i ná»™i dung bÃ i viáº¿t!' });
     }
 });
 

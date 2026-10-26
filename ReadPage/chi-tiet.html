@@ -134,6 +134,9 @@
         `;
 
                 document.title = article.TieuDe;
+                if (article.ID_TL) {
+                    loadRelatedArticles(article.ID_BB, article.ID_TL);
+                }
 
             } catch (error) {
                 console.error("Lỗi khi tải chi tiết bài báo:", error);
@@ -171,6 +174,44 @@
             bgWrapper.onclick = () => window.open(adTarget, '_blank');
         }
         loadArticleAd();
+
+        // Tải các bài viết cùng chuyên mục
+        async function loadRelatedArticles(currentArticleId, categoryId) {
+            if (!categoryId) return;
+
+            try {
+                const response = await fetch(`/api/the-loai?id_tl=${categoryId}&offset=0`);
+                if (!response.ok) return;
+
+                const articles = await response.json();
+                const relatedList = articles
+                    .filter(item => String(item.ID_BB) !== String(currentArticleId))
+                    .slice(0, 4);
+
+                if (relatedList.length === 0) return;
+
+                const relatedSectionHTML = `
+                    <div class="related-articles-section">
+                        <div class="related-title">Bài viết cùng chuyên mục</div>
+                        <div class="related-grid">
+                            ${relatedList.map(item => `
+                                <a href="chi-tiet.html?id=${item.ID_BB}" class="related-card">
+                                    <img class="img-thumb" src="${item.AnhBia ? `.${item.AnhBia}` : 'img/54481.png'}" alt="${item.TieuDe}">
+                                    <div class="card-title">${item.TieuDe}</div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                const container = document.getElementById('placeholder');
+                if (container) {
+                    container.insertAdjacentHTML('beforeend', relatedSectionHTML);
+                }
+            } catch (err) {
+                console.warn('Không tải được bài viết liên quan:', err);
+            }
+        }
 </script>
 
 </body>
