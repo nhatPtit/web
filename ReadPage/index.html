@@ -57,6 +57,7 @@
                 fetchAndDrawChart();
                 fetchAndDrawChartXang();
                 fetchTopNews();
+                loadHomeAds();
 
             });
         fetch('header_2.html')
@@ -76,7 +77,7 @@
                 const canvas = document.getElementById('myChart');
                 // Trang này không có biểu đồ
                 if (!canvas) return;
-                const response = await fetch('http://localhost:3000/api/gia-vang2');
+                const response = await fetch('/api/gia-vang2');
                 const apiData = await response.json();
                 new Chart(canvas, {
                     type: "line",
@@ -167,7 +168,7 @@
 
                 // 1. Gọi API backend
                 const response = await fetch(
-                    'http://localhost:3000/api/gia-Xang/lich-su-gia-xang'
+                    '/api/gia-Xang/lich-su-gia-xang'
                 );
 
                 // 2. Chuyển dữ liệu JSON
@@ -260,7 +261,7 @@
         async function fetchTopNews() {
             try {
 
-                const response = await fetch('http://localhost:3000/api/lay-home-db');
+                const response = await fetch('/api/lay-home-db');
                 const newsData = await response.json();
 
                 const targetIds = ['BB1', 'BB3', 'BB4', 'BB5', 'BB6', 'BB7'];
@@ -332,7 +333,7 @@
 
                 try {
                     // Gọi API với biến offset hiện tại
-                    const response = await fetch(`http://localhost:3000/api/lay-body-db5?offset=${currentOffset}`);
+                    const response = await fetch(`/api/lay-body-db5?offset=${currentOffset}`);
                     const newArticles = await response.json();
 
                     if (newArticles.length === 0) {

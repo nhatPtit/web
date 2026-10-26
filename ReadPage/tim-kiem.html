@@ -93,7 +93,7 @@
                 loadingSpinner.style.display = 'block';
 
                 try {
-                    const response = await fetch(`http://localhost:3000/api/tim-kiem?q=${encodeURIComponent(query.trim())}&offset=${offset}`);
+                    const response = await fetch(`/api/tim-kiem?q=${encodeURIComponent(query.trim())}&offset=${offset}`);
                     if (!response.ok) {
                         throw new Error("Lỗi khi tải kết quả tìm kiếm");
                     }
