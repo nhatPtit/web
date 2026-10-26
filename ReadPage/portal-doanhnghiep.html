@@ -194,7 +194,7 @@
         }
 
         .pricing-table td {
-            padding: 16px 18px;
+            padding: 8px 12px;
             border-bottom: 1px solid #f1f5f9;
             color: #334155;
             vertical-align: middle;
@@ -206,16 +206,6 @@
 
         .pricing-table tr:hover {
             background-color: #f8fafc;
-        }
-
-        .badge-pos {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            font-size: 12px;
-            font-weight: 600;
-            background-color: #fee2e2;
-            color: #b91c1c;
         }
 
         .price-tag {
@@ -590,70 +580,6 @@
 
         .history-table tr:hover {
             background-color: #f8fafc;
-        }
-
-        /* Badge Trạng thái */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: capitalize;
-        }
-
-        /* 1. Chưa duyệt */
-        .status-badge.chuaduyet,
-        .status-badge.cho_duyet {
-            background-color: #fef3c7;
-            color: #b45309;
-            border: 1px solid #fde68a;
-        }
-
-        /* 1.5. Chờ xác nhận thanh toán */
-        .status-badge.choxacnhan,
-        .status-badge.cho_xac_nhan {
-            background-color: #fef08a;
-            color: #854d0e;
-            border: 1px solid #fde047;
-        }
-
-        /* 2. Đã duyệt (chờ thanh toán) */
-        .status-badge.daduyet,
-        .status-badge.da_duyet,
-        .status-badge.approved {
-            background-color: #e0f2fe;
-            color: #0369a1;
-            border: 1px solid #bae6fd;
-        }
-
-        /* 3. Đã thanh toán */
-        .status-badge.dathanhtoan,
-        .status-badge.da_thanh_toan,
-        .status-badge.active {
-            background-color: #dcfce7;
-            color: #15803d;
-            border: 1px solid #bbf7d0;
-        }
-
-        /* 4. Quá hạn */
-        .status-badge.quahan,
-        .status-badge.qua_han,
-        .status-badge.expired {
-            background-color: #f1f5f9;
-            color: #64748b;
-            border: 1px solid #cbd5e1;
-        }
-
-        /* 5. Từ chối */
-        .status-badge.tuchoi,
-        .status-badge.tu_choi,
-        .status-badge.rejected {
-            background-color: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fecaca;
         }
 
         /* Nút hành động trong bảng */
@@ -1270,8 +1196,8 @@
 
                         <div class="calendar-legend">
                             <div class="legend-item"><div class="legend-box available"></div><span>Ngày trống</span></div>
-                            <div class="legend-item"><div class="legend-box booked"></div><span>Đã có người thuê (không chọn được)</span></div>
-                            <div class="legend-item"><div class="legend-box selected"></div><span>Ngày bắt đầu / kết thúc</span></div>
+                            <div class="legend-item"><div class="legend-box booked"></div><span>Đã có người thuê</span></div>
+                            <div class="legend-item"><div class="legend-box selected"></div><span>Ngày bắt đầu/kết thúc</span></div>
                             <div class="legend-item"><div class="legend-box in-range"></div><span>Khoảng ngày chọn</span></div>
                         </div>
 
@@ -1315,7 +1241,7 @@
                     <div id="form-alert" style="display: none; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px;"></div>
 
                     <button type="submit" id="btn-submit-request" class="btn-submit-order">
-                        🚀 Nộp đơn yêu cầu quảng cáo
+                        Nộp đơn yêu cầu quảng cáo
                     </button>
                 </form>
             `;
@@ -1344,11 +1270,16 @@
             }
 
             try {
-                // Tải danh sách ngày đã thuê của vị trí này từ API
+                // Tải danh sách ngày đã thuê của vị trí này từ API (chỉ khóa ngày cho đơn đã thanh toán)
                 const res = await fetch(`/api/auth-doanhnghiep/booked-dates/${posId}`);
                 const json = await res.json();
                 if (json.success && Array.isArray(json.data)) {
                     json.data.forEach(item => {
+                        const s = (item.status || '').toLowerCase().trim();
+                        // Bảng ngày chỉ được khóa các request dathanhtoan
+                        if (s !== 'dathanhtoan' && s !== 'da_thanh_toan' && s !== 'active') {
+                            return;
+                        }
                         // Tính toàn bộ ngày từ start_date đến end_date
                         let cur = new Date(item.start_date);
                         const end = new Date(item.end_date);
@@ -1679,7 +1610,7 @@
             const descriptions = {
                 'lich-su': 'Theo dõi tiến độ, trạng thái duyệt và lịch sử các chiến dịch trước đây.',
                 'thanh-toan': 'Quản lý thanh toán hợp đồng, xem sao kê và hóa đơn GTGT.',
-                'thong-ke': 'Thống kê lượt hiển thị (Impressions), lượt click (CTR) và tương tác bạn đọc.'
+                'thong-ke': 'Thống kê lượt hiển thị.'
             };
 
             contentEl.innerHTML = `
@@ -1740,33 +1671,6 @@
                 }
             }
         }
-
-        // Định dạng và gắn nhãn cho Status
-        function formatStatusBadge(status) {
-            const s = (status || '').toLowerCase().trim();
-
-            if (s === 'choxacnhan' || s === 'cho_xac_nhan') {
-                return `<span class="status-badge choxacnhan">⏳ Chờ xác nhận</span>`;
-            }
-            if (s === 'daduyet' || s === 'da_duyet' || s === 'approved') {
-                return `<span class="status-badge daduyet">🔵 Chờ thanh toán</span>`;
-            }
-            if (s === 'chuaduyet' || s === 'cho_duyet' || s === 'pending') {
-                return `<span class="status-badge chuaduyet">🟡 Chờ duyệt</span>`;
-            }
-            if (s === 'dathanhtoan' || s === 'da_thanh_toan' || s === 'active' || s === 'hoat_dong') {
-                return `<span class="status-badge dathanhtoan">🟢 Đã thanh toán</span>`;
-            }
-            if (s === 'quahan' || s === 'qua_han' || s === 'expired') {
-                return `<span class="status-badge quahan">⚪ Quá hạn</span>`;
-            }
-            if (s === 'tuchoi' || s === 'tu_choi' || s === 'rejected') {
-                return `<span class="status-badge tuchoi">🔴 Bị từ chối</span>`;
-            }
-
-            return `<span class="status-badge quahan">${status || 'Không rõ'}</span>`;
-        }
-
         function renderHistoryTable(requests) {
             const contentEl = document.getElementById('tab-content');
 
@@ -1779,7 +1683,7 @@
                     <div style="padding: 48px 20px; text-align: center; color: #64748b;">
                         <p style="font-size: 16px; margin-bottom: 14px;">📭 Doanh nghiệp của bạn chưa có yêu cầu quảng cáo nào.</p>
                         <button type="button" class="btn-order-direct" onclick="switchTab(document.querySelectorAll('.portal-sidebar .nav-btn')[1], 'tao-yeu-cau')">
-                            ➕ Tạo yêu cầu quảng cáo ngay
+                            Tạo yêu cầu quảng cáo ngay
                         </button>
                     </div>
                 `;
@@ -1797,7 +1701,7 @@
                     // Nếu được duyệt thì hiển thị nút thanh toán
                     actionHtml = `
                         <button type="button" class="btn-pay-now" onclick="proceedToPayment(${req.Id}, ${req.total_amount}, '${escapeJsString(req.position_name)}')">
-                            💳 Thanh toán ngay
+                            Thanh toán ngay
                         </button>
                     `;
                 } else if (s === 'tuchoi' || s === 'tu_choi' || s === 'rejected') {
@@ -1805,15 +1709,17 @@
                     const reason = req.rejection_reason || 'Không có lý do cụ thể được đính kèm.';
                     actionHtml = `
                         <button type="button" class="btn-view-reason" onclick="viewRejectionReason(${req.Id}, '${escapeJsString(reason)}')">
-                            🔍 Xem lý do
+                            Xem lý do
                         </button>
                     `;
                 } else if (s === 'choxacnhan' || s === 'cho_xac_nhan') {
-                    actionHtml = `<span style="color: #ca8a04; font-weight: 600; font-size: 12.5px;">⏳ Chờ đối soát</span>`;
+                    actionHtml = `<span style="color: #ca8a04; font-weight: 600; font-size: 12.5px;">Chờ đối soát</span>`;
                 } else if (s === 'dathanhtoan' || s === 'da_thanh_toan' || s === 'active') {
                     actionHtml = `<span style="color: #16a34a; font-weight: 600; font-size: 12.5px;">Đang hoạt động</span>`;
-                } else if (s === 'quahan' || s === 'qua_han') {
-                    actionHtml = `<span style="color: #94a3b8; font-size: 12.5px;">Hết hạn</span>`;
+                } else if (s === 'hoanthanh') {
+                    actionHtml = `<span style="color: #64748b; font-size: 12.5px;">Hoàn thành</span>`;
+                } else if (s === 'quahan' || s === 'qua_han' || s === 'expired') {
+                    actionHtml = `<span style="color: #dc2626; font-size: 12.5px; font-weight: 600;">Quá hạn</span>`;
                 } else {
                     actionHtml = `<span style="color: #d97706; font-size: 12.5px;">Đang kiểm duyệt</span>`;
                 }
@@ -2064,15 +1970,15 @@
                         <td style="font-weight: 800; color: #b91c1c; font-size: 15px;">
                             ${totalFormatted} đ
                         </td>
-                        <td>
+                        <td style="color: #475569; font-weight: 500;">
                             ${s === 'choxacnhan' || s === 'cho_xac_nhan'
-                        ? '<span class="status-badge choxacnhan">⏳ Chờ xác nhận</span>'
-                        : '<span class="status-badge daduyet">🔵 Chờ thanh toán</span>'}
+                        ? '<span style="color: #ca8a04; font-weight: 600;">Chờ xác nhận</span>'
+                        : '<span style="color: #0369a1; font-weight: 600;">Chờ thanh toán</span>'}
                         </td>
                         <td style="text-align: center;">
                             ${s === 'choxacnhan' || s === 'cho_xac_nhan'
-                        ? '<button type="button" class="btn-pay-now" style="background: #eab308; color: #713f12;" onclick="openPaymentQrModal(' + req.Id + ', ' + req.total_amount + ', \'' + escapeJsString(req.position_name) + '\')">📱 Xem lại QR</button>'
-                        : '<button type="button" class="btn-pay-now" onclick="openPaymentQrModal(' + req.Id + ', ' + req.total_amount + ', \'' + escapeJsString(req.position_name) + '\')">📱 Lấy mã QR thanh toán</button>'}
+                        ? '<button type="button" class="btn-pay-now" style="background: #eab308; color: #713f12;" onclick="openPaymentQrModal(' + req.Id + ', ' + req.total_amount + ', \'' + escapeJsString(req.position_name) + '\')">Xem lại QR</button>'
+                        : '<button type="button" class="btn-pay-now" onclick="openPaymentQrModal(' + req.Id + ', ' + req.total_amount + ', \'' + escapeJsString(req.position_name) + '\')">Lấy mã QR thanh toán</button>'}
                         </td>
                     </tr>
                 `;
