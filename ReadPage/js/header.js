@@ -105,9 +105,34 @@ function initSearch() {
     }
 }
 
+// Tải danh mục thể loại động từ CSDL (dbo.categories) và render vào menu
+async function loadSubHeaderCategories() {
+    const menuList = document.getElementById('menuList');
+    if (!menuList) return;
+
+    try {
+        const response = await fetch('/api/the-loai/danh-sach');
+        if (!response.ok) throw new Error('Không thể tải danh sách thể loại');
+        const result = await response.json();
+        
+        if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+            const currentParams = new URLSearchParams(window.location.search);
+            const activeId = currentParams.get('id_tl');
+
+            menuList.innerHTML = result.data.map(cat => {
+                const isActive = (activeId && String(activeId) === String(cat.id)) ? ' style="color: var(--LinkColor); font-weight: bold;"' : '';
+                return `<a href="the-loai.html?id_tl=${cat.id}"${isActive}>${cat.name}</a>`;
+            }).join('');
+        }
+    } catch (err) {
+        console.warn('Lỗi tải danh mục động, giữ nguyên danh mục mặc định:', err);
+    }
+}
+
 function initHeader() {
     updateHeaderDate();
     initWeatherWidget();
     initSearch();
+    loadSubHeaderCategories();
 }
 

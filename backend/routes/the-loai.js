@@ -4,6 +4,25 @@ const sql = require('mssql');
 const { connectDB } = require('../db');
 
 // Route API: GET /api/theloai?id_tl=...&offset=...
+// Route API: GET /api/the-loai/danh-sach -> Lấy toàn bộ danh mục từ bảng categories
+router.get('/danh-sach', async (req, res) => {
+    try {
+        const pool = await connectDB();
+        const result = await pool.request().query(`
+            SELECT id, name, description 
+            FROM dbo.categories 
+            ORDER BY id ASC;
+        `);
+        res.status(200).json({
+            success: true,
+            data: result.recordset
+        });
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách thể loại:', error);
+        res.status(500).json({ success: false, message: 'Lỗi server khi tải danh mục thể loại!' });
+    }
+});
+
 router.get('/', async (req, res) => {
     try {
         // Lấy ID thể loại từ URL query (ví dụ: ?id_tl=1)
